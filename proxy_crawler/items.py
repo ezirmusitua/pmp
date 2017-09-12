@@ -8,7 +8,15 @@
 import scrapy
 
 
-class ProxyCrawlerItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+class Proxy(scrapy.Item):
+    ip_address = scrapy.Field()
+    port = scrapy.Field()
+    type = scrapy.Field()
+    location = scrapy.Field()
+    quality = scrapy.Field()
+    # Up time in proxy db
+    # Speed in cn proxy
+    # NAI in premium proxy
+    last_check_at = scrapy.Field()
+    anonymity = scrapy.Field()
     pass
