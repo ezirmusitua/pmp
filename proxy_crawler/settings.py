@@ -46,9 +46,14 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
+SPIDER_MIDDLEWARES = {
 #    'proxy_crawler.middlewares.ProxyCrawlerSpiderMiddleware': 543,
-#}
+     'scrapy_crawlera.CrawleraMiddleware': 600
+}
+
+CRAWLERA_ENABLED = True
+CRAWLERA_USER = '<Your Crawlera API key>'
+CRAWLERA_PASS = 'Your Crawlera Password'
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
