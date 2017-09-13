@@ -8,7 +8,6 @@ class CnproxySpider(scrapy.Spider):
     start_urls = ['http://cn-proxy.com']
 
     def parse(self, response):
-        self.logger.info('Crawling cn proxy. ')
         proxies = []
         rows = response.css('.sortable > tbody > tr')
         for row in rows:
@@ -21,5 +20,4 @@ class CnproxySpider(scrapy.Spider):
             loader.add_value('quality', 'unknown')
             loader.add_css('last_check_at', 'td:nth-child(5)::text')
             proxies.append(loader.load_item())
-        self.logger.info('total count: {}'.format(len(proxies)))
         return proxies

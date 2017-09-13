@@ -54,10 +54,14 @@ def default_anonymity(in_str):
 class CNProxyItemLoader(ItemLoader):
     default_output_processor = TakeFirst()
 
-    ip_address_in = MapCompose(TakeFirst, strip)
-    port_in = MapCompose(TakeFirst, to_int)
-    type_in = MapCompose(TakeFirst,  default_http)
-    location_in = MapCompose(TakeFirst, strip)
-    quality_in = MapCompose(TakeFirst, speed_to_quality)
-    last_check_at = MapCompose(TakeFirst, time_str_to_stamp)
-    anonymity = MapCompose(TakeFirst, default_anonymity)
+    # ip_address_in = MapCompose(TakeFirst, strip)
+    # port_in = MapCompose(TakeFirst, to_int)
+    # type_in = MapCompose(TakeFirst,  default_http)
+    # location_in = MapCompose(TakeFirst, strip)
+    # quality_in = MapCompose(TakeFirst, speed_to_quality)
+    # last_check_at = MapCompose(TakeFirst, time_str_to_stamp)
+    # anonymity = MapCompose(TakeFirst, default_anonymity)
+
+
+class PremProxyItemLoader(ItemLoader):
+    default_output_processor = TakeFirst()
