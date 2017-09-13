@@ -35,7 +35,7 @@ class ProxyCrawlerSpiderMiddleware(object):
         for i in result:
             yield i
 
-    def process_spider_exception(self, response, exception, spider):
+    def process_spider_exception(self, response, exception, spider):    
         # Called when a spider or process_spider_input() method
         # (from other spider middleware) raises an exception.
 
