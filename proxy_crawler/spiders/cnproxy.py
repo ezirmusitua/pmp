@@ -10,7 +10,7 @@ CNPROXY_TYPE_TO_ANONYMITY = {
 }
 
 
-class CnproxySpider(scrapy.Spider):
+class CNProxySpider(scrapy.Spider):
     name = "cnproxy"
     start_urls = [
         'http://cn-proxy.com',

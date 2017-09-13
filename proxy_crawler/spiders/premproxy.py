@@ -7,7 +7,7 @@ from proxy_crawler.helper import get_list_item_safely
 from proxy_crawler.items import PremProxyItemLoader, Proxy
 
 
-class PremproxySpider(CrawlSpider):
+class PremProxySpider(CrawlSpider):
     name = 'premproxy'
     allowed_domains = ['premproxy.com']
     start_urls = [
