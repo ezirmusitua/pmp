@@ -37,7 +37,7 @@ class PremproxySpider(CrawlSpider):
             loader.add_value('type', _type)
             # for socks, use default elite else use css selector to extract
             _anonymity = ['elite']
-            if is_socks:
+            if not is_socks:
                 _anonymity = row.css('td:nth-child(2)::text').extract()
             loader.add_value('anonymity', _anonymity)
             loader.add_css('last_check_at', 'td:nth-child(3)::text')
