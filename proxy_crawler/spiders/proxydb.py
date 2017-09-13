@@ -1,22 +1,17 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from scrapy.spiders import Spider
 
 from proxy_crawler.helper import generate_proxydb_js_ip_port
 from proxy_crawler.items import ProxyDBItemLoader, Proxy
 
 
-class ProxyDBSpider(scrapy.Spider):
+class ProxyDBSpider(Spider):
     name = 'proxydb'
     allowed_domains = ['proxydb.net']
-    start_urls = ['http://proxydb.net/?offset=0']
+    start_urls = ['http://proxydb.net/?offset=%s' % offset for offset in range(0, 6140, 20)]
 
     def parse(self, response):
-        if len(response.css('.alert-warning')) is 0:
-            offset = int(response.url.split('=')[1]) + 20
-            yield scrapy.Request('http://proxydb.net/?offset=%s' % offset)
-        return self.parse_item(response)
-
-    def parse_item(self, response):
         rows = response.css('.container > table > tbody > tr')
         proxies = []
         for row in rows:
