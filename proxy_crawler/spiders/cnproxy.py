@@ -17,7 +17,6 @@ class CnproxySpider(scrapy.Spider):
             loader.add_css('port', 'td:nth-child(2)::text')
             loader.add_css('location', 'td:nth-child(3)::text')
             loader.add_value('anonymity', 'unknown')
-            loader.add_value('quality', 'unknown')
             loader.add_css('last_check_at', 'td:nth-child(5)::text')
             proxies.append(loader.load_item())
         return proxies

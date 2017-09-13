@@ -9,7 +9,35 @@ import time
 import datetime
 import scrapy
 from scrapy.loader import ItemLoader
-from scrapy.loader.processors import TakeFirst, MapCompose
+from scrapy.loader.processors import TakeFirst, Identity
+
+
+class StrCleaner(object):
+    def __call__(self, values):
+        return list(map(lambda x: str.strip(x), values))
+
+
+class TimeStrConverter(object):
+    def __init__(self, format='%Y-%m-%d %H:%M:%S'):
+        self.format = format
+
+    def __call__(self, values):
+        def strptime(ts):
+            tt = datetime.datetime.strptime(ts, self.format).timetuple()
+            if tt.tm_year < 2017:
+                tmp = list(tt)
+                tmp[0] = 2017
+                tt = time.struct_time(tmp)
+            return tt
+
+        def to_timestamp(ts): return time.mktime(strptime(ts))
+
+        return list(map(to_timestamp, values))
+
+
+class StrToIntConverter(object):
+    def __call__(self, values):
+        return list(map(lambda x: int(x), values))
 
 
 class Proxy(scrapy.Item):
@@ -17,55 +45,26 @@ class Proxy(scrapy.Item):
     port = scrapy.Field()
     type = scrapy.Field()
     location = scrapy.Field()
-    quality = scrapy.Field()
-    # Up time in proxy db
-    # Speed in cn proxy
-    # NAI in premium proxy
     last_check_at = scrapy.Field()
     anonymity = scrapy.Field()
-    pass
-
-
-def strip(in_str):
-    return in_str.strip()
-
-
-def to_int(in_str):
-    return int(in_str)
-
-
-def default_http(in_str):
-    return in_str.strip() if in_str is not None else 'HTTP'
-
-
-def speed_to_quality(in_str):
-    return in_str[:-1]
-
-
-def time_str_to_stamp(in_str):
-    # Example: 2017-09-12 14:26:59
-    return time.mktime(datetime.datetime.strptime(in_str, "%Y-%m-%d %H:%M:%S").timetuple())
-
-
-def default_anonymity(in_str):
-    return in_str.strip() if in_str else 'unknown'
 
 
 class CNProxyItemLoader(ItemLoader):
+    default_input_processor = StrCleaner()
     default_output_processor = TakeFirst()
-
-    # ip_address_in = MapCompose(TakeFirst, strip)
-    # port_in = MapCompose(TakeFirst, to_int)
-    # type_in = MapCompose(TakeFirst,  default_http)
-    # location_in = MapCompose(TakeFirst, strip)
-    # quality_in = MapCompose(TakeFirst, speed_to_quality)
-    # last_check_at = MapCompose(TakeFirst, time_str_to_stamp)
-    # anonymity = MapCompose(TakeFirst, default_anonymity)
+    port_in = StrToIntConverter()
+    last_check_at_in = TimeStrConverter()
 
 
 class PremProxyItemLoader(ItemLoader):
+    default_input_processor = StrCleaner()
     default_output_processor = TakeFirst()
+    port_in = StrToIntConverter()
+    last_check_at_in = TimeStrConverter('%b-%d, %H:%M')
 
 
 class ProxyDBItemLoader(ItemLoader):
+    default_input_processor = StrCleaner()
     default_output_processor = TakeFirst()
+    port_in = Identity()
+    last_check_at_in = TimeStrConverter()

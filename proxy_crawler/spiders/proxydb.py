@@ -5,7 +5,7 @@ from proxy_crawler.helper import generate_proxydb_js_ip_port
 from proxy_crawler.items import ProxyDBItemLoader, Proxy
 
 
-class ProxydbSpider(scrapy.Spider):
+class ProxyDBSpider(scrapy.Spider):
     name = 'proxydb'
     allowed_domains = ['proxydb.net']
     start_urls = ['http://proxydb.net/?offset=0']
@@ -28,8 +28,6 @@ class ProxydbSpider(scrapy.Spider):
             loader.add_css('type', 'td:nth-child(2)::text')
             loader.add_css('location', 'td:nth-child(3) > abbr::attr(title)')
             loader.add_css('anonymity', 'td:nth-child(4) span::text')
-            loader.add_value('quality', 'unknown')
             loader.add_css('last_check_at', 'td:nth-child(8) > abbr::attr(title)')
             proxies.append(loader.load_item())
-            self.logger.info('aaaaaa', proxies)
         return proxies
