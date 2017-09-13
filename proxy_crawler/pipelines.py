@@ -48,12 +48,8 @@ class ExportToMongoPipeline(object):
         self.client.close()
 
     def process_item(self, item, spider):
-        doc = self.db[self.collection_name].find_one({
+        self.db[self.collection_name].update({
             'ip_address': item['ip_address'],
             'port': item['port']
-        })
-        if doc is not None:
-            raise DropItem('Duplicated item in mongo found: %s' % item)
-        else:
-            self.db[self.collection_name].insert_one(dict(item))
+        }, {'$set': dict(item)}, upsert=True)
         return item
