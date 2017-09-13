@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import scrapy
 from scrapy.spiders import Spider
 
 from proxy_crawler.helper import generate_proxydb_js_ip_port

@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 import scrapy
-
 from proxy_crawler.helper import get_list_item_safely
 from proxy_crawler.items import Proxy, CNProxyItemLoader
 
