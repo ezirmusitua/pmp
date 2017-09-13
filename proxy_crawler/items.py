@@ -65,3 +65,7 @@ class CNProxyItemLoader(ItemLoader):
 
 class PremProxyItemLoader(ItemLoader):
     default_output_processor = TakeFirst()
+
+
+class ProxyDBItemLoader(ItemLoader):
+    default_output_processor = TakeFirst()
