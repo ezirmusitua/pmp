@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from scrapy.spiders import Spider
 
-from proxy_crawler.helper import generate_proxydb_js_ip_port
-from proxy_crawler.items import ProxyDBItemLoader, Proxy
+from crawler.helper import generate_proxydb_js_ip_port
+from crawler.items import ProxyDBItemLoader, Proxy
 
 
 class ProxyDBSpider(Spider):

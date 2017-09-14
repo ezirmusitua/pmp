@@ -9,10 +9,10 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'proxy_crawler'
+BOT_NAME = 'crawler'
 
-SPIDER_MODULES = ['proxy_crawler.spiders']
-NEWSPIDER_MODULE = 'proxy_crawler.spiders'
+SPIDER_MODULES = ['crawler.spiders']
+NEWSPIDER_MODULE = 'crawler.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
@@ -48,13 +48,13 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
-    'proxy_crawler.middlewares.ProxyCrawlerSpiderMiddleware': 543
+    'crawler.middlewares.ProxyCrawlerSpiderMiddleware': 543
 }
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'proxy_crawler.middlewares.ProxyMiddleware': 90,
+    'crawler.middlewares.ProxyMiddleware': 90,
     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 100,
 }
 
@@ -67,8 +67,8 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'proxy_crawler.pipelines.RemoveDuplicatedPipeline': 100,
-    'proxy_crawler.pipelines.ExportToMongoPipeline': 200,
+    'crawler.pipelines.RemoveDuplicatedPipeline': 100,
+    'crawler.pipelines.ExportToMongoPipeline': 200,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

@@ -2,8 +2,8 @@
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 
-from proxy_crawler.helper import get_list_item_safely
-from proxy_crawler.items import PremProxyItemLoader, Proxy
+from crawler.helper import get_list_item_safely
+from crawler.items import PremProxyItemLoader, Proxy
 
 
 class PremProxySpider(CrawlSpider):

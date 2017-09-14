@@ -2,7 +2,7 @@
 
 from scrapy.crawler import CrawlerProcess
 
-from proxy_crawler import CNProxySpider, PremProxySpider, ProxyDBSpider
+from crawler import CNProxySpider, PremProxySpider, ProxyDBSpider
 
 process = CrawlerProcess()
 process.crawl(CNProxySpider)

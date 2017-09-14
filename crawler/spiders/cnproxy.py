@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from proxy_crawler.helper import get_list_item_safely
-from proxy_crawler.items import Proxy, CNProxyItemLoader
+from crawler.helper import get_list_item_safely
+from crawler.items import Proxy, CNProxyItemLoader
 
 CNPROXY_TYPE_TO_ANONYMITY = {
     '透明': 'bad1',

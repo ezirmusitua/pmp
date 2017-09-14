@@ -59,4 +59,4 @@ class ProxyCrawlerSpiderMiddleware(object):
 class ProxyMiddleware(object):
     def process_request(self, request, spider):
         if spider.name in ['cnproxy', 'proxydb']:
-            request.meta['proxy'] = 'http://123.56.169.22:3128'
+            request.meta['proxy'] = 'http://84.200.85.55:8888'
