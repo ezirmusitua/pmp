@@ -17,6 +17,9 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="tuple.tm_year" />
+          <option value="validator.proxy_model.client" />
+          <option value="validator.proxy_model.*" />
+          <option value="validator.run.*" />
         </list>
       </option>
     </inspection_tool>
