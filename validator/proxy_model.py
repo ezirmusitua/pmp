@@ -64,7 +64,7 @@ class ProxyModel(object):
 
     def validate(self):
         """validate all requirements of proxy and save to db"""
-        print('Handling proxy: ', self)
+        print('\x1b[1;34mHandling proxy: ', self, '\x1b[0m')
         self.validate_type()
         if self.need_to_handle is True:
             self.validate_connection()
@@ -104,12 +104,12 @@ class ProxyModel(object):
             try:
                 ProxyModel._client.get(Connection_Validation_Targets[site])
             except ProxyError:
-                print('\tunavailable to ', site)
+                print('\t\x1b[31munavailable to ', site, '\x1b[0m')
             except ConnectionError:
-                print('\tunavailable to ', site)
+                print('\t\x1b[31munavailable to ', site, '\x1b[0m')
             else:
                 available_sites.append(Connection_Validation_Targets[site])
-                print('\tavailable to ', site)
+                print('\t\x1b[32munavailable to ', site, '\x1b[0m')
 
         return {'sites': available_sites}
 
@@ -132,22 +132,23 @@ class ProxyModel(object):
             xff_is_rand = not xff_is_lc and not xff_is_proxy and not xff_is_empty
             if ra_is_proxy and via_is_empty and xff_is_empty:
                 print('\tanonymity is elite')
+                print('\t\x1b[32manonymity is elite\x1b[0m')
                 return 'elite'
             if ra_is_proxy and via_is_proxy and xff_is_rand:
-                print('\tanonymity is distorting')
+                print('\t\x1b[32manonymity is distorting\x1b[0m')
                 return 'distorting'
             if ra_is_proxy and via_is_proxy and xff_is_proxy:
-                print('\tanonymity is anonymous')
+                print('\t\x1b[32manonymity is anonymity\x1b[0m')
                 return 'anonymous'
             if ra_is_proxy and via_is_proxy and xff_is_lc:
-                print('\tanonymity is transparent')
+                print('\t\x1b[31manonymity is transparent\x1b[0m')
                 return 'transparent'
             return 'unknown'
         except ProxyError:
-            print('\tanonymity is unknown')
+            print('\t\x1b[31manonymity is unknown\x1b[0m')
             return 'unknown'
         except ConnectionError:
-            print('\tanonymity is unknown')
+            print('\t\x1b[31manonymity is unknown\x1b[0m')
             return 'unknown'
 
     @staticmethod
@@ -187,7 +188,7 @@ class ProxyModel(object):
             else:
                 print('\tproxy type is ', t)
                 return {'action': 'update', 'type': t}
-        print('\tdrop this proxy')
+        print('\t\x1b[31mdrop this proxy\x1b[0m')
         return {'action': 'remove'}
 
     @classmethod
