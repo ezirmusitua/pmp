@@ -109,7 +109,7 @@ class ProxyModel(object):
                 print('\t\x1b[31munavailable to ', site, '\x1b[0m')
             else:
                 available_sites.append(Connection_Validation_Targets[site])
-                print('\t\x1b[32munavailable to ', site, '\x1b[0m')
+                print('\t\x1b[32mavailable to ', site, '\x1b[0m')
 
         return {'sites': available_sites}
 
@@ -120,6 +120,16 @@ class ProxyModel(object):
         ProxyModel._client.set_proxies(proxy.proxy_str(), proxy.type)
         try:
             content = ProxyModel._client.get(Detect_Tool_Site)
+        except ProxyError:
+            print('\t\x1b[31manonymity is unknown\x1b[0m')
+            return 'unknown'
+        except ConnectionError:
+            print('\t\x1b[31manonymity is unknown\x1b[0m')
+            return 'unknown'
+        except Exception as e:
+            print(e)
+            return 'unknown'
+        else:
             remote_address = re.search(R_A_PATTERN, content).groups()[0].strip()
             ra_is_proxy = remote_address == proxy.ip_address
             via = re.search(H_V_PATTERN, content).groups()[0].strip()
@@ -143,12 +153,6 @@ class ProxyModel(object):
             if ra_is_proxy and via_is_proxy and xff_is_lc:
                 print('\t\x1b[31manonymity is transparent\x1b[0m')
                 return 'transparent'
-            return 'unknown'
-        except ProxyError:
-            print('\t\x1b[31manonymity is unknown\x1b[0m')
-            return 'unknown'
-        except ConnectionError:
-            print('\t\x1b[31manonymity is unknown\x1b[0m')
             return 'unknown'
 
     @staticmethod
