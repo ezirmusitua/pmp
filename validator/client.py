@@ -22,7 +22,6 @@ class Client(object):
             'http': (ptype if ptype is not None else 'http') + '://' + proxy_str,
             'https': (ptype if ptype is not None else 'https') + '://' + proxy_str,
         }
-        print(self.proxies)
 
     def set_headers(self, headers):
         self.headers = headers
