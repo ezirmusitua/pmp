@@ -10,7 +10,7 @@ class PremProxySpider(CrawlSpider):
     name = 'premproxy'
     allowed_domains = ['premproxy.com']
     start_urls = [
-        'http://premproxy.com/list/',
+        'https://premproxy.com/list/',
         'https://premproxy.com/socks-list/'
     ]
 

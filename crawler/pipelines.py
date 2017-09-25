@@ -7,6 +7,7 @@
 import hashlib
 
 import pymongo
+import requests
 from scrapy.exceptions import DropItem
 
 
@@ -22,6 +23,31 @@ class RemoveDuplicatedPipeline(object):
         else:
             self.ip_port_seen.add(ip_port_hash)
         return item
+
+
+class ValidatePipeline(object):
+    def __init__(self, ua):
+        self.ua = ua
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(ua=crawler.settings.get('User_Agent'))
+
+    def process_item(self, item, spider):
+        proxy_str = item['type'].lower() + '://' + item['ip_address'] + ':' + str(item['port'])
+        proxies = {
+            'http': proxy_str,
+            'https': proxy_str
+        }
+        should_drop = False
+        try:
+            requests.get('https://httpbin.org', timeout=1, proxies=proxies, headers={'User-Agent': self.ua})
+        except Exception as e:
+            should_drop = True
+        if should_drop:
+            raise DropItem('proxy %s not usable' % proxy_str)
+        else:
+            return item
 
 
 class ExportToMongoPipeline(object):
