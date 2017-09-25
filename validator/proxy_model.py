@@ -15,15 +15,19 @@ Connection_Validation_Targets = {
     'BAIDU': 'https://baidu.com',
     'LIAOYUAN': 'https://liaoyuan.io',
     'TAOBAO': 'https://www.taobao.com',
+    'CNPROXY': 'http://cn-proxy.com',
+    'PREMPROXY': 'https://premproxy.com',
+    'PROXYDB': 'http://proxy-db.net',
+    'IPPRIVACY': 'http://iprivacytools.com',
 }
-Detect_Tool_Site = 'http://www.xxorg.com/tools/checkproxy/'
-R_A_PATTERN = re.compile(r'REMOTE_ADDR:(.*?)<br>')
-H_V_PATTERN = re.compile(r'HTTP_VIA:(.*?)<br>')
-H_X_F_F_PATTERN = re.compile('HTTP_X_FORWARDED_FOR:(.*?)<br>')
+Detect_Tool_Site = 'http://www.iprivacytools.com/proxy-checker-anonymity-test/'
+H_V_PATTERN = re.compile(r'HTTP_VIA: <span.*?>(.*?)</span>')
+H_X_F_F_PATTERN = re.compile(r'HTTP_X_FORWARDED_FOR: <span.*?>(.*?)</span>')
 __db_reader = geo_db.Reader('../GeoLite2-City.mmdb')
 Detect_Target = 'https://httpbin.org/get'
 Proxy_Types = ['http', 'https', 'socks4', 'socks5']
-LOCAL_IP_ADDR = '140.206.71.62'
+LOCAL_IP_ADDR = '117.131.10.194'
+# LOCAL_IP_ADDR = '140.206.71.62'
 
 
 class ProxyModel(object):
@@ -131,28 +135,30 @@ class ProxyModel(object):
             return 'unknown'
         except Exception as e:
             print(e)
+            print('\t\x1b[31manonymity is unknown\x1b[0m')
             return 'unknown'
         else:
-            remote_address = re.search(R_A_PATTERN, content).groups()[0].strip()
-            ra_is_proxy = remote_address == proxy.ip_address
+            if content is None:
+                print('\t\x1b[32manonymity is unknown\x1b[0m')
+                return 'unknown'
             via = re.search(H_V_PATTERN, content).groups()[0].strip()
-            via_is_empty = via == ''
+            via_is_empty = via == 'anonymous / none'
             via_is_proxy = via == proxy.ip_address
             x_forwarded_for = re.search(H_X_F_F_PATTERN, content).groups()[0].strip()
-            xff_is_empty = x_forwarded_for == ''
+            xff_is_empty = x_forwarded_for == 'anonymous / none'
             xff_is_proxy = x_forwarded_for == proxy.ip_address
             xff_is_lc = x_forwarded_for == LOCAL_IP_ADDR
             xff_is_rand = not xff_is_lc and not xff_is_proxy and not xff_is_empty
-            if ra_is_proxy and via_is_empty and xff_is_empty:
+            if via_is_empty and xff_is_empty:
                 print('\t\x1b[32manonymity is elite\x1b[0m')
                 return 'elite'
-            if ra_is_proxy and via_is_proxy and xff_is_rand:
+            if via_is_proxy and xff_is_rand:
                 print('\t\x1b[32manonymity is distorting\x1b[0m')
                 return 'distorting'
-            if ra_is_proxy and via_is_proxy and xff_is_proxy:
+            if via_is_proxy and xff_is_proxy:
                 print('\t\x1b[32manonymity is anonymity\x1b[0m')
                 return 'anonymous'
-            if ra_is_proxy and via_is_proxy and xff_is_lc:
+            if via_is_proxy and xff_is_lc:
                 print('\t\x1b[31manonymity is transparent\x1b[0m')
                 return 'transparent'
             return 'unknown'

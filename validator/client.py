@@ -3,7 +3,7 @@ import requests
 
 Default_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
              'Chrome/60.0.3112.113 Safari/537.36'
-Default_Timeout = 2
+Default_Timeout = 1
 
 
 class Client(object):
@@ -16,6 +16,8 @@ class Client(object):
         if url is None:
             raise Exception('Need Url. ')
         response = requests.get(url, headers=self.headers, proxies=self.proxies, timeout=Default_Timeout)
+        if response.status_code != 200:
+            return None
         return response.text
 
     def set_proxies(self, proxy_str, ptype=None):
