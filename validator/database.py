@@ -16,8 +16,8 @@ class Database(object):
         self.database = self.client[MONGO_DATABASE]
         self.collection = self.database[MONGO_COLLECTION]
 
-    def list(self, query=None):
-        for p in self.collection.find({} if query is None else query):
+    def list(self, query=None, batch_size=20):
+        for p in self.collection.find({} if query is None else query).batch_size(batch_size):
             yield p
 
     def update(self, query=None, doc=None):
