@@ -37,12 +37,12 @@ class ProxyModel(object):
     def __init__(self, doc_from_db=None):
         doc = doc_from_db if doc_from_db is not None else {}
         self.id = doc.get('_id', '')
-        self.anonymity = doc.get('anonymity', 'unknown').lower()
-        self.ip_address = doc.get('ip_address', 'unknown').lower()
+        self.anonymity = doc.get('anonymity', 'unknown')
+        self.ip_address = doc.get('ip_address', 'unknown')
         self.port = doc.get('port', -1)
         self.last_check_at = time.time() * 1000  # convert to ms
-        self.location = doc.get('location', 'unknown, unknown').lower()
-        self.type = doc.get('type', 'unknown').lower()
+        self.location = doc.get('location', 'unknown, unknown')
+        self.type = doc.get('type', 'unknown')
         self.available_sites = list()
         self.need_to_handle = True
 
@@ -107,6 +107,9 @@ class ProxyModel(object):
                 print('\t\x1b[31munavailable to ', site, '\x1b[0m')
             except ConnectionError:
                 print('\t\x1b[31munavailable to ', site, '\x1b[0m')
+            except Exception as e:
+                print(e)
+                print('\t\x1b[31munavailable to ', site, '\x1b[0m')
             else:
                 available_sites.append(Connection_Validation_Targets[site])
                 print('\t\x1b[32mavailable to ', site, '\x1b[0m')
@@ -141,7 +144,6 @@ class ProxyModel(object):
             xff_is_lc = x_forwarded_for == LOCAL_IP_ADDR
             xff_is_rand = not xff_is_lc and not xff_is_proxy and not xff_is_empty
             if ra_is_proxy and via_is_empty and xff_is_empty:
-                print('\tanonymity is elite')
                 print('\t\x1b[32manonymity is elite\x1b[0m')
                 return 'elite'
             if ra_is_proxy and via_is_proxy and xff_is_rand:
