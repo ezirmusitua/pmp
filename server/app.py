@@ -4,11 +4,14 @@ app = Bottle(catchall=False)
 
 
 @app.get('/')
+@app.get('/proxy-list')
 def index():
-    print('HTTP X FORWARDED FOR', request.environ.get('HTTP_X_FORWARDED_FOR'))
-    print('REMOTE ADDR', request.environ.get('REMOTE_ADDR'))
-    print('HTTP VIA', request.environ.get('HTTP_VIA'))
-    return template('templates/index.tpl')
+    return template('templates/index.tpl', page=1)
+
+
+@app.get('/proxy-list/<page:int>')
+def index(page):
+    return template('templates/index.tpl', page=page)
 
 
 app.run(host='0.0.0.0', port=8080, reloader=True)
