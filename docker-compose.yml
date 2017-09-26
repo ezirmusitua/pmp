@@ -1,0 +1,19 @@
+crawler:
+  build: .
+  command: python
+  volumes:
+    - .:/self_proxy_list
+  links:
+    - db
+validator:
+  build: .
+  command: cd validator & python run
+  volumes:
+    - .:/self_proxy_list
+  links:
+    - db
+db:
+  image: mongo:3.5
+  ports:
+    - "27017:37017"
+  

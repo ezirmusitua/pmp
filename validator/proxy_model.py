@@ -24,7 +24,6 @@ Connection_Validation_Targets = {
 Detect_Tool_Site = 'http://www.iprivacytools.com/proxy-checker-anonymity-test/'
 H_V_PATTERN = re.compile(r'HTTP_VIA: <span.*?>(.*?)</span>')
 H_X_F_F_PATTERN = re.compile(r'HTTP_X_FORWARDED_FOR: <span.*?>(.*?)</span>')
-__db_reader = geo_db.Reader('../GeoLite2-City.mmdb')
 Detect_Target = 'https://httpbin.org/get'
 Proxy_Types = ['http', 'https', 'socks4', 'socks5']
 LOCAL_IP_ADDR = '117.131.10.194'
@@ -36,7 +35,7 @@ LOCAL_IP_ADDR = '117.131.10.194'
 class ProxyModel(object):
     _database = Database()
     _client = Client()
-    _db_reader = geo_db.Reader('../GeoLite2-City.mmdb')
+    _db_reader = geo_db.Reader('./GeoLite2-City.mmdb')
     _doc_cache_size = 20
     _doc_to_remove_cache = {}
     _doc_to_update_cache = {}
