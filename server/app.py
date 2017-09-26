@@ -2,12 +2,6 @@ from bottle import request, template, Bottle, static_file
 
 app = Bottle(catchall=False)
 
-
-@app.get('/static/1')
-def debug():
-    return '1'
-
-
 # reference: https://github.com/salimane/bottle-mvc/blob/master/project/controllers/static.py
 @app.get('/static/<path:re:(.*?\.(js|css|ico))>')
 def serve_static(path):
@@ -15,20 +9,20 @@ def serve_static(path):
 
 
 @app.get('/')
-@app.get('/list')
-@app.get('/list/')
+@app.get('/proxies')
+@app.get('/proxies/')
 def index():
     return template('templates/index.tpl', page=1)
 
 
-@app.get('/list/<page:int>')
+@app.get('/proxies/<page:int>')
 def proxy_list(page):
     return template('templates/index.tpl', page=page)
 
 
-@app.get('/stats')
+@app.get('/workers')
 def worker_stats():
-    return template('templates/stats.tpl')
+    return template('templates/worker.tpl')
 
 
 @app.get('/tools')
