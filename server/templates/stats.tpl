@@ -1,19 +1,16 @@
 % rebase('templates/base', title='Stats')
 <section class="main-container">
     % for i in range(0, 2):
-    <article>
+    <article class="worker-controller__container">
         <h3>Proxy Crawler</h3>
-        <div>
+        <div class="worker-controller__actions-bar">
+            <p>Actions: </p>
             <form>
-                <fieldset>
-                    <button title="restart crawler">Restart</button>
-                </fieldset>
-                <fieldset>
-                    <button title="stop crawler">Stop</button>
-                </fieldset>
+                <button title="restart crawler">Restart</button>
+                <button title="stop crawler">Stop</button>
             </form>
         </div>
-        <div>
+        <div class="worker-controller__stats-bar">
             <ul>
                 <li>
                     <p>Is Running: <span>Yes</span></p>

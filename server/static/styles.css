@@ -55,6 +55,7 @@ caption {
     border-right: 1px solid blue;
     padding: 12px 8px;
 }
+
 .proxy-list__table-header > th:last-child {
     border-right: none;
 }
@@ -70,6 +71,7 @@ caption {
     border-bottom: none;
     padding: 8px;
 }
+
 .proxy-list__table-item > td:last-child {
     border-right: none;
 }
@@ -105,4 +107,34 @@ caption {
 
 .pagination__control-form a {
     text-decoration: none;
+}
+
+.worker-controller__container {
+    border: 1px solid blue;
+    padding: 12px 48px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.worker-controller__container p {
+    margin: 0;
+}
+
+.worker-controller__actions-bar {
+    display: flex;
+}
+
+.worker-controller__actions-bar > p {
+    margin: 0 24px 0 0;
+}
+
+.worker-controller__stats-bar ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+}
+
+.worker-controller__stats-bar li {
+    list-style-type: none;
+    margin-right: 24px;
 }
