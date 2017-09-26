@@ -20,4 +20,9 @@ def worker_stats():
     return template('templates/stats.tpl')
 
 
+@app.get('/tools')
+def proxy_tools():
+    return template('templates/tools.tpl')
+
+
 app.run(host='0.0.0.0', port=8080, reloader=True)
