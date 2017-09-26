@@ -1,11 +1,12 @@
 # -*- coding: utf8 -*-
 import re
 import time
+import logging
 
 import geoip2.database as geo_db
 from client import Client
 from database import Database
-from requests.exceptions import ProxyError, ConnectionError
+from requests.exceptions import RequestException
 
 Connection_Validation_Targets = {
     'GOOGLE': 'https://www.google.com',
@@ -27,6 +28,8 @@ __db_reader = geo_db.Reader('../GeoLite2-City.mmdb')
 Detect_Target = 'https://httpbin.org/get'
 Proxy_Types = ['http', 'https', 'socks4', 'socks5']
 LOCAL_IP_ADDR = '117.131.10.194'
+
+
 # LOCAL_IP_ADDR = '140.206.71.62'
 
 
@@ -53,8 +56,20 @@ class ProxyModel(object):
     def proxy_str(self):
         return self.ip_address + ':' + str(self.port)
 
+    def validate(self):
+        """validate all requirements of proxy and save to db"""
+        print('\x1b[1;34mHandling proxy %s \x1b[0m' % self)
+        self.validate_type()
+        if self.need_to_handle is True:
+            self.validate_connection()
+            self.anonymity = ProxyModel.detect_anonymity(self)
+            self.location = ProxyModel.detect_location(self)
+            ProxyModel._database.find_one_and_update({'_id': self.id}, self.to_json())
+            print('\x1b[1;32mproxy %s saved \x1b[0m' % self)
+        if len(ProxyModel._doc_to_remove_cache) >= ProxyModel._doc_cache_size:
+            ProxyModel.flush_docs()
+
     def validate_type(self):
-        print('    Detecting proxy type ... ')
         type_validation = ProxyModel.detect_proxy_type(self)
         if type_validation['action'] == 'remove':
             self.need_to_handle = False
@@ -65,18 +80,6 @@ class ProxyModel(object):
     def validate_connection(self):
         connection_validation = ProxyModel.detect_connection(self)
         self.available_sites = connection_validation['sites']
-
-    def validate(self):
-        """validate all requirements of proxy and save to db"""
-        print('\x1b[1;34mHandling proxy: ', self, '\x1b[0m')
-        self.validate_type()
-        if self.need_to_handle is True:
-            self.validate_connection()
-            self.anonymity = ProxyModel.detect_anonymity(self)
-            self.location = ProxyModel.detect_location(self)
-            ProxyModel._database.find_one_and_update({'_id': self.id}, self.to_json())
-        if len(ProxyModel._doc_to_remove_cache) >= ProxyModel._doc_cache_size:
-            ProxyModel.flush_docs()
 
     def to_json(self):
         return {
@@ -101,45 +104,32 @@ class ProxyModel(object):
     @staticmethod
     def detect_connection(proxy):
         """validate connection of proxy"""
-        print('    Detecting available sites ...')
         available_sites = list()
         ProxyModel._client.set_proxies(proxy.proxy_str(), proxy.type)
         for site in Connection_Validation_Targets:
             try:
                 ProxyModel._client.get(Connection_Validation_Targets[site])
-            except ProxyError:
-                print('\t\x1b[31munavailable to ', site, '\x1b[0m')
-            except ConnectionError:
-                print('\t\x1b[31munavailable to ', site, '\x1b[0m')
+            except RequestException:
+                continue
             except Exception as e:
-                print(e)
-                print('\t\x1b[31munavailable to ', site, '\x1b[0m')
+                logging.error(e)
             else:
                 available_sites.append(Connection_Validation_Targets[site])
-                print('\t\x1b[32mavailable to ', site, '\x1b[0m')
 
         return {'sites': available_sites}
 
     @staticmethod
     def detect_anonymity(proxy):
         """evaluate the anonymity of proxy"""
-        print('    Detecting anonymity ... ')
         ProxyModel._client.set_proxies(proxy.proxy_str(), proxy.type)
         try:
             content = ProxyModel._client.get(Detect_Tool_Site)
-        except ProxyError:
-            print('\t\x1b[31manonymity is unknown\x1b[0m')
-            return 'unknown'
-        except ConnectionError:
-            print('\t\x1b[31manonymity is unknown\x1b[0m')
+        except RequestException:
             return 'unknown'
         except Exception as e:
-            print(e)
-            print('\t\x1b[31manonymity is unknown\x1b[0m')
-            return 'unknown'
+            logging.error(e)
         else:
             if content is None:
-                print('\t\x1b[32manonymity is unknown\x1b[0m')
                 return 'unknown'
             via = re.search(H_V_PATTERN, content).groups()[0].strip()
             via_is_empty = via == 'anonymous / none'
@@ -150,23 +140,18 @@ class ProxyModel(object):
             xff_is_lc = x_forwarded_for == LOCAL_IP_ADDR
             xff_is_rand = not xff_is_lc and not xff_is_proxy and not xff_is_empty
             if via_is_empty and xff_is_empty:
-                print('\t\x1b[32manonymity is elite\x1b[0m')
                 return 'elite'
             if via_is_proxy and xff_is_rand:
-                print('\t\x1b[32manonymity is distorting\x1b[0m')
                 return 'distorting'
             if via_is_proxy and xff_is_proxy:
-                print('\t\x1b[32manonymity is anonymity\x1b[0m')
                 return 'anonymous'
             if via_is_proxy and xff_is_lc:
-                print('\t\x1b[31manonymity is transparent\x1b[0m')
                 return 'transparent'
             return 'unknown'
 
     @staticmethod
     def detect_location(proxy):
         """adjust location using geo lite"""
-        print('    Detecting location ... ')
         location = ''
         geo = ProxyModel._db_reader.city(proxy.ip_address)
         country = geo.country.names['en']
@@ -179,7 +164,6 @@ class ProxyModel(object):
             location += city
         else:
             location += 'unknown'
-        print('\tlocation is ', location)
         return location
 
     @staticmethod
@@ -191,20 +175,17 @@ class ProxyModel(object):
             ProxyModel._client.set_proxies(proxy.proxy_str(), t)
             try:
                 ProxyModel._client.get(Detect_Target)
-            except ProxyError:
-                pass
-            except ConnectionError:
+            except RequestException as e:
                 pass
             except Exception as e:
-                print(e)
+                logging.error(e)
             else:
-                print('\tproxy type is ', t)
                 return {'action': 'update', 'type': t}
-        print('\t\x1b[31mdrop this proxy\x1b[0m')
+        print('\x1b[31mdrop %s \x1b[0m' % proxy.proxy_str())
         return {'action': 'remove'}
 
     @classmethod
     def flush_docs(cls):
-        print('    Flushing cache of document need to remove ... ')
+        print('Flushing cache of document need to remove ... ')
         cls._database.remove({'_id': {'$in': list(cls._doc_to_remove_cache.values())}})
         cls._doc_to_remove_cache = {}
