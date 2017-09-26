@@ -1,5 +1,5 @@
 % rebase('templates/base', title='Stats')
-<section>
+<section class="main-container">
     <section>
         <h3>Ip Address Detector</h3>
         <ul>

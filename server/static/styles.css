@@ -1,0 +1,108 @@
+html body {
+    margin: 0;
+}
+
+body {
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+caption {
+    text-align: left;
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.navigation__list-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 24px 256px;
+    background: black;
+}
+
+.navigation__list-item {
+    list-style-type: none;
+}
+
+.navigation__list-item > a {
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.navigation__list-item > a:visited {
+    color: white;
+}
+
+.main-container {
+    padding: 48px 128px 0 128px;
+}
+
+.proxy-list__table {
+    width: 100%;
+    border-spacing: 0;
+    border: 1px solid blue;
+}
+
+.proxy-list__table-header {
+    text-align: left;
+}
+
+.proxy-list__table-header > th {
+    font-size: 16px;
+    font-weight: 400;
+    border-right: 1px solid blue;
+    padding: 12px 8px;
+}
+.proxy-list__table-header > th:last-child {
+    border-right: none;
+}
+
+.proxy-list__table-item {
+    text-align: left;
+    font-size: 14px;
+}
+
+.proxy-list__table-item > td {
+    border: 1px solid blue;
+    border-left: none;
+    border-bottom: none;
+    padding: 8px;
+}
+.proxy-list__table-item > td:last-child {
+    border-right: none;
+}
+
+.pagination__container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+.pagination__container > p {
+    margin: 0 0 0 32px;
+    font-size: 12px;
+}
+
+.pagination__control-form {
+    display: flex;
+}
+
+.pagination__control-form button {
+    height: 32px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.pagination__control-form fieldset {
+    border: none;
+    padding: 0;
+    height: 32px;
+}
+
+.pagination__control-form a {
+    text-decoration: none;
+}

@@ -1,9 +1,9 @@
 % rebase('templates/base', title='Proxy List')
-<section>
+<section class="main-container">
     <article>
-        <table>
+        <table class="proxy-list__table">
             <caption>Proxy List / 1</caption>
-            <tr>
+            <tr class="proxy-list__table-header">
                 <th>ip address</th>
                 <th>port</th>
                 <th>anonymity</th>
@@ -12,7 +12,7 @@
                 <th>available sites</th>
             </tr>
             % for i in range(0, 10):
-            <tr>
+            <tr class="proxy-list__table-item">
                 <td>127.0.0.1</td>
                 <td>8080</td>
                 <td>elite</td>
@@ -23,21 +23,15 @@
             % end
         </table>
     </article>
-    <article>
+    <article class="pagination__container">
+        <form class="pagination__control-form">
+            <button><a href="2">Next Page</a></button>
+            <fieldset>
+                <input title="Jump To Page" type="number">
+                <button>Go</button>
+            </fieldset>
+            <button><a href="1">Previous Page</a></button>
+        </form>
         <p>Total Page: 999</p>
-        <nav>
-            <form>
-                <fieldset>
-                    <a href="2">Next Page</a>
-                </fieldset>
-                <fieldset>
-                    <a href="1">Previous Page</a>
-                </fieldset>
-                <fieldset>
-                    <input title="Jump To Page" type="number">
-                    <button>Go</button>
-                </fieldset>
-            </form>
-        </nav>
     </article>
 </section>

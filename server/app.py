@@ -1,6 +1,17 @@
-from bottle import request, template, Bottle
+from bottle import request, template, Bottle, static_file
 
 app = Bottle(catchall=False)
+
+
+@app.get('/static/1')
+def debug():
+    return '1'
+
+
+# reference: https://github.com/salimane/bottle-mvc/blob/master/project/controllers/static.py
+@app.get('/static/<path:re:(.*?\.(js|css|ico))>')
+def serve_static(path):
+    return static_file(path, root='static')
 
 
 @app.get('/')

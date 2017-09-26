@@ -1,5 +1,5 @@
 % rebase('templates/base', title='Stats')
-<section>
+<section class="main-container">
     % for i in range(0, 2):
     <article>
         <h3>Proxy Crawler</h3>
