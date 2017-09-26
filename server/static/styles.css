@@ -127,6 +127,9 @@ a {
     border-radius: 8px;
     margin-bottom: 24px;
 }
+.worker-controller__container h3 {
+    margin: 12px 0;
+}
 
 .worker-controller__container p {
     margin: 0;
@@ -134,6 +137,10 @@ a {
 
 .worker-controller__actions-bar {
     display: flex;
+}
+
+.worker-controller__actions-bar > form > button {
+    margin-right: 12px;
 }
 
 .worker-controller__actions-bar > p {
@@ -144,11 +151,13 @@ a {
     display: flex;
     flex-wrap: wrap;
     padding-left: 0;
+    margin: 12px 0;
 }
 
 .worker-controller__stats-bar li {
     list-style-type: none;
     margin-right: 24px;
+    font-size: 14px;
 }
 
 .tool-container {
