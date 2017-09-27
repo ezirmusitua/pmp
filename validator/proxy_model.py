@@ -7,6 +7,7 @@ import geoip2.database as geo_db
 from client import Client
 from database import Database
 from requests.exceptions import RequestException
+from getIpGeoInfo import IpGeo
 
 Connection_Validation_Targets = {
     'GOOGLE': 'https://www.google.com',
@@ -21,7 +22,7 @@ Connection_Validation_Targets = {
     'PROXYDB': 'http://proxy-db.net',
     'IPPRIVACY': 'http://iprivacytools.com',
 }
-Detect_Tool_Site = 'http://www.iprivacytools.com/proxy-checker-anonymity-test/'
+Detect_Tool_Site = 'http://www.iprivacytools.com/proxy-checker-anonymity-tests/'
 H_V_PATTERN = re.compile(r'HTTP_VIA: <span.*?>(.*?)</span>')
 H_X_F_F_PATTERN = re.compile(r'HTTP_X_FORWARDED_FOR: <span.*?>(.*?)</span>')
 Detect_Target = 'https://httpbin.org/get'
@@ -151,19 +152,7 @@ class ProxyModel(object):
     @staticmethod
     def detect_location(proxy):
         """adjust location using geo lite"""
-        location = ''
-        geo = ProxyModel._db_reader.city(proxy.ip_address)
-        country = geo.country.names['en']
-        if country is not None:
-            location += country + ', '
-        else:
-            location += 'unknown, '
-        city = geo.city.name
-        if city is not None:
-            location += city
-        else:
-            location += 'unknown'
-        return location
+        return IpGeo(proxy.ip_address)
 
     @staticmethod
     def detect_proxy_type(proxy):
