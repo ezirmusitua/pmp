@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
+import os
+import sys
 import unittest
 
-import os
-from ipgeo import IpGeo
+IP_GEO_PATH = os.path.split(os.path.realpath(__file__))[0][:-5]
+sys.path.append(IP_GEO_PATH)
+print(IP_GEO_PATH)
+from ipgeoinfo import IpGeo
 
-DB_PATH = os.path.split(os.path.realpath('__FILE__'))[0] + '/GeoLite2-City.mmdb'
 
-
-class TestIpGeo(unittest.TestCase):
+class MyTestCase(unittest.TestCase):
     def setUp(self):
-        self.ip_geo = IpGeo.open_reader(DB_PATH)(ip_address='128.101.101.101')
+        self.ip_geo = IpGeo(ip_address='128.101.101.101')
 
     def test_position_format(self):
         position_str = self.ip_geo.position()
