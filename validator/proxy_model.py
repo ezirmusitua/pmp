@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+import os
 import re
 import time
 import logging
@@ -152,7 +153,8 @@ class ProxyModel(object):
     @staticmethod
     def detect_location(proxy):
         """adjust location using geo lite"""
-        return IpGeo(proxy.ip_address)
+        db_path = os.path.split(os.path.realpath(__file__))[0] + '/GeoLite2-City.mmdb'
+        return IpGeo.open_reader(db_path)(proxy.ip_address).location_label()
 
     @staticmethod
     def detect_proxy_type(proxy):
