@@ -18,6 +18,7 @@ def proxy_list():
     page_index = int(request.query.get('page-index', 1))
     page_return = Proxy.page(page_index - 1)
     pagination = generate_pagination(page_index, 10, page_return['count'])
+    print('hello world')
     return template('templates/index.tpl', pagination=pagination, proxies=page_return['items'])
 
 
