@@ -42,7 +42,7 @@ a {
     list-style-type: none;
 }
 
-.navigation__list-item > a {
+gation__list-item > a {
     color: white;
     font-size: 20px;
     font-weight: 800;
@@ -53,6 +53,7 @@ a {
 }
 
 .main-container {
+    height: calc(100vh - 66px);
     padding: 48px 128px 0 128px;
 }
 
@@ -162,4 +163,28 @@ a {
 
 .tool-container {
     margin-bottom: 24px;
+}
+
+.form-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    margin-top: -120px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 240px;
+    height: 140px;
+    background-color: white;
+}
+
+.login-form > div {
+    display: flex;
 }

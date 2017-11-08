@@ -1,3 +1,4 @@
+appnope==0.1.0
 asn1crypto==0.23.0
 attrs==17.2.0
 Automat==0.6.0
@@ -10,6 +11,8 @@ cryptography==2.0.3
 cssselect==1.0.1
 decorator==4.1.2
 geoip2==2.5.0
+## FIXME: could not find svn URL in dependency_links for this package:
+getIpGeoInfo===0.1.5dev-r0
 greenlet==0.4.12
 gunicorn==19.7.1
 hyperlink==17.3.1
@@ -24,7 +27,9 @@ meinheld==0.6.1
 parsel==1.2.0
 pexpect==4.2.1
 pickleshare==0.7.4
+pkginfo==1.4.1
 prompt-toolkit==1.0.15
+ProxyAnonymityDetector==0.1.1
 ptyprocess==0.5.2
 pyasn1==0.3.6
 pyasn1-modules==0.1.4
@@ -36,12 +41,15 @@ pyOpenSSL==17.3.0
 PySocks==1.6.7
 queuelib==1.4.2
 requests==2.18.4
+requests-toolbelt==0.8.0
 Scrapy==1.4.0
 scrapy-crawlera==1.2.4
 service-identity==17.0.0
 simplegeneric==0.8.1
 six==1.11.0
+tqdm==4.19.4
 traitlets==4.3.2
+twine==1.9.1
 Twisted==17.9.0
 urllib3==1.22
 w3lib==1.18.0

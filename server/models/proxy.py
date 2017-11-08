@@ -10,7 +10,6 @@ class Proxy(object):
     _db_collection = pymongo.MongoClient(MONGO_URI)[DATABASE][COLLECTION]
 
     def __init__(self, proxy_doc):
-        print(proxy_doc)
         self.id = proxy_doc.get('_id', '')
         self.ip_address = proxy_doc.get('ip_address', 'unknown')
         self.port = proxy_doc.get('port', 12345)

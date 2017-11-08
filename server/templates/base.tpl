@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
-    <title>{{title or 'Proxy Pool'}}</title>
+    <title>{{title or 'Proxy Management Platform'}}</title>
 </head>
 <body>
 % include('templates/navigation', current='proxy list')
