@@ -7,13 +7,17 @@ from models.proxy import Proxy
 from models.user import User
 from models.tool import Tool, IpGeo, ip_geo_info_display_exporter
 
-app = Bottle(catchall=False)
+app = Bottle(catchall=True)
 TEMPLATE_PATH.insert(0, 'templates')
 SESSION_OPTIONS = {
-    'session.type': 'file',  # 以文件的方式保存 session
-    'session.cookei_expires': 24 * 60 * 60,  # session 过期时间为 1d
-    'session.data_dir': '.tmp/session',  # session 保存目录
-    'session.auto': True  # 自动保存 session
+    # 以文件的方式保存 session
+    'session.type': 'file',
+    # session 过期时间为 1d
+    'session.cookie_expires': 24 * 60 * 60,
+    # session 保存目录
+    'session.data_dir': '.tmp/session',
+    # 自动保存 session
+    'session.auto': True
 }
 
 
@@ -37,9 +41,9 @@ def login():
             sessions.save()
             redirect('/proxies')
         else:
-            return template('templates/login.tpl')
+            return template('templates/login.tpl', invalid=True)
     if request.method == 'GET':
-        return template('templates/login.tpl')
+        return template('templates/login.tpl', invalid=False)
 
 
 @app.get('/')

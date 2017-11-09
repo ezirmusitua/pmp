@@ -42,7 +42,7 @@ a {
     list-style-type: none;
 }
 
-gation__list-item > a {
+.navigation__list-item > a {
     color: white;
     font-size: 20px;
     font-weight: 800;
@@ -53,8 +53,10 @@ gation__list-item > a {
 }
 
 .main-container {
-    height: calc(100vh - 66px);
+    height: calc(100vh - 77px);
     padding: 48px 128px 0 128px;
+    overflow-y: scroll;
+    box-sizing: border-box;
 }
 
 .proxy-list__table {
@@ -128,6 +130,7 @@ gation__list-item > a {
     border-radius: 8px;
     margin-bottom: 24px;
 }
+
 .worker-controller__container h3 {
     margin: 12px 0;
 }
@@ -178,13 +181,52 @@ gation__list-item > a {
     border-radius: 4px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 240px;
-    height: 140px;
+    justify-content: space-around;
+    width: 256px;
+    min-height: 180px;
     background-color: white;
+    padding: 24px 32px;
+    align-items: flex-end;
 }
 
-.login-form > div {
+.login-form label {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.56);
+}
+
+.login-form input {
+    height: 16px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.34);
+    outline: none;
+}
+
+.login-form h4 {
+    width: 100%;
+    margin: 0 0 8px 0;
+    padding-bottom: 8px;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.34);
+}
+
+.input-container {
     display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.raised-button {
+    border-radius: 4px;
+    color: rgba(0, 0, 0, 0.87);
+    width: 72px;
+    height: 24px;
+    background-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.08);
+}
+
+.error-box-shadow {
+    box-shadow: 0 0 4px red;
 }
