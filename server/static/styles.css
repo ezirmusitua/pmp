@@ -112,13 +112,6 @@ a {
     display: flex;
 }
 
-.pagination__control-form button {
-    height: 32px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-}
-
 .pagination__control-form fieldset {
     border: none;
     padding: 0;
@@ -225,6 +218,7 @@ a {
     height: 24px;
     background-color: rgba(0, 0, 0, 0.12);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
 }
 
 .error-box-shadow {

@@ -25,12 +25,14 @@
     </article>
     <article class="pagination__container">
         <form action="/proxies" class="pagination__control-form">
-            <button><a href="/proxies?page-index={{pagination['prev_page']}}">Previous Page</a></button>
+            <button class="raised-button" style="width: 120px; margin: 4px 8px 4px 0"><a
+                    href="/proxies?page-index={{pagination['prev_page']}}">Previous Page</a></button>
             <fieldset>
                 <input name="page-index" title="Jump To Page" type="number" value="{{pagination['page_index']}}">
-                <button type="submit">Go</button>
+                <button class="raised-button" type="submit">Go</button>
             </fieldset>
-            <button><a href="/proxies?page-index={{pagination['next_page']}}">Next Page</a></button>
+            <button class="raised-button" style="width: 120px; margin: 4px 0 4px 8px"><a
+                    href="/proxies?page-index={{pagination['next_page']}}">Next Page</a></button>
         </form>
         <p>Total Page: {{pagination['page_count']}}</p>
     </article>
