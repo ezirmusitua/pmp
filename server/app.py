@@ -1,7 +1,9 @@
 import math
+import logging
 from bottle import request, template, Bottle, static_file, redirect
-from models.proxy import Proxy
 from utils import generate_pagination
+from models.proxy import Proxy
+from models.tool import Tool, IpGeo, ip_geo_info_display_exporter
 
 app = Bottle(catchall=False)
 
@@ -37,6 +39,25 @@ def proxy_list():
     page_return = Proxy.page(page_index - 1)
     pagination = generate_pagination(page_index, 10, page_return['count'])
     return template('templates/index.tpl', pagination=pagination, proxies=page_return['items'])
+
+
+@app.get('/workers')
+def worker_stats():
+    return template('templates/worker.tpl')
+
+
+@app.get('/tools')
+def proxy_tools():
+    tools = []
+    ip_address = request.environ.get('REMOTE_ADDR')
+    try:
+        display = IpGeo.export(ip_address, ip_geo_info_display_exporter)
+    except Exception as e:
+        logging.error(e)
+        tools.append(Tool('Ip Address Info: ', {'ip address: ': ip_address}))
+    else:
+        tools.append(Tool('Ip Address Info: ', display))
+    return template('templates/tools.tpl', tools=tools)
 
 
 app.run(host='127.0.0.1', port=8080, reloader=True)

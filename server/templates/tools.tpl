@@ -1,12 +1,15 @@
 % rebase('templates/base', title='Stats')
 <section class="main-container">
+    % for tool in tools:
     <article class="tool-container">
-        <h3>Ip Address Detector</h3>
+        <h3>{{tool.name}}</h3>
         <ul>
-            <li><p>Address:<span>127.0.0.1</span></p></li>
-            <li><p>Geo info: <span>China, Shanghai</span></p></li>
+            % for key in tool.display:
+            <li><p>{{key}}<span>{{tool.display[key]}}</span></p></li>
+            % end
         </ul>
     </article>
+    % end
     <article class="tool-container">
         <h3>Proxy Anonymity Detector</h3>
         <ul>
