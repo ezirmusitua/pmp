@@ -68,8 +68,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'crawler.pipelines.RemoveDuplicatedPipeline': 100,
-    'crawler.pipelines.ValidatePipeline': 200,
-    'crawler.pipelines.ExportToMongoPipeline': 300,
+    'crawler.pipelines.ExportToMongoPipeline': 200,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
