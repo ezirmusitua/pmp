@@ -1,13 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from crawler.helper import get_list_item_safely
 from crawler.items import Proxy, CNProxyItemLoader
-
-CNPROXY_TYPE_TO_ANONYMITY = {
-    '透明': 'bad1',
-    '普通匿名': 'elite',
-    '高度匿名': 'anonymous'
-}
 
 
 class CNProxySpider(scrapy.Spider):
@@ -24,6 +17,6 @@ class CNProxySpider(scrapy.Spider):
             loader = CNProxyItemLoader(item=Proxy(), selector=row)
             loader.add_css('ip_address', 'td:nth-child(1)::text')
             loader.add_css('port', 'td:nth-child(2)::text')
-            loader.add_value('type', 'HTTP')
+            loader.add_value('type', [])
             proxies.append(loader.load_item())
         return proxies

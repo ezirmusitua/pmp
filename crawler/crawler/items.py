@@ -50,18 +50,18 @@ class CNProxyItemLoader(ItemLoader):
     default_input_processor = StrCleaner()
     default_output_processor = TakeFirst()
     port_in = StrToIntConverter()
-    last_check_at_in = TimeStrConverter()
+    type_in = Identity()
 
 
 class PremProxyItemLoader(ItemLoader):
     default_input_processor = StrCleaner()
     default_output_processor = TakeFirst()
     port_in = StrToIntConverter()
-    last_check_at_in = TimeStrConverter('%b-%d, %H:%M')
+    type_in = Identity()
 
 
 class ProxyDBItemLoader(ItemLoader):
     default_input_processor = StrCleaner()
     default_output_processor = TakeFirst()
     port_in = Identity()
-    last_check_at_in = TimeStrConverter()
+    type_in = Identity()

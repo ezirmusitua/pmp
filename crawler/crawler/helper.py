@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import re
 
-VAR_1_PATTERN = re.compile(r"var .+? = '([\d.]+)'\.split\(''\)\.reverse\(\)\.join\(''\);")
-VAR_2_PATTERN = re.compile(r"var .+? = '([\d.]+)';")
-VAR_P_PATTERN = re.compile(r"var .+? = ([\-\d]+) \+ ([\-\d]+);")
+PROXY_DB_VAR_1_PATTERN = re.compile(r"var .+? = '([\d.]+)'\.split\(''\)\.reverse\(\)\.join\(''\);")
+PROXY_DB_VAR_2_PATTERN = re.compile(r"var .+? = '([\d.]+)';")
+PROXY_DB_VAR_P_PATTERN = re.compile(r"var .+? = ([\-\d]+) \+ ([\-\d]+);")
 
 
 def get_list_item_safely(list_in, idx, default=''):
@@ -13,11 +13,11 @@ def get_list_item_safely(list_in, idx, default=''):
 
 
 def generate_proxydb_js_ip_port(code_segment):
-    x = re.search(VAR_1_PATTERN, code_segment).groups()[0]
+    x = re.search(PROXY_DB_VAR_1_PATTERN, code_segment).groups()[0]
     x_tmp = list(x)
     x_tmp.reverse()
-    y = re.search(VAR_2_PATTERN, code_segment).groups()[0]
-    p = re.search(VAR_P_PATTERN, code_segment).groups()
+    y = re.search(PROXY_DB_VAR_2_PATTERN, code_segment).groups()[0]
+    p = re.search(PROXY_DB_VAR_P_PATTERN, code_segment).groups()
     ip_address = ''.join(x_tmp) + y
     port = int(p[0]) + int(p[1])
     return ip_address, port
