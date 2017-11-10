@@ -60,6 +60,13 @@ class PremProxyItemLoader(ItemLoader):
     type_in = Identity()
 
 
+class XiCiProxyItemLoader(ItemLoader):
+    default_input_processor = StrCleaner()
+    default_output_processor = TakeFirst()
+    port_in = Identity()
+    type_in = Identity()
+
+
 class ProxyDBItemLoader(ItemLoader):
     default_input_processor = StrCleaner()
     default_output_processor = TakeFirst()
