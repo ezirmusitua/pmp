@@ -38,7 +38,7 @@ class XiCiSpider(CrawlSpider):
         for row in rows:
             loader = XiCiProxyItemLoader(item=Proxy(), selector=row)
             loader.add_css('ip_address', 'td:nth-child(2)::text')
-            loader.add_css('port', 'td:nth-child(2)::text')
+            loader.add_css('port', 'td:nth-child(3)::text')
             _type = row.css('td:nth-child(6)::text').extract()[0]
             loader.add_value('type', [_type])
             proxies.append(loader.load_item())
