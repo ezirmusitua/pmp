@@ -19,7 +19,7 @@ class RemoveDuplicatedPipeline(object):
         ip_port = item['ip_address'] + ':' + str(item['port'])
         ip_port_hash = hashlib.md5(ip_port.encode()).hexdigest()
         if ip_port_hash in self.ip_port_seen:
-            raise DropItem('Duplicated item found: %s' % item)
+            raise DropItem('Duplicated item found: %s' % ip_port)
         else:
             self.ip_port_seen.add(ip_port_hash)
         return item

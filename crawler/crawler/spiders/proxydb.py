@@ -11,6 +11,7 @@ class ProxyDBSpider(Spider):
     start_urls = ['http://proxydb.net/?offset=%s' % offset for offset in range(0, 100, 20)]
 
     def parse(self, response):
+        self.logger.critical('DebugNow')
         rows = response.css('.container > table > tbody > tr')
         proxies = []
         for row in rows:

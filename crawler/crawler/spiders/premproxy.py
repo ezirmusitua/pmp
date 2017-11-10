@@ -17,7 +17,7 @@ class PremProxySpider(CrawlSpider):
     rules = (Rule(
         LinkExtractor(allow=('\d+.htm$',), deny=('ip-.*.htm', 'type-.*.htm', 'time-.*.htm')),
         callback='parse_item'
-    ))
+    ),)
 
     def parse_item(self, response):
         is_socks = response.url.find('socks') > -1
