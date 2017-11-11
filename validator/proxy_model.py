@@ -115,7 +115,7 @@ class ProxyModel(object):
             except Exception as e:
                 logging.error(e)
             else:
-                available_sites.append(Connection_Validation_Targets[site])
+                available_sites.append(site)
 
         return {'sites': available_sites}
 

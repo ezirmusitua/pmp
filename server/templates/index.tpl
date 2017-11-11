@@ -18,7 +18,7 @@
                 <td>{{proxy.anonymity}}</td>
                 <td>{{proxy.location}}</td>
                 <td>{{proxy.last_check_at}}</td>
-                <td>Show</td>
+                <td>{{','.join(proxy.available_sites)}}</td>
             </tr>
             % end
         </table>
