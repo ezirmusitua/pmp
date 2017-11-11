@@ -11,9 +11,10 @@ from crawler.items import ProxyItemLoader, Proxy
 
 
 class XiCiSpider(CrawlSpider):
+    # this crawler should run per 4 hour
+    # backup
     name = 'xici'
     allowed_domains = ['xicidaili.com']
-    # this crawler should run per 4 hour
     start_at = time.time()
     end_at = start_at + 4 * 60 * 60
     url_pattern = re.compile('^http://www.xicidaili.com/([ntw]{2})/?\d?')
