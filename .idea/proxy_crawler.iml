@@ -5,6 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/crawler/crawler" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/server" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/validator" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crawler" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crawler/crawler/spiders" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/crawler/.scrapy" />
       <excludeFolder url="file://$MODULE_DIR$/crawler/crawler/spiders/.idea" />
