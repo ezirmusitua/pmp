@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from crawler.items import Proxy, CNProxyItemLoader
+from crawler.items import Proxy, ProxyItemLoader
 
 
 class CNProxySpider(scrapy.Spider):
@@ -14,7 +14,7 @@ class CNProxySpider(scrapy.Spider):
         proxies = []
         rows = response.css('.sortable > tbody > tr')
         for row in rows:
-            loader = CNProxyItemLoader(item=Proxy(), selector=row)
+            loader = ProxyItemLoader(item=Proxy(), selector=row)
             loader.add_css('ip_address', 'td:nth-child(1)::text')
             loader.add_css('port', 'td:nth-child(2)::text')
             loader.add_value('type', [])

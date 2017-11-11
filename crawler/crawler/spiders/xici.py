@@ -7,24 +7,20 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy.exceptions import CloseSpider
 from scrapy.linkextractors import LinkExtractor
 
-from crawler.items import XiCiProxyItemLoader, Proxy
+from crawler.items import ProxyItemLoader, Proxy
 
 
 class XiCiSpider(CrawlSpider):
     name = 'xici'
-    start_at = time.time()
+    allowed_domains = ['xicidaili.com']
     # this crawler should run per 4 hour
+    start_at = time.time()
     end_at = start_at + 4 * 60 * 60
     url_pattern = re.compile('^http://www.xicidaili.com/([ntw]{2})/?\d?')
-    allowed_domains = ['xicidaili.com']
     target_all_crawled = {'nn': False, 'nt': False, 'wn': False, 'wt': False}
     start_urls = ['http://www.xicidaili.com']
 
-    rules = (Rule(
-        LinkExtractor(allow='\/[ntw]{2}\/\d?$'),
-        callback='parse_item',
-        follow=True
-    ),)
+    rules = (Rule(LinkExtractor(allow='\/[ntw]{2}\/\d*$'), callback='parse_item', follow=True),)
 
     def parse_item(self, response):
         if XiCiSpider.should_close_spider():
@@ -36,7 +32,7 @@ class XiCiSpider(CrawlSpider):
         rows = response.css('table#ip_list tr:not(:first-child)')
         last_check_at = 0
         for row in rows:
-            loader = XiCiProxyItemLoader(item=Proxy(), selector=row)
+            loader = ProxyItemLoader(item=Proxy(), selector=row)
             loader.add_css('ip_address', 'td:nth-child(2)::text')
             loader.add_css('port', 'td:nth-child(3)::text')
             _type = row.css('td:nth-child(6)::text').extract()[0]

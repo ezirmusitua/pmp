@@ -3,7 +3,7 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 
 from crawler.helper import get_list_item_safely
-from crawler.items import PremProxyItemLoader, Proxy
+from crawler.items import ProxyItemLoader, Proxy
 
 
 class PremProxySpider(CrawlSpider):
@@ -24,7 +24,7 @@ class PremProxySpider(CrawlSpider):
         proxies = []
         rows = response.css('.container > table > tbody > tr')
         for row in rows:
-            loader = PremProxyItemLoader(item=Proxy(), selector=row)
+            loader = ProxyItemLoader(item=Proxy(), selector=row)
             ip_port = get_list_item_safely(row.css('td:nth-child(1)::text').extract(), 0).split(':')
             # ip address and port
             loader.add_value('ip_address', [get_list_item_safely(ip_port, 0, 'localhost')])
