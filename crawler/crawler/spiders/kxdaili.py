@@ -10,7 +10,7 @@ class KxdailiSpider(Spider):
     start_urls = ['http://www.kxdaili.com/ipList/%d.html' % i for i in range(1, 11)]
 
     def parse(self, response):
-        rows = response.css('div.tab_c_box.buy_tab_box > table > tbody >tr:not(:first-child)')
+        rows = response.css('div.tab_c_box.buy_tab_box > table > tbody >tr')
         proxies = []
         for row in rows:
             loader = ProxyItemLoader(item=Proxy(), selector=row)
