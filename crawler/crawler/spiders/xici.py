@@ -1,37 +1,22 @@
 # -*- coding: utf-8 -*-
-import re
-import time
-import datetime
 
-from scrapy.spiders import CrawlSpider, Rule
-from scrapy.exceptions import CloseSpider
-from scrapy.linkextractors import LinkExtractor
+from scrapy import Spider
 
 from crawler.items import ProxyItemLoader, Proxy
 
 
-class XiCiSpider(CrawlSpider):
+class XiCiSpider(Spider):
     # this crawler should run per 4 hour
-    # backup
     name = 'xici'
     allowed_domains = ['xicidaili.com']
-    start_at = time.time()
-    end_at = start_at + 4 * 60 * 60
-    url_pattern = re.compile('^http://www.xicidaili.com/([ntw]{2})/?\d?')
-    target_all_crawled = {'nn': False, 'nt': False, 'wn': False, 'wt': False}
-    start_urls = ['http://www.xicidaili.com']
+    start_urls = ['http://www.xicidaili.com/nn/%d' % i for i in range(1, 6)] + \
+                 ['http://www.xicidaili.com/nt/%d' % i for i in range(1, 6)] + \
+                 ['http://www.xicidaili.com/wn/%d' % i for i in range(1, 6)] + \
+                 ['http://www.xicidaili.com/wt/%d' % i for i in range(1, 6)]
 
-    rules = (Rule(LinkExtractor(allow='\/[ntw]{2}\/\d*$'), callback='parse_item', follow=True),)
-
-    def parse_item(self, response):
-        if XiCiSpider.should_close_spider():
-            raise CloseSpider
-        target = XiCiSpider.get_url_info(response.url)
-        if XiCiSpider.target_all_crawled[target]:
-            return []
+    def parse(self, response):
         proxies = []
         rows = response.css('table#ip_list tr:not(:first-child)')
-        last_check_at = 0
         for row in rows:
             loader = ProxyItemLoader(item=Proxy(), selector=row)
             loader.add_css('ip_address', 'td:nth-child(2)::text')
@@ -39,21 +24,4 @@ class XiCiSpider(CrawlSpider):
             _type = row.css('td:nth-child(6)::text').extract()[0]
             loader.add_value('type', [_type])
             proxies.append(loader.load_item())
-            last_check_at_time_str = row.css('td:last-child::text').extract()[0]
-            last_check_at = time.mktime(
-                datetime.datetime.strptime(last_check_at_time_str, "%y-%m-%d %H:%S").timetuple())
-        XiCiSpider.target_all_crawled[target] = XiCiSpider.should_continue(last_check_at)
         return proxies
-
-    @classmethod
-    def get_url_info(cls, url):
-        groups = cls.url_pattern.search(url).groups()
-        return groups[0]
-
-    @classmethod
-    def should_continue(cls, last):
-        return last >= cls.end_at
-
-    @classmethod
-    def should_close_spider(cls):
-        return len(list(filter(lambda t: cls.target_all_crawled[t], cls.target_all_crawled))) == 4
