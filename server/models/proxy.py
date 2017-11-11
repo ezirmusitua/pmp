@@ -13,11 +13,21 @@ class Proxy(object):
         self.id = proxy_doc.get('_id', '')
         self.ip_address = proxy_doc.get('ip_address', 'unknown')
         self.port = proxy_doc.get('port', 12345)
-        self.type = proxy_doc.get('type', 'unknown')
+        self.type = proxy_doc.get('type', ['unknown'])
         self.anonymity = proxy_doc.get('anonymity', 'unknown')
         self.location = proxy_doc.get('location', 'unknown, unknown')
         self.last_check_at = proxy_doc.get('last_check_at', 0)
         self.available_sites = proxy_doc.get('available_sites', [])
+
+    def to_csv(self, full=False):
+        return self.ip_address + ':' + str(self.port) if full else self.ip_address + ':' + str(
+            self.port) + '|'.join(
+            self.type) + ',' + self.anonymity + ',' + self.location + ',' + '|'.join(self.available_sites) + str(
+            self.last_check_at)
+
+    @classmethod
+    def list_all(cls):
+        return {'items': map(Proxy, cls._db_collection.find())}
 
     @classmethod
     def page(cls, page_index=0, page_size=10, _filter=None, projection=None, _sort=None):

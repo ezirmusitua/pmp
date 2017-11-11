@@ -77,5 +77,11 @@ def proxy_tools():
     return template('templates/tools.tpl', tools=tools)
 
 
+@app.get('/export')
+def export_proxies():
+    proxies = Proxy.list_all()['items']
+    return template('templates/export.tpl', proxies=map(lambda p: p.to_csv(), proxies))
+
+
 app = SessionMiddleware(app, SESSION_OPTIONS)
 run(app, host='127.0.0.1', port=8080, reloader=True)

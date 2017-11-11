@@ -2,10 +2,12 @@
 <section class="main-container">
     <article>
         <table class="proxy-list__table">
-            <caption>Proxy List / {{pagination['page_index']}}</caption>
+            <caption>Proxy List / {{pagination['page_index']}}&nbsp;&nbsp;<button class="raised-button"><a href="/export">Export</a></button>
+            </caption>
             <tr class="proxy-list__table-header">
                 <th>ip address</th>
                 <th>port</th>
+                <th>type</th>
                 <th>anonymity</th>
                 <th>location</th>
                 <th>last check</th>
@@ -15,6 +17,7 @@
             <tr class="proxy-list__table-item">
                 <td>{{proxy.ip_address}}</td>
                 <td>{{proxy.port}}</td>
+                <td>{{','.join(proxy.type)}}</td>
                 <td>{{proxy.anonymity}}</td>
                 <td>{{proxy.location}}</td>
                 <td>{{proxy.last_check_at}}</td>
