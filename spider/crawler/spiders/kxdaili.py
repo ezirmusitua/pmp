@@ -4,7 +4,7 @@ from scrapy import Spider
 from crawler.items import ProxyItemLoader, Proxy
 
 
-class KxdailiSpider(Spider):
+class KXDaiLiSpider(Spider):
     name = 'kxdaili'
     allowed_domains = ['kxdaili.com']
     start_urls = ['http://www.kxdaili.com/ipList/%d.html' % i for i in range(1, 11)]
