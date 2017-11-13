@@ -162,3 +162,4 @@ ENV/
 .mypy_cache/
 
 */.tmp
+**/__pycache__
