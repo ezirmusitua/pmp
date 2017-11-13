@@ -1,0 +1,898 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Proxy List - ProxyDB</title>
+
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/bulma.css">
+        <link rel="stylesheet" href="/css/main.css">
+
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({
+                    google_ad_client: "ca-pub-9224766179054445",
+                    enable_page_level_ads: true
+                });
+            </script>
+    </head>
+
+    <body>
+        <div class="container">
+            <nav class="navbar is-transparent">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            <span class="icon">
+                <i class="fa fa-database"></i>
+            </span>
+            ProxyDB
+        </a>
+
+        <div class="navbar-burger burger" data-target="navbar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <div id="navbar" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="/">
+                <span class="icon">
+                    <i class="fa fa-list"></i>
+                </span>
+                Proxy List
+</a>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" href="/filter">
+                    <span class="icon">
+                        <i class="fa fa-wrench"></i>
+                    </span>
+                    Proxy Tools
+</a>                <div class="navbar-dropdown is-boxed">
+                    <a class="navbar-item" href="/extractor">
+                        <span class="icon">
+                            <i class="fa fa-code"></i>
+                        </span>
+                        Extractor
+</a>                    <a class="navbar-item" href="/filter">
+                        <span class="icon">
+                            <i class="fa fa-filter"></i>
+                        </span>
+                        Filter
+</a>                    <a class="navbar-item" href="/leecher">
+                        <span class="icon">
+                            <i class="fa fa-globe"></i>
+                        </span>
+                        Scraper
+</a>                    <a class="navbar-item" href="/geo_lookup">
+                        <span class="icon">
+                            <i class="fa fa-flag"></i>
+                        </span>
+                        Geo Lookup
+</a>                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="/anon">
+                        <span class="icon">
+                            <i class="fa fa-user-secret"></i>
+                        </span>
+                        Anonymity Check
+</a>                </div>
+            </div>
+
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" href="/by/country">
+                    Proxies by
+</a>                <div class="navbar-dropdown is-boxed">
+                        <a class="navbar-item" href="/by/ip">
+                            IP
+</a>                        <a class="navbar-item" href="/by/port">
+                            Port
+</a>                        <a class="navbar-item" href="/by/host">
+                            Host
+</a>                            <a class="navbar-item" href="/by/host?p=1">
+                                Host (parsed)
+</a>                        <a class="navbar-item" href="/by/country">
+                            Country
+</a>                        <a class="navbar-item" href="/by/city">
+                            City
+</a>                        <a class="navbar-item" href="/by/region">
+                            Region
+</a>                        <a class="navbar-item" href="/by/isp">
+                            ISP
+</a>                        <a class="navbar-item" href="/by/via">
+                            Via
+</a>                            <a class="navbar-item" href="/by/via?p=1">
+                                Via (parsed)
+</a>                </div>
+            </div>
+
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" href="/?country=US">
+                    Shortcuts
+</a>                <div class="navbar-dropdown is-boxed">
+                    <a class="navbar-item" href="/?anonlvl=2&amp;anonlvl=3">Anonymous Proxies</a>
+                    <a class="navbar-item" href="/?anonlvl=3&amp;anonlvl=4">High Anonymous / Elite Proxies</a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="/?protocol=https">HTTPS/SSL Proxies</a>
+                    <a class="navbar-item" href="/?protocol=socks4&amp;protocol=socks5">SOCKS Proxies</a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="/?country=US">US Proxies</a>
+                    <a class="navbar-item" href="/?country=GB">UK Proxies</a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="/?via_filter=squid">squid Proxies</a>
+                    <a class="navbar-item" href="/?via_filter=mikrotik">Mikrotik Proxies</a>
+                    <a class="navbar-item" href="/?via_filter=tinyproxy">tinyproxy Proxies</a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="/?isp_filter=Amazon">Amazon Proxies</a>
+                    <a class="navbar-item" href="/?isp_filter=Microsoft">Microsoft Proxies</a>
+                    <a class="navbar-item" href="/?isp_filter=Digital+Ocean">Digital Ocean Proxies</a>
+                    <a class="navbar-item" href="/?isp_filter=OVH+SAS">OVH SAS Proxies</a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="/?min_uptime=75&amp;max_response_time=5">High Uptime / Fast Proxies</a>
+                </div>
+            </div>
+
+            <a class="navbar-item" href="/stats">
+                <span class="icon">
+                    <i class="fa fa-bar-chart"></i>
+                </span>
+                Stats
+</a>
+            <a class="navbar-item" href="contact" id="contact">
+                <span class="icon">
+                    <i class="fa fa-envelope"></i>
+                </span>
+                Contact
+</a>        </div>
+    </div>
+</nav>
+
+        </div>
+
+        <div class="container">
+
+                <h1 class="title">
+                    Proxy List
+                </h1>
+
+            <form style="margin-bottom:1rem">
+    <div class="columns">
+        <div class="column">
+            <div class="field">
+                <label class="label">Protocols</label>
+                <div class="control">
+                        <label class="checkbox is-block">
+                            <input name="protocol" type="checkbox" value="http">
+                            HTTP
+                        </label>
+                        <label class="checkbox is-block">
+                            <input name="protocol" type="checkbox" value="https">
+                            HTTPS
+                        </label>
+                        <label class="checkbox is-block">
+                            <input name="protocol" type="checkbox" value="socks4">
+                            SOCKS4
+                        </label>
+                        <label class="checkbox is-block">
+                            <input name="protocol" type="checkbox" value="socks5">
+                            SOCKS5
+                        </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="field">
+                <label class="label">Anonymity Levels</label>
+                <div class="control">
+                        <label class="checkbox is-block">
+                            <input name="anonlvl" type="checkbox" value="1">
+                            L1
+                            &ndash;
+                            <span class="has-text-danger">Transparent</span>
+                        </label>
+                        <label class="checkbox is-block">
+                            <input name="anonlvl" type="checkbox" value="2">
+                            L2
+                            &ndash;
+                            <span class="has-text-warning">Anonymous</span>
+                        </label>
+                        <label class="checkbox is-block">
+                            <input name="anonlvl" type="checkbox" value="3">
+                            L3
+                            &ndash;
+                            <span class="has-text-primary">Distorting</span>
+                        </label>
+                        <label class="checkbox is-block">
+                            <input name="anonlvl" type="checkbox" value="4">
+                            L4
+                            &ndash;
+                            <span class="has-text-success">Elite</span>
+                        </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="field">
+                <label class="label">Advanced Filter</label>
+                <div class="control">
+                    <label class="checkbox is-block" title="Only show proxies with a high uptime">
+                        <input name="min_uptime" type="checkbox" value="75">
+                        High Uptime
+                    </label>
+                    <label class="checkbox is-block" title="Only show proxies with a low response time = fast proxies">
+                        <input name="max_response_time" type="checkbox" value="5">
+                        Low Response Time
+                    </label>
+                    <label class="checkbox is-block" title="Do not show gateway proxies">
+                        <input name="exclude_gateway" type="checkbox" value="1">
+                        Exclude Gateway
+                    </label>
+                    <label class="checkbox is-block" title="Only show squid proxies">
+                        <input name="squid_only" type="checkbox" value="1">
+                        Squid Only
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="field">
+                <label for="country" class="label">Country Filter</label>
+                <div class="control">
+                    <span class="select">
+                        <select id="country" name="country"><option value="">- All Countries -</option><option value="AF">AF - Afghanistan (8)</option><option value="AL">AL - Albania (37)</option><option value="DZ">DZ - Algeria (4)</option><option value="AR">AR - Argentina (94)</option><option value="AM">AM - Armenia (4)</option><option value="AU">AU - Australia (22)</option><option value="AT">AT - Austria (9)</option><option value="AZ">AZ - Azerbaijan (7)</option><option value="BD">BD - Bangladesh (238)</option><option value="BB">BB - Barbados (1)</option><option value="BY">BY - Belarus (8)</option><option value="BE">BE - Belgium (2)</option><option value="BJ">BJ - Benin (1)</option><option value="BO">BO - Bolivia (15)</option><option value="BA">BA - Bosnia and Herzegovina (7)</option><option value="BW">BW - Botswana (3)</option><option value="BR">BR - Brazil (562)</option><option value="BG">BG - Bulgaria (40)</option><option value="BF">BF - Burkina Faso (1)</option><option value="BI">BI - Burundi (1)</option><option value="KH">KH - Cambodia (50)</option><option value="CM">CM - Cameroon (7)</option><option value="CA">CA - Canada (130)</option><option value="TD">TD - Chad (1)</option><option value="CL">CL - Chile (35)</option><option value="CN">CN - China (627)</option><option value="CO">CO - Colombia (109)</option><option value="CG">CG - Congo (2)</option><option value="CR">CR - Costa Rica (6)</option><option value="CI">CI - Cote D&#39;Ivoire (3)</option><option value="HR">HR - Croatia (4)</option><option value="CZ">CZ - Czech Republic (52)</option><option value="DK">DK - Denmark (6)</option><option value="DJ">DJ - Djibouti (1)</option><option value="DO">DO - Dominican Republic (1)</option><option value="EC">EC - Ecuador (88)</option><option value="EG">EG - Egypt (1)</option><option value="GQ">GQ - Equatorial Guinea (1)</option><option value="ET">ET - Ethiopia (1)</option><option value="EU">EU - Europe (1)</option><option value="FI">FI - Finland (1)</option><option value="FR">FR - France (130)</option><option value="GA">GA - Gabon (4)</option><option value="GM">GM - Gambia (1)</option><option value="GE">GE - Georgia (17)</option><option value="DE">DE - Germany (143)</option><option value="GH">GH - Ghana (5)</option><option value="GR">GR - Greece (4)</option><option value="GT">GT - Guatemala (8)</option><option value="GN">GN - Guinea (1)</option><option value="HT">HT - Haiti (1)</option><option value="HN">HN - Honduras (8)</option><option value="HK">HK - Hong Kong (52)</option><option value="HU">HU - Hungary (20)</option><option value="IN">IN - India (206)</option><option value="ID">ID - Indonesia (610)</option><option value="IR">IR - Iran, Islamic Republic of (77)</option><option value="IQ">IQ - Iraq (33)</option><option value="IE">IE - Ireland (21)</option><option value="IL">IL - Israel (12)</option><option value="IT">IT - Italy (49)</option><option value="JM">JM - Jamaica (1)</option><option value="JP">JP - Japan (59)</option><option value="KZ">KZ - Kazakhstan (18)</option><option value="KE">KE - Kenya (26)</option><option value="KR">KR - Korea, Republic of (70)</option><option value="KG">KG - Kyrgyzstan (4)</option><option value="LV">LV - Latvia (5)</option><option value="LB">LB - Lebanon (5)</option><option value="LS">LS - Lesotho (1)</option><option value="LY">LY - Libya (5)</option><option value="LT">LT - Lithuania (9)</option><option value="LU">LU - Luxembourg (1)</option><option value="MO">MO - Macau (2)</option><option value="MK">MK - Macedonia (5)</option><option value="MG">MG - Madagascar (2)</option><option value="MW">MW - Malawi (1)</option><option value="MY">MY - Malaysia (19)</option><option value="MT">MT - Malta (1)</option><option value="MU">MU - Mauritius (2)</option><option value="MX">MX - Mexico (47)</option><option value="MD">MD - Moldova, Republic of (20)</option><option value="MN">MN - Mongolia (13)</option><option value="MA">MA - Morocco (1)</option><option value="MZ">MZ - Mozambique (3)</option><option value="MM">MM - Myanmar (3)</option><option value="NP">NP - Nepal (14)</option><option value="NL">NL - Netherlands (99)</option><option value="NC">NC - New Caledonia (1)</option><option value="NZ">NZ - New Zealand (1)</option><option value="NI">NI - Nicaragua (1)</option><option value="NG">NG - Nigeria (38)</option><option value="NO">NO - Norway (7)</option><option value="PK">PK - Pakistan (44)</option><option value="PS">PS - Palestinian Territory (6)</option><option value="PA">PA - Panama (2)</option><option value="PY">PY - Paraguay (17)</option><option value="PE">PE - Peru (22)</option><option value="PH">PH - Philippines (39)</option><option value="PL">PL - Poland (121)</option><option value="PT">PT - Portugal (2)</option><option value="RO">RO - Romania (19)</option><option value="RU">RU - Russian Federation (445)</option><option value="RW">RW - Rwanda (4)</option><option value="RS">RS - Serbia (21)</option><option value="SC">SC - Seychelles (4)</option><option value="SL">SL - Sierra Leone (2)</option><option value="SG">SG - Singapore (139)</option><option value="SK">SK - Slovakia (12)</option><option value="SI">SI - Slovenia (3)</option><option value="SO">SO - Somalia (6)</option><option value="ZA">ZA - South Africa (59)</option><option value="ES">ES - Spain (80)</option><option value="SZ">SZ - Swaziland (2)</option><option value="SE">SE - Sweden (14)</option><option value="CH">CH - Switzerland (6)</option><option value="SY">SY - Syrian Arab Republic (1)</option><option value="TW">TW - Taiwan (42)</option><option value="TJ">TJ - Tajikistan (1)</option><option value="TZ">TZ - Tanzania, United Republic of (6)</option><option value="TH">TH - Thailand (116)</option><option value="TL">TL - Timor-Leste (2)</option><option value="TR">TR - Turkey (55)</option><option value="UG">UG - Uganda (2)</option><option value="UA">UA - Ukraine (122)</option><option value="AE">AE - United Arab Emirates (2)</option><option value="GB">GB - United Kingdom (431)</option><option value="US">US - United States (657)</option><option value="UY">UY - Uruguay (2)</option><option value="VE">VE - Venezuela (58)</option><option value="VN">VN - Vietnam (55)</option><option value="YE">YE - Yemen (4)</option><option value="ZM">ZM - Zambia (2)</option><option value="ZW">ZW - Zimbabwe (6)</option></select>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="field is-grouped">
+        <div class="control">
+            <button class="button is-info">
+                <span class="icon">
+                    <i class="fa fa-refresh"></i>
+                </span>
+                <span>Refresh</span>
+            </button>
+        </div>
+            <div class="control">
+                <button id="cp" type="button" class="button is-small">
+                    <span class="icon">
+                        <i class="fa fa-clipboard"></i>
+                    </span>
+                    <span>Get proxies as txt (copy & paste)</span>
+                </button>
+            </div>
+    </div>
+</form>
+
+
+    <article class="message" style="display:none">
+        <div class="message-header">
+            <p>Proxies as txt (copy & paste)</p>
+            <button class="delete" aria-label="delete"></button>
+        </div>
+        <div class="message-body"><textarea class="textarea" rows="10"></textarea></div>
+    </article>
+
+    <script>var proxies = [];</script>
+
+<noscript><div class="notification is-danger">Please enable JavaScript to see proxies.</div></noscript>
+
+<table class="table is-bordered is-striped is-hoverable is-narrow is-fullwidth">
+    <thead>
+        <tr>
+            <th title="Proxy in format IP:Port">Proxy</th>
+            <th title="Proxy Protocol/Type">Protocol</th>
+            <th title="Country, City, Region, ISP (GeoIP)">Country</th>
+            <th title="Proxy Anonymity Level">Anonymity</th>
+            <th title="Average uptime/availability/reliability">Ø Uptime</th>
+            <th title="Average response time (smaller = better/faster)">Ø RTime</th>
+            <th title="Via HTTP-Header / Proxy Software">Via</th>
+            <th title="Gateway IP">Gateway</th>
+            <th title="Last Proxy Check Date">Checked</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+            <tr>
+                <td>
+                    <script>
+                        var s = '1.631.312'.split('').reverse().join('');
+                        var yy = '05.62';
+                        var pp = -17424 + 20552;
+                        document.write('<a href="/' + s + yy + '/' + pp + '#http" title="lsocit-213.136.105.62.aviso.ci">' + s + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(s + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    HTTP
+                </td>
+                <td>
+                    <img src="/flags/png/ci.png" alt="Cote D&#39;Ivoire (CI)" title="Cote D&#39;Ivoire (CI)" onerror="this.style.display='none'"> <abbr title="Cote D&#39;Ivoire &bull; Abidjan | Lagunes | AS29571 Orange Cote D&#39;ivoire">CI</abbr>
+                </td>
+                <td>
+                    <span class="has-text-danger">Transparent</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 1.13s">2.6s</span>
+                </td>
+                <td>
+                        <ul>
+                                <li>
+                                        <span title="1.1 213.136.105.62 (McAfee Web Gateway 7.6.2.13.0.23604)">McAfee Web Gateway 7.6.2.13.0.23604</span>
+                                </li>
+                        </ul>
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 01:42:05">16h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var q = '86.831'.split('').reverse().join('');
+                        var yy = '.5.67';
+                        var pp = -40011 + 41091;
+                        document.write('<a href="/' + q + yy + '/' + pp + '#socks5" title="">' + q + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(q + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    SOCKS5
+                </td>
+                <td>
+                    <img src="/flags/png/us.png" alt="United States (US)" title="United States (US)" onerror="this.style.display='none'"> <abbr title="United States &bull; Santa Clara | California | AS14061 Digital Ocean, Inc.">US</abbr>
+                </td>
+                <td>
+                    <span class="has-text-success">Elite</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 1.44s">1.1s</span>
+                </td>
+                <td>
+                        -
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 04:28:17">13h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var q = '2.342.781'.split('').reverse().join('');
+                        var yy = '51.34';
+                        var pp = -19590 + 20670;
+                        document.write('<a href="/' + q + yy + '/' + pp + '#socks4" title="customer-MCA-LMM-251-34.megared.net.mx">' + q + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(q + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    SOCKS4
+                </td>
+                <td>
+                    <img src="/flags/png/mx.png" alt="Mexico (MX)" title="Mexico (MX)" onerror="this.style.display='none'"> <abbr title="Mexico &bull; Guadalajara | Jalisco | AS13999 Mega Cable, S.A. de C.V.">MX</abbr>
+                </td>
+                <td>
+                    <span class="has-text-success">Elite</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 1.00s">1.0s</span>
+                </td>
+                <td>
+                        -
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 00:37:28">17h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var z = '881.222'.split('').reverse().join('');
+                        var yy = '.10.1';
+                        var pp = -32436 + 33516;
+                        document.write('<a href="/' + z + yy + '/' + pp + '#socks4" title="">' + z + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(z + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    SOCKS4
+                </td>
+                <td>
+                    <img src="/flags/png/cn.png" alt="China (CN)" title="China (CN)" onerror="this.style.display='none'"> <abbr title="China &bull; Nanjing | Jiangsu | AS4134 No.31,Jin-rong Street">CN</abbr>
+                </td>
+                <td>
+                    <span class="has-text-success">Elite</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 1.50s">1.2s</span>
+                </td>
+                <td>
+                        -
+                </td>
+                <td>
+                    61.177.248.202
+                </td>
+                <td>
+                    <span title="2017-11-13 06:13:43">11h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var u = '52.591.991'.split('').reverse().join('');
+                        var yy = '3.124';
+                        var pp = -48650 + 51778;
+                        document.write('<a href="/' + u + yy + '/' + pp + '#http" title="oslik2.zoomontime.com">' + u + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(u + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    HTTP
+                </td>
+                <td>
+                    <img src="/flags/png/us.png" alt="United States (US)" title="United States (US)" onerror="this.style.display='none'"> <abbr title="United States &bull; Buffalo | New York | AS53667 FranTech Solutions">US</abbr>
+                </td>
+                <td>
+                    <span class="has-text-danger">Transparent</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 0.39s">0.7s</span>
+                </td>
+                <td>
+                        <ul>
+                                <li>
+                                        <span title="1.1 server (squid/3.3.8)">squid/3.3.8</span>
+                                </li>
+                        </ul>
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 03:15:31">14h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var f = '52.591.991'.split('').reverse().join('');
+                        var yy = '3.124';
+                        var pp = -35439 + 38567;
+                        document.write('<a href="/' + f + yy + '/' + pp + '#https" title="oslik2.zoomontime.com">' + f + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(f + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    HTTPS
+                </td>
+                <td>
+                    <img src="/flags/png/us.png" alt="United States (US)" title="United States (US)" onerror="this.style.display='none'"> <abbr title="United States &bull; Buffalo | New York | AS53667 FranTech Solutions">US</abbr>
+                </td>
+                <td>
+                    <span class="has-text-success">Elite</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 0.91s">0.9s</span>
+                </td>
+                <td>
+                        -
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 03:15:31">14h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var m = '5.302.951'.split('').reverse().join('');
+                        var yy = '0.248';
+                        var pp = -55448 + 63528;
+                        document.write('<a href="/' + m + yy + '/' + pp + '#http" title="">' + m + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(m + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    HTTP
+                </td>
+                <td>
+                    <img src="/flags/png/ca.png" alt="Canada (CA)" title="Canada (CA)" onerror="this.style.display='none'"> <abbr title="Canada &bull; Toronto | Ontario | AS14061 Digital Ocean, Inc.">CA</abbr>
+                </td>
+                <td>
+                    <span class="has-text-warning">Anonymous</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 0.56s">0.8s</span>
+                </td>
+                <td>
+                        -
+                </td>
+                <td>
+                    159.203.8.92
+                </td>
+                <td>
+                    <span title="2017-11-13 03:14:48">14h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var j = '1.791.831'.split('').reverse().join('');
+                        var yy = '57.44';
+                        var pp = -6916 + 14996;
+                        document.write('<a href="/' + j + yy + '/' + pp + '#http" title="">' + j + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(j + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    HTTP
+                </td>
+                <td>
+                    <img src="/flags/png/ca.png" alt="Canada (CA)" title="Canada (CA)" onerror="this.style.display='none'"> <abbr title="Canada &bull; Toronto | Ontario | AS14061 Digital Ocean, Inc.">CA</abbr>
+                </td>
+                <td>
+                    <span class="has-text-warning">Anonymous</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 0.58s">0.6s</span>
+                </td>
+                <td>
+                        -
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 03:23:31">14h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var h = '.661.881'.split('').reverse().join('');
+                        var yy = '83.12';
+                        var pp = -1710 + 4838;
+                        document.write('<a href="/' + h + yy + '/' + pp + '#http" title="">' + h + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(h + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    HTTP
+                </td>
+                <td>
+                    <img src="/flags/png/nl.png" alt="Netherlands (NL)" title="Netherlands (NL)" onerror="this.style.display='none'"> <abbr title="Netherlands &bull; Amsterdam | Noord-Holland | AS14061 Digital Ocean, Inc.">NL</abbr>
+                </td>
+                <td>
+                    <span class="has-text-warning">Anonymous</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 0.08s">1.7s</span>
+                </td>
+                <td>
+                        -
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 02:43:46">15h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var m = '.9.671'.split('').reverse().join('');
+                        var yy = '75.42';
+                        var pp = -40301 + 43429;
+                        document.write('<a href="/' + m + yy + '/' + pp + '#http" title="static.42.75.9.176.clients.your-server.de">' + m + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(m + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    HTTP
+                </td>
+                <td>
+                    <img src="/flags/png/de.png" alt="Germany (DE)" title="Germany (DE)" onerror="this.style.display='none'"> <abbr title="Germany &bull; AS24940 Hetzner Online GmbH">DE</abbr>
+                </td>
+                <td>
+                    <span class="has-text-warning">Anonymous</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 0.11s">0.7s</span>
+                </td>
+                <td>
+                        -
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 00:24:35">17h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var y = '21.302.951'.split('').reverse().join('');
+                        var yy = '7.104';
+                        var pp = -2539 + 10619;
+                        document.write('<a href="/' + y + yy + '/' + pp + '#http" title="">' + y + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(y + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    HTTP
+                </td>
+                <td>
+                    <img src="/flags/png/us.png" alt="United States (US)" title="United States (US)" onerror="this.style.display='none'"> <abbr title="United States &bull; Clifton | New Jersey | AS14061 Digital Ocean, Inc.">US</abbr>
+                </td>
+                <td>
+                    <span class="has-text-warning">Anonymous</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 0.39s">0.9s</span>
+                </td>
+                <td>
+                        -
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 05:38:02">12h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var f = '22.161.59'.split('').reverse().join('');
+                        var yy = '8.186';
+                        var pp = -11731 + 19811;
+                        document.write('<a href="/' + f + yy + '/' + pp + '#http" title="ad.fun24.ru">' + f + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(f + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    HTTP
+                </td>
+                <td>
+                    <img src="/flags/png/ru.png" alt="Russian Federation (RU)" title="Russian Federation (RU)" onerror="this.style.display='none'"> <abbr title="Russian Federation &bull; Kazan | Tatarstan | AS8492 OBIT Ltd.">RU</abbr>
+                </td>
+                <td>
+                    <span class="has-text-danger">Transparent</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 0.63s">2.1s</span>
+                </td>
+                <td>
+                        <ul>
+                                <li>
+                                        <span title="1.1 ::ffff:95.161.228.186 (Mikrotik HttpProxy)">Mikrotik HttpProxy</span>
+                                </li>
+                        </ul>
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 04:24:14">13h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var x = '1.841.681'.split('').reverse().join('');
+                        var yy = '70.70';
+                        var pp = -44709 + 45789;
+                        document.write('<a href="/' + x + yy + '/' + pp + '#socks4" title="azteca-comunicaciones.com">' + x + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(x + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    SOCKS4
+                </td>
+                <td>
+                    <img src="/flags/png/co.png" alt="Colombia (CO)" title="Colombia (CO)" onerror="this.style.display='none'"> <abbr title="Colombia &bull; Bogota | Distrito Especial | AS262186 TV AZTECA SUCURSAL COLOMBIA">CO</abbr>
+                </td>
+                <td>
+                    <span class="has-text-success">Elite</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 0.97s">1.4s</span>
+                </td>
+                <td>
+                        -
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 03:12:29">14h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var z = '7.95.931'.split('').reverse().join('');
+                        var yy = '2.191';
+                        var pp = -41923 + 50003;
+                        document.write('<a href="/' + z + yy + '/' + pp + '#http" title="">' + z + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(z + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    HTTP
+                </td>
+                <td>
+                    <img src="/flags/png/in.png" alt="India (IN)" title="India (IN)" onerror="this.style.display='none'"> <abbr title="India &bull; Bangalore | Karnataka | AS14061 Digital Ocean, Inc.">IN</abbr>
+                </td>
+                <td>
+                    <span class="has-text-warning">Anonymous</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 0.71s">0.8s</span>
+                </td>
+                <td>
+                        -
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 05:31:26">12h ago</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <script>
+                        var d = '.661.881'.split('').reverse().join('');
+                        var yy = '83.34';
+                        var pp = -8654 + 16734;
+                        document.write('<a href="/' + d + yy + '/' + pp + '#http" title="">' + d + yy + String.fromCharCode(58) + pp + '</a>');
+                        proxies.push(d + yy + String.fromCharCode(58) + pp);
+                    </script>
+                </td>
+                <td>
+                    HTTP
+                </td>
+                <td>
+                    <img src="/flags/png/nl.png" alt="Netherlands (NL)" title="Netherlands (NL)" onerror="this.style.display='none'"> <abbr title="Netherlands &bull; Amsterdam | Noord-Holland | AS14061 Digital Ocean, Inc.">NL</abbr>
+                </td>
+                <td>
+                    <span class="has-text-warning">Anonymous</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="19 checks total, 19 successful, 0 failed">100.0%</span>
+                </td>
+                <td>
+                    <span class="has-text-success" title="Last Response Time: 0.08s">0.1s</span>
+                </td>
+                <td>
+                        -
+                </td>
+                <td>
+                    -
+                </td>
+                <td>
+                    <span title="2017-11-13 06:22:09">11h ago</span>
+                </td>
+            </tr>
+    </tbody>
+</table>
+
+
+
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination" style="margin-bottom:1rem">
+        <a class="pagination-previous" disabled href="/?offset=0">
+            <span class="icon">
+                <i class="fa fa-arrow-left"></i>
+            </span>
+            <span>Previous page</span>
+</a>        <a class="pagination-next" href="/?offset=15">
+            <span>Next page</span>
+            <span class="icon">
+                <i class="fa fa-arrow-right"></i>
+            </span>
+</a>        <ul class="pagination-list"></ul>
+    </nav>
+
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+                if(!$navbarBurgers.length) return;
+
+                $navbarBurgers.forEach(function ($el) {
+                    $el.addEventListener('click', function() {
+                        var target = $el.dataset.target;
+                        var $target = document.getElementById(target);
+
+                        $el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+                    });
+                });
+            });
+
+            document.getElementById('contact').href = 'mailt' + String.fromCharCode(110 + 1) + ':in' + 'f' + String.fromCharCode(110 + 1) + String.fromCharCode(60 + 4) + 'proxydb.net';
+
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-61803643-1', 'auto');ga('send', 'pageview');
+
+                    document.getElementById('cp').addEventListener('click', function() {
+            document.querySelector('.message').style.display = 'block';
+
+            var ta = document.querySelector('.message > .message-body > textarea');
+            ta.value = proxies.join("\n");
+            ta.select();
+        });
+
+        document.querySelector('.message > .message-header > .delete').addEventListener('click', function() {
+            document.querySelector('.message').style.display = 'none';
+        });
+
+        </script>
+    </body>
+</html>
+

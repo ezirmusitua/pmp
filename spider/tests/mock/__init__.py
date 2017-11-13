@@ -4,8 +4,9 @@ Reference: https://stackoverflow.com/questions/6456304/scrapy-unit-testing
 """
 
 import os
+import codecs
 
-from scrapy.http import Response, Request
+from scrapy.http import TextResponse
 
 SPIDER_MOCK_INFO_NAME_MAP = {
     'cn-proxy-china': {'url': 'http://cn-proxy.com', 'response_file': 'spider_response/cn-proxy-china.html'},
@@ -14,7 +15,8 @@ SPIDER_MOCK_INFO_NAME_MAP = {
     'ip181': {'url': 'http://www.ip181.com', 'response_file': 'spider_response/ip181.html'},
     'kuaidaili': {'url': 'http://www.kuaidaili.com', 'response_file': 'spider_response/kkuaidaili.html'},
     'kxdaili': {'url': 'http://www.kxdaili.com', 'response_file': 'spider_response/kxdaili.html'},
-    'premproxy': {'url': 'http://www.premproxy.com', 'response_file': 'spider_response/premproxy.html'},
+    'premproxy': {'url': 'http://www.premproxy.com/list/', 'response_file': 'spider_response/premproxy.html'},
+    'premproxy-socks': {'url': 'http://www.premproxy.com/socks-list/', 'response_file': 'spider_response/premproxy-socks.html'},
     'proxydb': {'url': 'http://proxydb.net', 'response_file': 'spider_response/proxydb.html'},
     'xici': {'url': 'http://www.xicidaili.com', 'response_file': 'spider_response/xici.html'},
 }
@@ -27,8 +29,6 @@ def mock_spider_response(spider_name):
     """
     mock_info = SPIDER_MOCK_INFO_NAME_MAP[spider_name]
     url=mock_info['url']
-    with codecs.open(mock_info[spider_name], 'rb+', 'utf-8') as rf:
-        request = Request(url=url)
-        response = Response(url=url, request=request, body=file_content)
-        response.encoding = 'utf-8'
+    with codecs.open(mock_info['response_file'], 'rb', 'utf-8') as rf:
+        response = TextResponse(url=url, body=rf.read().encode(), status=200, headers={})
         return response
