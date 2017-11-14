@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from crawler.items import Proxy, ProxyItemLoader
+from proxy_crawler.items import Proxy, ProxyItemLoader
 
 
 class CNProxySpider(scrapy.Spider):

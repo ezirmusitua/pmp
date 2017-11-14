@@ -2,7 +2,7 @@
 
 from scrapy import Spider
 
-from crawler.items import ProxyItemLoader, Proxy
+from proxy_crawler.items import ProxyItemLoader, Proxy
 
 
 class KuaiDaiLiSpider(Spider):

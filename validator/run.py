@@ -1,7 +1,9 @@
 # -*- coding:utf-8 -*-
 from multiprocessing.dummy import Pool as ThreadPool
-from proxy_model import ProxyModel
-from database import Database
+
+from proxy_validator.proxy_model import ProxyModel
+
+from proxy_validator.database import Database
 
 
 def validate_proxy(proxy):

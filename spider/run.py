@@ -3,7 +3,8 @@
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
-from crawler import CNProxySpider, GouBanJiaSpider, Ip181Spider, KuaiDaiLiSpider, KXDaiLiSpider, PremProxySpider, ProxyDBSpider, XiCiSpider
+from proxy_crawler import CNProxySpider, GouBanJiaSpider, Ip181Spider, KuaiDaiLiSpider, KXDaiLiSpider, PremProxySpider, \
+    ProxyDBSpider, XiCiSpider
 
 process = CrawlerProcess(get_project_settings())
 process.crawl(CNProxySpider)

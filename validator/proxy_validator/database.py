@@ -2,7 +2,7 @@
 import pprint
 import pymongo
 
-from utils import singleton
+from proxy_validator.utils import singleton
 
 MONGO_URI = 'localhost:27017'
 MONGO_DATABASE = 'proxy_crawler_demo'

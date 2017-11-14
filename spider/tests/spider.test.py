@@ -5,7 +5,7 @@ import sys
 sys.path.append('..')
 
 import unittest 
-from crawler import CNProxySpider, GouBanJiaSpider, Ip181Spider, KuaiDaiLiSpider, KXDaiLiSpider, PremProxySpider, ProxyDBSpider, XiCiSpider
+from proxy_crawler import CNProxySpider, GouBanJiaSpider, Ip181Spider, KuaiDaiLiSpider, KXDaiLiSpider, PremProxySpider, ProxyDBSpider, XiCiSpider
 from mock import mock_spider_response
 
 

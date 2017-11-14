@@ -26,7 +26,7 @@ curl -O http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
 ### Usage  
 ```bash
 # assume in ppm main directory
-# run crawler
+proxy_crawler
 python crawler/run.py
 # run validator
 python validator/run.py

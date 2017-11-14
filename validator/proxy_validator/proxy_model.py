@@ -1,14 +1,15 @@
 # -*- coding: utf8 -*-
+import logging
 import os
 import re
 import time
-import logging
 
 import geoip2.database as geo_db
-from client import Client
-from database import Database
-from requests.exceptions import RequestException
 from getIpGeoInfo import IpGeo
+from requests.exceptions import RequestException
+
+from proxy_validator.client import Client
+from proxy_validator.database import Database
 
 Connection_Validation_Targets = {
     'GOOGLE': 'https://www.google.com',
