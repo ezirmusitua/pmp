@@ -20,4 +20,4 @@ def generate_proxydb_js_ip_port(code_segment):
     p = re.search(PROXY_DB_VAR_P_PATTERN, code_segment).groups()
     ip_address = ''.join(x_tmp) + y
     port = int(p[0]) + int(p[1])
-    return ip_address, port
+    return ip_address, str(port)
