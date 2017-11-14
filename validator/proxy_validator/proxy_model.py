@@ -37,6 +37,7 @@ LOCAL_IP_ADDR = '117.131.10.194'
 
 class ProxyModel(object):
     _database = Database()
+    _database.connect()
     _client = Client()
     _db_reader = geo_db.Reader('./GeoLite2-City.mmdb')
     _doc_cache_size = 20

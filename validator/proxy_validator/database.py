@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import pprint
 import pymongo
 
 from proxy_validator.utils import singleton
@@ -11,10 +10,20 @@ MONGO_COLLECTION = 'proxy_list'
 
 @singleton
 class Database(object):
-    def __init__(self):
-        self.client = pymongo.MongoClient('mongodb://' + MONGO_URI)
-        self.database = self.client[MONGO_DATABASE]
-        self.collection = self.database[MONGO_COLLECTION]
+    def __init__(self, uri=MONGO_URI, database=MONGO_DATABASE, collection=MONGO_COLLECTION):
+        self._uri = uri
+        self.database_name = database
+        self.collection_name = collection
+        self.client = self.database = self.collection = None
+
+    def connect(self, uri=None, database_name=None, collection_name=None):
+        if uri:
+            self._uri = uri if uri.startswith('mongodb://') else  'mongodb://' + uri
+        self.client = pymongo.MongoClient(self._uri)
+        self.database_name = database_name if database_name else self.database_name
+        self.database = self.client[self.database_name]
+        self.collection_name = collection_name if collection_name else self.collection_name
+        self.collection = self.database[self.collection_name]
 
     def list(self, query=None, batch_size=20):
         for p in self.collection.find({} if query is None else query).batch_size(batch_size):
@@ -38,9 +47,3 @@ class Database(object):
             self.collection.insert(doc)
         else:
             self.collection.update(query, {'$set': doc})
-
-
-if __name__ == '__main__':
-    db = Database()
-    for proxy in db.list():
-        pprint.pprint(proxy)

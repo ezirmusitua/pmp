@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*
-import os
 import sys
-# sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append('..')
 
-import unittest 
-from proxy_crawler import CNProxySpider, GouBanJiaSpider, Ip181Spider, KuaiDaiLiSpider, KXDaiLiSpider, PremProxySpider, ProxyDBSpider, XiCiSpider
+import unittest
+from proxy_crawler import CNProxySpider, GouBanJiaSpider, Ip181Spider, KuaiDaiLiSpider, KXDaiLiSpider, PremProxySpider, \
+    ProxyDBSpider, XiCiSpider
 from mock import mock_spider_response
 
 
@@ -53,6 +52,7 @@ class SpiderParserTest(unittest.TestCase):
         spider = XiCiSpider()
         parse_res = spider.parse(mock_spider_response('xici'))
         self.assertFalse(not parse_res)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -11,11 +11,12 @@ class Client(object):
         self.headers = headers if headers is not None else {}
         self.headers['User-Agent'] = Default_UA
         self.proxies = proxies if proxies is not None else {}
+        self.session = requests.Session()
 
     def get(self, url=None):
         if url is None:
             raise Exception('Need Url. ')
-        response = requests.get(url, headers=self.headers, proxies=self.proxies, timeout=Default_Timeout)
+        response = self.session.get(url, headers=self.headers, proxies=self.proxies, timeout=Default_Timeout)
         if response.status_code != 200:
             return None
         return response.text
@@ -25,24 +26,3 @@ class Client(object):
             'http': (ptype if ptype is not None else 'http') + '://' + proxy_str,
             'https': (ptype if ptype is not None else 'https') + '://' + proxy_str,
         }
-
-    def set_headers(self, headers):
-        self.headers = headers
-
-    def update_header(self, key, value):
-        if self.headers is {}:
-            self.headers = {}
-        self.headers[key] = value
-
-    def set_user_agent(self, ua_str):
-        if self.headers is {}:
-            self.headers = {}
-        self.headers['User-Agent'] = ua_str
-
-
-if __name__ == '__main__':
-    client = Client()
-    client.update_header('Debug', 'DebugString')
-    assert (client.get('https://httpbin.org/get').find('DebugString') > -1)
-    client.set_proxies('123.103.93.38:80')
-    assert (client.get('https://httpbin.org/get').find('DebugString') > -1)
