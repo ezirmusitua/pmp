@@ -28,7 +28,9 @@ class SpiderParserTest(unittest.TestCase):
         self.assertFalse(not parse_res)
 
     def test_kuaidaili_parse(self):
-        self.assertTrue(False)
+        spider = KuaiDaiLiSpider()
+        parse_res = spider.parse(mock_spider_response('kuaidaili'))
+        self.assertFalse(not parse_res)
 
     def test_kxdaili_parse(self):
         spider = KXDaiLiSpider()
