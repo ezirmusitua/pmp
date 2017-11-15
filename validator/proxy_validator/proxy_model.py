@@ -1,8 +1,8 @@
 # -*- coding: utf8 -*-
-import logging
 import os
 import re
 import time
+import logging
 
 import geoip2.database as geo_db
 from getIpGeoInfo import IpGeo
@@ -30,9 +30,6 @@ H_X_F_F_PATTERN = re.compile(r'HTTP_X_FORWARDED_FOR: <span.*?>(.*?)</span>')
 Detect_Target = 'https://httpbin.org/get'
 Proxy_Types = ['http', 'https', 'socks4', 'socks5']
 LOCAL_IP_ADDR = '117.131.10.194'
-
-
-# LOCAL_IP_ADDR = '140.206.71.62'
 
 
 class ProxyModel(object):
