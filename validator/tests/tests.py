@@ -5,7 +5,7 @@ import sys
 sys.path.append('..')
 
 from unittest import TestCase, mock, main
-
+from proxy_validator.chain import RChain, Task, Handler
 from proxy_validator.client import Client, Default_Timeout, Default_UA
 from proxy_validator.proxy import ProxyModel, ProxyToUpdatePool
 from proxy_validator.database import Database
@@ -153,6 +153,29 @@ class TestProxyModel(TestCase):
         self.assertEqual(len(self.proxy_pool.to_remove), 1)
         self.proxy_pool.add_to_pool(valid_p)
         self.assertEqual(len(self.proxy_pool.to_update), 1)
+
+
+class TestChain(TestCase):
+    def test_task(self):
+        task = Task({'name': 'demo'})
+        handler = Handler('name', lambda p: 'omed')
+        task.run_handler(handler)
+        self.assertEqual(task.target['name'], 'omed')
+
+    def test_chain(self):
+        chain = RChain()
+        self.assertEqual(chain.size(), len(chain.handlers))
+        chain.append_handler(Handler('demo', lambda: 'demo'))
+        self.assertEqual(len(chain.handlers), 1)
+        chain.append_handler(Handler('demo1', lambda: 'demo1'))
+        insert_handler = Handler('demo0.5', lambda: 'demo0.5')
+        chain.insert_handler(1, insert_handler)
+        self.assertEqual(len(chain.handlers), 3)
+        self.assertEqual(chain.handlers[1], insert_handler)
+        chain.remove_handler(1)
+        self.assertEqual(len(chain.handlers), 2)
+        chain.pop_handler()
+        self.assertEqual(len(chain.handlers), 1)
 
 
 if __name__ == '__main__':

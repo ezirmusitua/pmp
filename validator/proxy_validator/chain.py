@@ -5,8 +5,11 @@ class Task(object):
     def __init__(self, target):
         self.target = target
 
+    def set_result(self, name, result):
+        self.target[name] = result
+
     def run_handler(self, handler):
-        self.target.set_result(handler.name, handler.handle(self.target))
+        self.set_result(handler.name, handler.handle(self))
 
 
 class Handler(object):
@@ -15,7 +18,7 @@ class Handler(object):
         self.handle_func = handle_func
 
     def handle(self, task):
-        task.run_handler(self.handle_func)
+        return self.handle_func(task.target)
 
 
 class RChain(object):
@@ -24,7 +27,7 @@ class RChain(object):
 
     def start_handling(self, task):
         for handler in self.handlers:
-            handler.handle(task)
+            task.run_handler(handler)
 
     def append_handler(self, handler):
         self.handlers.append(handler)
@@ -35,7 +38,7 @@ class RChain(object):
         return self
 
     def insert_handler(self, pos, handler):
-        self.handlers = self.handlers[:pos] + [handler] + self.handlers[pos + 1:]
+        self.handlers = self.handlers[:pos] + [handler] + self.handlers[pos:]
 
     def remove_handler(self, pos):
         self.handlers.pop(pos)
