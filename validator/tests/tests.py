@@ -7,6 +7,7 @@ sys.path.append('..')
 from unittest import TestCase, mock, main
 
 from proxy_validator.client import Client, Default_Timeout, Default_UA
+from proxy_validator.proxy import ProxyModel, ProxyToUpdatePool
 from proxy_validator.database import Database
 
 
@@ -83,6 +84,58 @@ class TestDatabase(TestCase):
         self.database.find_one_and_update({'_id': '1'}, {'ip': '127.0.0.1'})
         self.database.collection.insert.assert_called_with({'ip': '127.0.0.1'})
 
+
+class TestProxyModel(TestCase):
+    def setUp(self):
+        self.proxy = ProxyModel({
+            '_id': '0',
+            'ip_address': '127.0.0.1',
+            'port': 8080,
+            'proxy_type': ['unknown'],
+            'connection': [],
+            'anonymity': ['unknown'],
+            'location': 'unknown, unknown'
+        })
+        self.proxy.last_check_at = -1
+        self.proxy_pool = ProxyToUpdatePool()
+
+    def test_proxy_str(self):
+        self.assertEqual(self.proxy.proxy_str(), '127.0.0.1:8080')
+
+    def test_proxy_to_json(self):
+        self.assertEqual(self.proxy.to_json(), {
+            'anonymity': ['unknown'],
+            'ip_address': '127.0.0.1',
+            'port': 8080,
+            'last_check_at': -1,
+            'location': 'unknown, unknown',
+            'connection': [],
+            'proxy_type': ['unknown']
+        })
+
+    def test_update_proxy_pool(self):
+        self.proxy_pool.db = mock.MagicMock()
+        self.proxy_pool.db.remove = mock.MagicMock()
+        self.proxy_pool.db.update = mock.MagicMock()
+        self.proxy_pool.to_update = self.proxy_pool.to_remove = [
+            ProxyModel({'_id': str(i), 'ip_address': '127.0.0.1', 'port': i}) for i in
+            range(0, 20)]
+        self.assertEqual(len(self.proxy_pool.to_remove), 20)
+        self.assertEqual(len(self.proxy_pool.to_update), 20)
+        self.proxy_pool.handle_pool()
+        self.assertEqual(len(self.proxy_pool.to_remove), 0)
+        self.assertEqual(len(self.proxy_pool.to_update), 0)
+
+    def test_add_to_proxy_pool(self):
+        self.proxy_pool.to_remove = list()
+        self.proxy_pool.to_update = list()
+        invalid_p = ProxyModel({'_id': '1', 'ip_address': '127.0.1.1', 'port': 80})
+        invalid_p.invalid = True
+        valid_p = ProxyModel({'_id': '2', 'ip_address': '127.0.2.1', 'port': 80})
+        self.proxy_pool.add_to_pool(invalid_p)
+        self.assertEqual(len(self.proxy_pool.to_remove), 1)
+        self.proxy_pool.add_to_pool(valid_p)
+        self.assertEqual(len(self.proxy_pool.to_update), 1)
 
 
 if __name__ == '__main__':

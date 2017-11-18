@@ -1,8 +1,8 @@
 # -*- coding: utf8 -*-
 import time
 
-from proxy_validator import Database
 from proxy_validator.utils import singleton
+from proxy_validator.database import Database
 
 
 class ProxyModel(object):
@@ -10,7 +10,7 @@ class ProxyModel(object):
         doc = doc_from_db if doc_from_db is not None else {}
         self.id = doc['_id']
         self.port = doc['port']
-        self.ip_address = doc.get('ip_address', 'unknown')
+        self.ip_address = doc['ip_address']
         self.proxy_type = doc.get('proxy_type', ['unknown'])
         self.connection = doc.get('connection', list())
         self.anonymity = doc.get('anonymity', ['unknown'])
@@ -51,7 +51,7 @@ class ProxyToUpdatePool(object):
 
     def handle_pool(self):
         if len(self.to_remove) >= 10:
-            self.db.remove({'_id': {'$in': list(map(lambda p: p.id, self.to_remove))}})
+            self.db.remove({'_id': {'$in': list(map(lambda _p: _p.id, self.to_remove))}})
             self.to_remove = list()
         if len(self.to_update) >= 10:
             for p in self.to_update:
