@@ -165,10 +165,10 @@ class TestChain(TestCase):
     def test_chain(self):
         chain = RChain()
         self.assertEqual(chain.size(), len(chain.handlers))
-        chain.append_handler(Handler('demo', lambda: 'demo'))
+        chain.append_handler(Handler('name', lambda p: 'demo-1'))
         self.assertEqual(len(chain.handlers), 1)
-        chain.append_handler(Handler('demo1', lambda: 'demo1'))
-        insert_handler = Handler('demo0.5', lambda: 'demo0.5')
+        chain.append_handler(Handler('name', lambda p: 'demo1'))
+        insert_handler = Handler('name', lambda p: 'demo0.5')
         chain.insert_handler(1, insert_handler)
         self.assertEqual(len(chain.handlers), 3)
         self.assertEqual(chain.handlers[1], insert_handler)
@@ -176,6 +176,8 @@ class TestChain(TestCase):
         self.assertEqual(len(chain.handlers), 2)
         chain.pop_handler()
         self.assertEqual(len(chain.handlers), 1)
+        res_task = chain.start_handling(Task({'name': 'demo'}))
+        self.assertEqual(res_task.target['name'], 'demo-1')
 
 
 if __name__ == '__main__':
