@@ -17,11 +17,11 @@
             <tr class="proxy-list__table-item">
                 <td>{{proxy.ip_address}}</td>
                 <td>{{proxy.port}}</td>
-                <td>{{','.join(proxy.type)}}</td>
+                <td>{{','.join(proxy.proxy_type)}}</td>
                 <td>{{proxy.anonymity}}</td>
                 <td>{{proxy.location}}</td>
                 <td>{{proxy.last_check_at}}</td>
-                <td>{{','.join(proxy.available_sites)}}</td>
+                <td>{{','.join(proxy.connection)}}</td>
             </tr>
             % end
         </table>
