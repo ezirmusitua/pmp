@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import math
 
+from bottle import request, redirect
+
 
 def generate_pagination(page_index, page_size, total_count):
     page_count = math.ceil(total_count / page_size)
@@ -12,11 +14,7 @@ def generate_pagination(page_index, page_size, total_count):
     }
 
 
-def validate_is_login(request, redirect, target):
+def login_required():
     sessions = request.environ.get('beaker.session')
-    redirect(target) if sessions.get('user') else None
-
-
-def validate_not_login(request, redirect):
-    sessions = request.environ.get('beaker.session')
-    redirect('/login') if not sessions.get('user') else None
+    if not sessions.get('user'):
+        return redirect('/login')

@@ -179,9 +179,12 @@ class TestChain(TestCase):
         res_task = chain.start_handling(Task({'name': 'demo'}))
         self.assertEqual(res_task.target['name'], 'demo-1')
 
+
 """
 How to mock import?
 """
+
+
 class TestValidation(TestCase):
     def setUp(self):
         pass
