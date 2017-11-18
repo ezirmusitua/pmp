@@ -16,7 +16,7 @@ class RChain(object):
 
     def start_handling(self, task):
         for handler in self.handlers:
-            result = handler.handle(task)
+            handler.handle(task)
 
     def append_handler(self, handler):
         self.handlers.append(handler)
