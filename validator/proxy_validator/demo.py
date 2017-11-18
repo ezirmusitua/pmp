@@ -14,6 +14,12 @@ class RequestToHandle(object):
         else:
             self._next = None
 
+    def is_end(self):
+        return self._next is None
+
+    def should_handle(self, handler):
+        return self._next is handler.name
+
     def __mul__(self, other):
         self.value = self.value * other
         return self
@@ -37,11 +43,9 @@ class ChainHandler(object):
         request.update_next()
         return request
 
-    def should_handle(self, request):
-        return request._next is self._name
-
-    def is_end(self, request):
-        return request._next is None
+    @property
+    def name(self):
+        return self._name
 
 
 class RChain(object):
@@ -52,9 +56,9 @@ class RChain(object):
         h_index = 0
         while True:
             handler = self.chain_handlers[h_index]
-            if handler.is_end(request):
+            if request.is_end():
                 break
-            if not handler.should_handle(request):
+            if not request.should_handle(handler):
                 h_index += 1
                 continue
             request = handler.handle(request)

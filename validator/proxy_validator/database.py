@@ -18,7 +18,7 @@ class Database(object):
 
     def connect(self, uri=None, database_name=None, collection_name=None):
         if uri:
-            self._uri = uri if uri.startswith('mongodb://') else  'mongodb://' + uri
+            self._uri = uri if uri.startswith('mongodb://') else 'mongodb://' + uri
         self.client = pymongo.MongoClient(self._uri)
         self.database_name = database_name if database_name else self.database_name
         self.database = self.client[self.database_name]
