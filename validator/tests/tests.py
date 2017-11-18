@@ -179,6 +179,28 @@ class TestChain(TestCase):
         res_task = chain.start_handling(Task({'name': 'demo'}))
         self.assertEqual(res_task.target['name'], 'demo-1')
 
+"""
+How to mock import?
+"""
+class TestValidation(TestCase):
+    def setUp(self):
+        pass
+
+    def test_connection(self):
+        pass
+
+    def test_proxy_type(self):
+        pass
+
+    def test_anonymity(self):
+        pass
+
+    def test_location(self):
+        pass
+
+    def test_db(self):
+        pass
+
 
 if __name__ == '__main__':
     main()
