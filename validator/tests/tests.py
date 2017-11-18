@@ -9,6 +9,23 @@ from unittest import TestCase, mock, main
 from proxy_validator.client import Client, Default_Timeout, Default_UA
 from proxy_validator.proxy import ProxyModel, ProxyToUpdatePool
 from proxy_validator.database import Database
+from proxy_validator.utils import singleton
+
+
+class TestUtils(TestCase):
+    def test_singleton(self):
+        class DemoClass1(object):
+            def __init__(self):
+                pass
+
+        self.assertNotEqual(DemoClass1(), DemoClass1())
+
+        @singleton
+        class DemoClass2(object):
+            def __init__(self):
+                pass
+
+        self.assertEqual(DemoClass2(), DemoClass2())
 
 
 class TestClient(TestCase):
