@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
-
-import logging
-
 from bottle import request, template, static_file, redirect
-from proxy_server.models.proxy import Proxy
-from proxy_server.models.tool import Tool, IpGeo, ip_geo_info_display_exporter
-from proxy_server.models.user import User
 
+from proxy_server.models.proxy import Proxy
+from proxy_server.models.user import User
 from proxy_server.utils import generate_pagination, login_required
 
 
@@ -23,7 +19,6 @@ def login():
         username = request.forms.username
         password = request.forms.password
         if User.validate(username, password):
-            # get beaker.session in environ and update it
             sessions['user'] = username
             sessions.save()
             redirect('/proxies')
@@ -39,25 +34,6 @@ def proxy_list():
     page_return = Proxy.page(page_index - 1)
     pagination = generate_pagination(page_index, 10, page_return['count'])
     return template('templates/index.tpl', pagination=pagination, proxies=page_return['items'])
-
-
-def worker_stats():
-    login_required()
-    return template('templates/worker.tpl')
-
-
-def proxy_tools():
-    login_required()
-    tools = []
-    ip_address = request.environ.get('REMOTE_ADDR')
-    try:
-        display = IpGeo.export(ip_address, ip_geo_info_display_exporter)
-    except Exception as e:
-        logging.error(e)
-        tools.append(Tool('Ip Address Info: ', {'ip address: ': ip_address}))
-    else:
-        tools.append(Tool('Ip Address Info: ', display))
-    return template('templates/tools.tpl', tools=tools)
 
 
 def export_proxies():
@@ -86,14 +62,6 @@ routes = [{
     'path': '/proxies',
     'method': 'GET',
     'handler': proxy_list,
-}, {
-    'path': '/workers',
-    'method': 'GET',
-    'handler': worker_stats,
-}, {
-    'path': '/tools',
-    'method': 'GET',
-    'handler': proxy_tools
 }, {
     'path': '/export',
     'method': 'GET',
