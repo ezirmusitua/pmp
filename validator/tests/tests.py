@@ -84,5 +84,6 @@ class TestDatabase(TestCase):
         self.database.collection.insert.assert_called_with({'ip': '127.0.0.1'})
 
 
+
 if __name__ == '__main__':
     main()
