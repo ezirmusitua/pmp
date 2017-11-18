@@ -28,8 +28,8 @@ class ProxyModel(object):
             'port': self.port,
             'last_check_at': self.last_check_at,
             'location': self.location,
-            'available_sites': self.available_sites,
-            'type': self.type
+            'connection': self.connection,
+            'proxy_type': self.proxy_type
         }
 
     def __unicode__(self):
