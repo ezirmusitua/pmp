@@ -25,7 +25,10 @@ curl -O http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
 
 ### Usage  
 ```bash
-# assume in ppm main directory
+# assume in main directory
+# run tests  
+nosetests server/ spider/ validator/ --with-coverage
+
 proxy_crawler
 python crawler/run.py
 # run validator

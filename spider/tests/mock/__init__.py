@@ -9,17 +9,21 @@ import codecs
 from scrapy.http import TextResponse
 
 SPIDER_MOCK_INFO_NAME_MAP = {
-    'cn-proxy-china': {'url': 'http://cn-proxy.com', 'response_file': 'mock/spider_response/cn-proxy-china.html'},
-    'cn-proxy-global': {'url': 'http://cn-proxy.com', 'response_file': 'mock/spider_response/cn-proxy-global.html'},
-    'goubanjia': {'url': 'http://www.goubanjia.com', 'response_file': 'mock/spider_response/goubanjia.html'},
-    'ip181': {'url': 'http://www.ip181.com', 'response_file': 'mock/spider_response/ip181.html'},
-    'kuaidaili': {'url': 'http://www.kuaidaili.com', 'response_file': 'mock/spider_response/kuaidaili.html'},
-    'kxdaili': {'url': 'http://www.kxdaili.com', 'response_file': 'mock/spider_response/kxdaili.html'},
-    'premproxy': {'url': 'http://www.premproxy.com/list/', 'response_file': 'mock/spider_response/premproxy.html'},
+    'cn-proxy-china': {'url': 'http://cn-proxy.com',
+                       'response_file': 'spider/tests/mock/spider_response/cn-proxy-china.html'},
+    'cn-proxy-global': {'url': 'http://cn-proxy.com',
+                        'response_file': 'spider/tests/mock/spider_response/cn-proxy-global.html'},
+    'goubanjia': {'url': 'http://www.goubanjia.com',
+                  'response_file': 'spider/tests/mock/spider_response/goubanjia.html'},
+    'ip181': {'url': 'http://www.ip181.com', 'response_file': 'spider/tests/mock/spider_response/ip181.html'},
+    'kuaidaili': {'url': 'http://www.kuaidaili.com', 'response_file': 'spider/tests/mock/spider_response/kuaidaili.html'},
+    'kxdaili': {'url': 'http://www.kxdaili.com', 'response_file': 'spider/tests/mock/spider_response/kxdaili.html'},
+    'premproxy': {'url': 'http://www.premproxy.com/list/',
+                  'response_file': 'spider/tests/mock/spider_response/premproxy.html'},
     'premproxy-socks': {'url': 'http://www.premproxy.com/socks-list/',
-                        'response_file': 'mock/spider_response/premproxy-socks.html'},
-    'proxydb': {'url': 'http://proxydb.net', 'response_file': 'mock/spider_response/proxydb.html'},
-    'xici': {'url': 'http://www.xicidaili.com', 'response_file': 'mock/spider_response/xici.html'},
+                        'response_file': 'spider/tests/mock/spider_response/premproxy-socks.html'},
+    'proxydb': {'url': 'http://proxydb.net', 'response_file': 'spider/tests/mock/spider_response/proxydb.html'},
+    'xici': {'url': 'http://www.xicidaili.com', 'response_file': 'spider/tests/mock/spider_response/xici.html'},
 }
 
 
