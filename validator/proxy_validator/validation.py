@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-from getIpGeoInfo import IpGeo
+from ProxyGeoDetector import Detector
 
 from proxy_validator.client import Client
 from proxy_validator.chain import Handler, RChain
@@ -54,7 +54,7 @@ def validate_anonymity(proxy):
 
 def validate_location(proxy):
     db_path = os.path.split(os.path.realpath(__file__))[0] + '/GeoLite2-City.mmdb'
-    return IpGeo.open_reader(db_path)(proxy.ip_address).location_label()
+    return Detector.open_reader(db_path)(proxy.ip_address).location_label()
 
 
 def validate_proxy_type(proxy):
