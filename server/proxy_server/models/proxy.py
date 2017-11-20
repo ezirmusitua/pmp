@@ -14,15 +14,16 @@ class Proxy(object):
         self.connection = proxy_doc.get('connection', [])
         self.last_check_at = proxy_doc.get('last_check_at', 0)
 
-    def to_csv(self, full=False):
-        return self.ip_address + ':' + str(self.port) if full else self.ip_address + ':' + str(
-            self.port) + '|'.join(
-            self.proxy_type) + ',' + self.anonymity + ',' + self.location + ',' + '|'.join(self.connection) + str(
-            self.last_check_at)
+    def to_csv(self, all_fields=False):
+        short = self.ip_address + ':' + str(self.port)
+        return short if not all_fields else short + ',(' + ','.join(
+            self.proxy_type) + '),(' + ','.join(self.anonymity) + '),(' + self.location + '),(' + ','.join(
+            self.connection) + ')'
 
     @staticmethod
     def list_all():
-        return {'items': map(Proxy, Proxy.db_collection.find())}
+        res = Proxy.db_collection.find()
+        return {'items': map(lambda p: Proxy(p), res)}
 
     @staticmethod
     def page(page_index=0, page_size=10, _filter=None, projection=None, _sort=None):
@@ -30,9 +31,9 @@ class Proxy(object):
         count = Proxy.db_collection.count(filter=_filter)
         return {
             'count': count,
-            'items': map(Proxy,
-                         Proxy.db_collection.find(filter=_filter, projection=projection)
-                         .sort(sort)
-                         .skip(page_index * page_size)
-                         .limit(page_size))
+            'items': map(
+                lambda p: Proxy(p),
+                Proxy.db_collection.find(filter=_filter, projection=projection).sort(sort).skip(
+                    page_index * page_size).limit(page_size)
+            )
         }
