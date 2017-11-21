@@ -22,7 +22,7 @@ class PremProxySpider(CrawlSpider):
     def parse_item(self, response):
         is_socks = response.url.find('socks') > -1
         proxies = []
-        rows = response.css('.container > table > tbody > tr')
+        rows = response.css('#proxylist .container > table > tbody > tr')
         for row in rows:
             loader = ProxyItemLoader(item=Proxy(), selector=row)
             ip_port = get_list_item_safely(row.css('td:nth-child(1)::text').extract(), 0).split(':')
