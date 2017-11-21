@@ -1,5 +1,6 @@
 ## Proxy Management Platform
-[![Build Status](https://travis-ci.org/ezirmusitua/proxies.svg?branch=master)](https://travis-ci.org/ezirmusitua/proxies) [![Coverage Status](https://coveralls.io/repos/github/ezirmusitua/proxies/badge.svg?branch=master)](https://coveralls.io/github/ezirmusitua/proxies?branch=master) [![codebeat badge](https://codebeat.co/badges/df7ff88e-719d-4cc9-8257-1bee731bd9c2)](https://codebeat.co/projects/github-com-ezirmusitua-proxies-master)
+[![Build Status](https://travis-ci.org/ezirmusitua/proxies.svg?branch=master)](https://travis-ci.org/ezirmusitua/proxies) [![Coverage Status](https://coveralls.io/repos/github/ezirmusitua/proxies/badge.svg?branch=master)](https://coveralls.io/github/ezirmusitua/proxies?branch=master) [![codebeat badge](https://codebeat.co/badges/df7ff88e-719d-4cc9-8257-1bee731bd9c2)](https://codebeat.co/projects/github-com-ezirmusitua-proxies-master)  
+
 A platform to mange your proxies[Still Working]  
 
 ### Features
