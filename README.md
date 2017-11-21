@@ -28,7 +28,7 @@ curl -O http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
 ```bash
 # assume in main directory
 # run tests  
-nosetests server/ spider/ validator/ --with-coverage
+nosetests server spider validator
 
 proxy_crawler
 python crawler/run.py
