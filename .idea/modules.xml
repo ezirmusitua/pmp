@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/proxy_crawler.iml" filepath="$PROJECT_DIR$/.idea/proxy_crawler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ProxyManagementPlatform.iml" filepath="$PROJECT_DIR$/.idea/ProxyManagementPlatform.iml" />
     </modules>
   </component>
 </project>
