@@ -8,11 +8,12 @@ class Param(object):
     def __init__(self, path_parse_result, read_stream, headers):
         self._headers = headers
         self._parse_result = path_parse_result
-        self._body = read_stream.read(headers.get('content-length', 0))
+        self._body = read_stream.read(int(headers.get('content-length', 0)))
         self._query = Param.convert_query(self._parse_result.query)
         self._body = Param.convert_body(self._body, headers.get('content-type', 'text/html'))
 
     def __getattr__(self, attr_name):
+        print(attr_name, self._body)
         if type(self._body) is bytes:
             attr_in_body = None
         else:
@@ -35,11 +36,13 @@ class Param(object):
 
     @staticmethod
     def convert_body(raw_body, content_type):
-        print('raw body', raw_body)
         lower_type = content_type.lower()
-        if lower_type is 'application/x-www-form-urlencoded':
-            return Param.convert_query(raw_body)
-        if lower_type is 'application/json':
+        if lower_type == 'application/x-www-form-urlencoded':
+            # TODO: May be support this, but not now
+            # return Param.convert_query(raw_body)
+            return raw_body
+        if lower_type == 'application/json':
+            # I only need this
             from json import loads
             return loads(raw_body)
         # unknown type, plain or octet-stream just return the original one
@@ -147,12 +150,21 @@ if __name__ == '__main__':
 
 
     def index(req, res):
+        # curl localhost:81/Jferroal
         res.set_status(HTTPStatus.OK)
         res.set_headers({'Content-Type': 'text/html'})
         res.send('<html><body><p>Hello, %s</p></body></html>' % req.url).end_send()
 
 
     def display_query(req, res):
+        # curl localhost:81/query?name=jferroal
+        res.set_status(HTTPStatus.OK)
+        res.set_headers({'Content-Type': 'text/html'})
+        res.send('<html><body><p>Hello, %s</p></body></html>' % req.params.name).end_send()
+
+
+    def display_json_body(req, res):
+        # curl -H "Content-Type: application/json" -X POST -d '{"name":"jferroal"}' localhost:81/json_body
         res.set_status(HTTPStatus.OK)
         res.set_headers({'Content-Type': 'text/html'})
         res.send('<html><body><p>Hello, %s</p></body></html>' % req.params.name).end_send()
@@ -160,5 +172,6 @@ if __name__ == '__main__':
 
     server.route('GET', '/Jferroal', index)
     server.route('GET', '/query', display_query)
+    server.route('POST', '/json_body', display_json_body)
 
     server.run()
