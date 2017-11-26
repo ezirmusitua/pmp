@@ -12,18 +12,21 @@ class Param(object):
         self._query = Param.convert_query(self._parse_result.query)
         self._body = Param.convert_body(self._body, headers.get('content-type', 'text/html'))
 
-    def __getattr__(self, attr_name):
-        print(attr_name, self._body)
-        if type(self._body) is bytes:
-            attr_in_body = None
-        else:
-            attr_in_body = self._body.get(attr_name, None)
-        if attr_in_body:
-            return attr_in_body
-        attr_in_query = self._query.get(attr_name, None)
-        if attr_in_query:
-            return attr_in_query
+    def __getattr__(self, param_name):
+        if self.is_param_in_body(param_name):
+            return self._body.get(param_name, None)
+        if self.is_param_in_query(param_name):
+            return self._query.get(param_name, None)
         raise KeyError
+
+    def has_param(self, param_name):
+        return self.is_param_in_body(param_name) or self.is_param_in_query(param_name)
+
+    def is_param_in_body(self, param_name):
+        return type(self._body) is not bytes and not self._body.get(param_name, None)
+
+    def is_param_in_query(self, param_name):
+        return not self._query.get(param_name, None)
 
     @staticmethod
     def convert_query(query_string):
