@@ -103,7 +103,7 @@ class SimplestResponse(object):
 
 
 class SimplestHttpServer(object):
-    def __init__(self, server_address=('', 80)):
+    def __init__(self, server_address=('', 3000)):
         self.server_address = server_address
         self.__get_routes = {}
         self.__post_routes = {}
@@ -149,7 +149,7 @@ class SimplestHttpServer(object):
 
 
 if __name__ == '__main__':
-    server = SimplestHttpServer(('127.0.0.1', 81))
+    server = SimplestHttpServer(('127.0.0.1', 3000))
 
 
     def index(req, res):
