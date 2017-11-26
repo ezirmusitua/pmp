@@ -28,7 +28,7 @@ Request_Anonymity_Headers_Detect_Url = 'https://jferroal/proxy/anonymity-checker
 def validate_connection(proxy):
     available_sites = list()
     client = Client()
-    client.set_proxies(proxy.proxy_str(), proxy.proxy_types[0])
+    client.set_proxies(proxy.proxy_str(), proxy.proxy_type[0])
     for site in Connection_Detect_Targets:
         try:
             client.get(Connection_Detect_Targets[site])
@@ -41,7 +41,7 @@ def validate_connection(proxy):
 
 def validate_anonymity(proxy):
     client = Client()
-    client.set_proxies(proxy.proxy_str(), proxy.type)
+    client.set_proxies(proxy.proxy_str(), proxy.proxy_type[0])
     anonymity = ['unknown']
     try:
         anonymity = client.get(Request_Anonymity_Headers_Detect_Url).json()
@@ -59,7 +59,7 @@ def validate_location(proxy):
 
 def validate_proxy_type(proxy):
     client = Client()
-    proxy_types = list()
+    proxy_type = ['http']
     for t in Proxy_Types:
         client.set_proxies(proxy.proxy_str(), t)
         try:
@@ -67,8 +67,8 @@ def validate_proxy_type(proxy):
         except Exception as e:
             print(e)
         else:
-            proxy_types.append(t)
-    return proxy_types
+            proxy_type.append(t)
+    return proxy_type
 
 
 def drop_or_save(proxy):
@@ -78,7 +78,7 @@ def drop_or_save(proxy):
 
 
 validation_chain = RChain() \
-    .append_handler(Handler('proxy_type', validate_location)) \
+    .append_handler(Handler('proxy_type', validate_proxy_type)) \
     .append_handler(Handler('connection', validate_connection)) \
     .append_handler(Handler('anonymity', validate_anonymity)) \
     .append_handler(Handler('location', validate_location)) \

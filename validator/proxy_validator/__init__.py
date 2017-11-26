@@ -7,6 +7,7 @@ from proxy_validator.validation import validation_chain
 
 def run_validation():
     db = Database()
+    db.connect()
     for p in db.list({}):
         t = Task(ProxyModel(p))
         validation_chain.start_handling(t)

@@ -21,7 +21,7 @@ class Client(object):
             return None
         return response.text
 
-    def set_proxies(self, proxy_str, ptype=None):
+    def set_proxies(self, proxy_str, ptype='http'):
         self.proxies = {
             'http': (ptype if ptype is not None else 'http') + '://' + proxy_str,
             'https': (ptype if ptype is not None else 'https') + '://' + proxy_str,

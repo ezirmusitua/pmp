@@ -32,6 +32,22 @@ class ProxyModel(object):
             'proxy_type': self.proxy_type
         }
 
+    def __setitem__(self, key, value):
+        if key == 'anonymity':
+            self.anonymity = value
+        if key == 'ip_address':
+            self.ip_address = value
+        if key == 'port':
+            self.port = value
+        if key == 'last_check_at':
+            self.last_check_at = value
+        if key == 'location':
+            self.location = value
+        if key == 'connection':
+            self.connection = value
+        if key == 'proxy_type':
+            self.proxy_type = value
+
     def __unicode__(self):
         return self.proxy_str()
 

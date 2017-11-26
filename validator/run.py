@@ -1,19 +1,5 @@
 # -*- coding:utf-8 -*-
-from multiprocessing.dummy import Pool as ThreadPool
-
-from proxy_validator.proxy import ProxyModel
-
-from proxy_validator.database import Database
-
-
-def validate_proxy(proxy):
-    ProxyModel(proxy).validate()
-
+from proxy_validator import run_validation
 
 if __name__ == '__main__':
-    db = Database()
-    proxies = db.list()
-    pool = ThreadPool(4)
-    pool.map(validate_proxy, proxies)
-    pool.close()
-    pool.join()
+    run_validation()
