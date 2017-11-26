@@ -85,13 +85,24 @@ class SimplestResponse(object):
 
     def set_status(self, status=HTTPStatus.OK, message=''):
         self.__status_setter['set'](status, message)
+        return self
+
+    def set_header(self, key, value):
+        if not key or not value: return self
+        self.__headers_setter['set'](key.lower(), value)
+        return self
 
     def set_headers(self, headers=None):
+        items = headers.items() if headers is not None else []
         if not headers: return
-        for hkey, hval in headers.items():
+        for hkey, hval in items:
             # convert all header key to lowercase
             self.__headers_setter['set'](hkey.lower(), hval)
+        return self
+
+    def end_headers(self):
         self.__headers_setter['end']()
+        return self
 
     def send(self, content):
         self.response_content_to_send += content
@@ -107,6 +118,7 @@ class SimplestHttpServer(object):
         self.server_address = server_address
         self.__get_routes = {}
         self.__post_routes = {}
+        self.env = {'is_running': False}
 
     def route(self, method, path, handler):
         if method == 'GET':
@@ -117,6 +129,7 @@ class SimplestHttpServer(object):
     def generate_handler_cls(self):
         get_routes = self.__get_routes
         post_routes = self.__post_routes
+        _server = self
 
         class SimplestHttpRequestHandler(BaseHTTPRequestHandler):
             @property
@@ -134,11 +147,11 @@ class SimplestHttpServer(object):
 
             def do_GET(self):
                 req, res = self.create_req_res()
-                get_routes[req.url](req, res)
+                get_routes[req.url](req, res, _server)
 
             def do_POST(self):
                 req, res = self.create_req_res()
-                post_routes[req.url](req, res)
+                post_routes[req.url](req, res, _server)
 
         return SimplestHttpRequestHandler
 
@@ -154,22 +167,19 @@ if __name__ == '__main__':
 
     def index(req, res):
         # curl localhost:81/Jferroal
-        res.set_status(HTTPStatus.OK)
-        res.set_headers({'Content-Type': 'text/html'})
+        res.set_status(HTTPStatus.OK).set_headers({'Content-Type': 'text/html'}).end_headers()
         res.send('<html><body><p>Hello, %s</p></body></html>' % req.url).end_send()
 
 
     def display_query(req, res):
         # curl localhost:81/query?name=jferroal
-        res.set_status(HTTPStatus.OK)
-        res.set_headers({'Content-Type': 'text/html'})
+        res.set_status(HTTPStatus.OK).set_headers({'Content-Type': 'text/html'}).end_headers()
         res.send('<html><body><p>Hello, %s</p></body></html>' % req.params.name).end_send()
 
 
     def display_json_body(req, res):
         # curl -H "Content-Type: application/json" -X POST -d '{"name":"jferroal"}' localhost:81/json_body
-        res.set_status(HTTPStatus.OK)
-        res.set_headers({'Content-Type': 'text/html'})
+        res.set_status(HTTPStatus.OK).set_headers({'Content-Type': 'text/html'}).end_headers()
         res.send('<html><body><p>Hello, %s</p></body></html>' % req.params.name).end_send()
 
 
