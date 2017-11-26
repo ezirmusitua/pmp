@@ -32,8 +32,8 @@ def validate_connection(proxy):
     for site in Connection_Detect_Targets:
         try:
             client.get(Connection_Detect_Targets[site])
-        except Exception as e:
-            print(e)
+        except Exception:
+            continue
         else:
             available_sites.append(site)
     return available_sites
@@ -45,8 +45,7 @@ def validate_anonymity(proxy):
     anonymity = ['unknown']
     try:
         anonymity = client.get(Request_Anonymity_Headers_Detect_Url).json()
-    except Exception as e:
-        print(e)
+    except Exception:
         return anonymity
     else:
         return anonymity
@@ -64,8 +63,8 @@ def validate_proxy_type(proxy):
         client.set_proxies(proxy.proxy_str(), t)
         try:
             client.get(Proxy_Type_Detect_Url)
-        except Exception as e:
-            print(e)
+        except Exception:
+            continue
         else:
             proxy_type.append(t)
     return proxy_type
