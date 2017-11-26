@@ -24,6 +24,9 @@ class Database(object):
         self.collection_name = collection_name if collection_name else self.collection_name
         self.collection = self.database[self.collection_name]
 
+    def count(self, query=None):
+        return self.collection.count({} if query is None else query)
+
     def list(self, query=None, batch_size=20):
         for p in self.collection.find({} if query is None else query).batch_size(batch_size):
             yield p
