@@ -172,7 +172,7 @@ class SimplestHttpServer(object):
 
     def run(self):
         httpd = HTTPServer(self.server_address, self.generate_handler_cls())
-        print('\nServer started at {}:{}'.format(self.server_address[0], self.server_address[1]))
+        print('\n    Server started at {}:{}'.format(self.server_address[0], self.server_address[1]))
         httpd.serve_forever()
 
 
