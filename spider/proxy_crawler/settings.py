@@ -96,3 +96,22 @@ DOWNLOAD_TIMEOUT = 60
 
 MONGO_URI = 'localhost:27017'
 MONGO_DATABASE = 'proxy_crawler_demo'
+
+SCHEDULE_CONFIG = {
+    # 8 hours
+    'cnproxy': 8 * 60 * 60,
+    # 1 hour
+    'goubanjia': 1 * 60 * 60,
+    # 10 minutes
+    'ip181': 10 * 60,
+    # 8 hours
+    'kuaidaili': 8 * 60 * 60,
+    # 30 minutes
+    'kxdaili': 30 * 60 * 60,
+    # 4 hours
+    'premproxy': 4 * 60 * 60,
+    # 2 hours
+    'proxydb': 2 * 60 * 60,
+    # 8 hours
+    'xici': 8 * 60 * 60,
+}
