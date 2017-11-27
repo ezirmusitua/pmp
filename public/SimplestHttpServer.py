@@ -114,21 +114,28 @@ class SimplestResponse(object):
 
 
 class SimplestHttpServer(object):
-    def __init__(self, server_address=('', 3000)):
+    def __init__(self, server_address=('127.0.0.1', 3000)):
         self.server_address = server_address
         self.__get_routes = {}
         self.__post_routes = {}
-        self.env = {'is_running': False}
+        self.__put_routes = {}
+        self.__delete_routes = {}
 
     def route(self, method, path, handler):
         if method == 'GET':
             self.__get_routes[path] = handler
         if method == 'POST':
             self.__post_routes[path] = handler
+        if method == 'PUT':
+            self.__put_routes[path] = handler
+        if method == 'DELETE':
+            self.__delete_routes[path] = handler
 
     def generate_handler_cls(self):
         get_routes = self.__get_routes
         post_routes = self.__post_routes
+        put_routes = self.__put_routes
+        delete_routes = self.__delete_routes
         _server = self
 
         class SimplestHttpRequestHandler(BaseHTTPRequestHandler):
@@ -153,11 +160,19 @@ class SimplestHttpServer(object):
                 req, res = self.create_req_res()
                 post_routes[req.url](req, res, _server)
 
+            def do_PUT(self):
+                req, res = self.create_req_res()
+                put_routes[req.url](req, res, _server)
+
+            def do_DELETE(self):
+                req, res = self.create_req_res()
+                delete_routes[req.url](req, res, _server)
+
         return SimplestHttpRequestHandler
 
     def run(self):
         httpd = HTTPServer(self.server_address, self.generate_handler_cls())
-        print('\nStarting httpd...')
+        print('\nServer started at {}:{}'.format(self.server_address[0], self.server_address[1]))
         httpd.serve_forever()
 
 
