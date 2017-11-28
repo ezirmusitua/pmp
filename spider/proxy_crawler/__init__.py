@@ -6,6 +6,3 @@ from .spiders.kxdaili import KXDaiLiSpider
 from .spiders.premproxy import PremProxySpider
 from .spiders.proxydb import ProxyDBSpider
 from .spiders.xici import XiCiSpider
-
-spiders = [CNProxySpider, GouBanJiaSpider, Ip181Spider, KuaiDaiLiSpider, KXDaiLiSpider, PremProxySpider, ProxyDBSpider,
-           XiCiSpider]

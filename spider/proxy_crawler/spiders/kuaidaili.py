@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-
 from scrapy import Spider
 
-from proxy_crawler.items import ProxyItemLoader, Proxy
+from ..items import ProxyItemLoader, Proxy
 
 
 class KuaiDaiLiSpider(Spider):
-    # this crawler should run per 4 hour
     name = 'kuaidaili'
     allowed_domains = ['kuaidaili.com']
     start_urls = ['http://kuaidaili.com/free/inha/%d' % i for i in range(1, 11)] + \

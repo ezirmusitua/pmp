@@ -86,32 +86,16 @@ AUTOTHROTTLE_MAX_DELAY = 5 * 60
 
 # Enable and configure HTTP caching (disabled by default)
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-HTTPCACHE_ENABLED = True
-HTTPCACHE_EXPIRATION_SECS = 3 * 60 * 60
-HTTPCACHE_DIR = 'httpcache'
-HTTPCACHE_IGNORE_HTTP_CODES = []
-HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+# HTTPCACHE_ENABLED = True
+# HTTPCACHE_EXPIRATION_SECS = 3 * 60 * 60
+# HTTPCACHE_DIR = 'httpcache'
+# HTTPCACHE_IGNORE_HTTP_CODES = []
+# HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 DOWNLOAD_TIMEOUT = 60
 
+LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
+LOG_LEVEL = 'INFO'
+
 MONGO_URI = 'localhost:27017'
 MONGO_DATABASE = 'proxy_crawler_demo'
-
-SCHEDULE_CONFIG = {
-    # 8 hours
-    'cnproxy': 8 * 60 * 60,
-    # 1 hour
-    'goubanjia': 1 * 60 * 60,
-    # 10 minutes
-    'ip181': 10 * 60,
-    # 8 hours
-    'kuaidaili': 8 * 60 * 60,
-    # 30 minutes
-    'kxdaili': 30 * 60 * 60,
-    # 4 hours
-    'premproxy': 4 * 60 * 60,
-    # 2 hours
-    'proxydb': 2 * 60 * 60,
-    # 8 hours
-    'xici': 8 * 60 * 60,
-}

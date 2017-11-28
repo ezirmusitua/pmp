@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-
 from scrapy import Spider
 
-from proxy_crawler.items import ProxyItemLoader, Proxy
+from ..items import ProxyItemLoader, Proxy
 
 
 class XiCiSpider(Spider):
-    # this crawler should run per 4 hour
     name = 'xici'
     allowed_domains = ['xicidaili.com']
     start_urls = ['http://www.xicidaili.com/nn/%d' % i for i in range(1, 6)] + \

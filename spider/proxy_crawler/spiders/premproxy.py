@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
 
-from proxy_crawler.helper import get_list_item_safely
-from proxy_crawler.items import ProxyItemLoader, Proxy
+from ..helper import get_list_item_safely
+from ..items import ProxyItemLoader, Proxy
 
 
 class PremProxySpider(CrawlSpider):

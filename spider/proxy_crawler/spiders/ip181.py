@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 import scrapy
 
-from proxy_crawler.items import ProxyItemLoader, Proxy
+from ..items import ProxyItemLoader, Proxy
 
 
 class Ip181Spider(scrapy.Spider):
-    # per 10 minute
     name = 'ip181'
     allowed_domains = ['ip181.com']
     start_urls = ['http://ip181.com/']

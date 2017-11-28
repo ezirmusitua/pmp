@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from scrapy import Spider
 
-from proxy_crawler.items import ProxyItemLoader, Proxy
+from ..items import ProxyItemLoader, Proxy
 
 
 class GouBanJiaSpider(Spider):
