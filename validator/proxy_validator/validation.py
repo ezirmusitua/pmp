@@ -3,9 +3,9 @@ import os
 
 from ProxyGeoDetector import Detector
 
-from proxy_validator.client import Client
-from proxy_validator.chain import Handler, RChain
-from proxy_validator.proxy import ProxyToUpdatePool
+from .client import Client
+from .chain import Handler, RChain
+from .proxy import ProxyToUpdatePool
 
 Connection_Detect_Targets = {
     'GOOGLE': 'https://www.google.com',

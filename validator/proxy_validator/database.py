@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import pymongo
-from proxy_validator.utils import singleton
+from .utils import singleton
 
 MONGO_URI = 'localhost:27017'
 MONGO_DATABASE = 'proxy_crawler_demo'

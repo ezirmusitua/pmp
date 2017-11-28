@@ -1,8 +1,8 @@
 # -*- coding: utf8 -*-
 import time
 
-from proxy_validator.utils import singleton
-from proxy_validator.database import Database
+from .utils import singleton
+from .database import Database
 
 
 class ProxyModel(object):
