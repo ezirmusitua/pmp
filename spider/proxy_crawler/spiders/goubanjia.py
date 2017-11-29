@@ -17,7 +17,7 @@ class GouBanJiaSpider(Spider):
             ip_port_texts = row.css('td:nth-child(1) > *:not([style*="display: none;"])::text').extract()
             loader.add_value('ip_address', ''.join(ip_port_texts[:-1]))
             loader.add_value('port', ip_port_texts[-1])
-            _types = row.css('td:nth-child(4)::text').extract()[0]
-            loader.add_value('type', _types.split(','))
+            proxy_type = row.css('td:nth-child(4)::text').extract()
+            loader.add_value('proxy_type', proxy_type)
             proxies.append(loader.load_item())
         return proxies

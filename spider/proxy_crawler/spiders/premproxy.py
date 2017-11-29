@@ -30,9 +30,9 @@ class PremProxySpider(CrawlSpider):
             loader.add_value('ip_address', [get_list_item_safely(ip_port, 0, 'localhost')])
             loader.add_value('port', [get_list_item_safely(ip_port, 1, 80)])
             # for socks, here should use css selector to extract else use default HTTP
-            _type = ['HTTP']
+            proxy_type = ['HTTP']
             if is_socks:
-                _type = row.css('td:nth-child(2)::text').extract()
-            loader.add_value('type', _type)
+                proxy_type = row.css('td:nth-child(2)::text').extract()
+            loader.add_value('proxy_type', proxy_type)
             proxies.append(loader.load_item())
         return proxies

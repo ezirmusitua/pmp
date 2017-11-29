@@ -16,7 +16,7 @@ class KXDaiLiSpider(Spider):
             loader = ProxyItemLoader(item=Proxy(), selector=row)
             loader.add_css('ip_address', 'td:nth-child(1)::text')
             loader.add_css('port', 'td:nth-child(2)::text')
-            _types = row.css('td:nth-child(4)::text').extract()[0]
-            loader.add_value('type', _types.split(','))
+            proxy_type = row.css('td:nth-child(4)::text').extract()[0]
+            loader.add_value('proxy_type', proxy_type.split(','))
             proxies.append(loader.load_item())
         return proxies

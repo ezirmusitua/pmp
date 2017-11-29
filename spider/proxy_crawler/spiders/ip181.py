@@ -16,7 +16,7 @@ class Ip181Spider(scrapy.Spider):
             loader = ProxyItemLoader(item=Proxy(), selector=row)
             loader.add_css('ip_address', 'td:nth-child(1)::text')
             loader.add_css('port', 'td:nth-child(2)::text')
-            _type = row.css('td:nth-child(4)::text').extract()[0]
-            loader.add_value('type', [_type])
+            proxy_type = row.css('td:nth-child(4)::text').extract()
+            loader.add_value('proxy_type', proxy_type)
             proxies.append(loader.load_item())
         return proxies

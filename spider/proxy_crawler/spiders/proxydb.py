@@ -19,6 +19,7 @@ class ProxyDBSpider(Spider):
             address_port = generate_proxydb_js_ip_port(ip_port_js_generator)
             loader.add_value('ip_address', [address_port[0]])
             loader.add_value('port', [address_port[1]])
-            loader.add_css('type', 'td:nth-child(2)::text')
+            proxy_type = row.css('td:nth-child(2)::text').extract()
+            loader.add_value('proxy_type', proxy_type)
             proxies.append(loader.load_item())
         return proxies

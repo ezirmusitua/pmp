@@ -43,9 +43,11 @@ class StrToIntConverter(object):
 class Proxy(scrapy.Item):
     ip_address = scrapy.Field()
     port = scrapy.Field()
-    type = scrapy.Field()
+    proxy_type = scrapy.Field()
 
 
 class ProxyItemLoader(ItemLoader):
     default_input_processor = StrCleaner()
     default_output_processor = TakeFirst()
+    proxy_type_in = Identity()
+    proxy_type_out = Identity()
