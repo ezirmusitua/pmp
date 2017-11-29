@@ -28,7 +28,8 @@ class Database(object):
         return self.collection.count({} if query is None else query)
 
     def list(self, query=None, batch_size=20):
-        for p in self.collection.find({} if query is None else query).batch_size(batch_size):
+        # FIXME: Remove limit after debug
+        for p in self.collection.find({} if query is None else query).limit(1):
             yield p
 
     def update(self, query=None, doc=None):

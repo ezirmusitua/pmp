@@ -8,7 +8,11 @@ from .validation import validation_chain
 def run_validation():
     db = Database()
     db.connect()
+    print('validation start. ')
     for p in db.list({}):
-        print('validating proxy: %s' % p)
-        t = Task(ProxyModel(p))
+        proxy = ProxyModel(p)
+        print('validating proxy: %s' % proxy)
+        t = Task(proxy)
         validation_chain.start_handling(t)
+        print('proxy: %s validated' % proxy)
+    print('validation done. ')
