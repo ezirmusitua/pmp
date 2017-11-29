@@ -54,7 +54,7 @@ class TestDatabase(TestCase):
         with self.assertRaises(Exception):
             self.database.update()
         self.database.update({}, {'ip': '127.0.0.1'})
-        self.database.collection.update.assert_called_with({}, {'$set': {'ip': '127.0.0.1'}})
+        self.database.collection.update.assert_called_with({}, {'$set': {'ip': '127.0.0.1'}}, upsert=False)
 
     def test_remove(self):
         with self.assertRaises(Exception):
