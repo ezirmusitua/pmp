@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*
 import sys
+
 sys.path.append('..')
 
-import unittest
+from unittest import TestCase, mock, main
 from proxy_crawler import CNProxySpider, GouBanJiaSpider, Ip181Spider, KuaiDaiLiSpider, KXDaiLiSpider, PremProxySpider, \
     ProxyDBSpider, XiCiSpider
+from proxy_crawler.models import Proxy
 from mock import mock_spider_response
 
 
-class SpiderParserTest(unittest.TestCase):
+class TestSpiderParser(TestCase):
     def test_cnproxy_parse(self):
         spider = CNProxySpider()
         parse_res_cn = spider.parse(mock_spider_response('cn-proxy-china'))
@@ -54,5 +56,37 @@ class SpiderParserTest(unittest.TestCase):
         self.assertFalse(not parse_res)
 
 
+class TestProxyModel(TestCase):
+    def setUp(self):
+        self.proxy = Proxy({
+            '_id': '0',
+            'ip_address': '127.0.0.1',
+            'port': 8080,
+            'proxy_type': ['unknown'],
+            'connection': [],
+            'anonymity': ['unknown'],
+            'location': 'unknown, unknown'
+        })
+
+    def test_get_random_usable_one_proxy(self):
+        find_res = [{
+            '_id': '0',
+            'ip_address': '127.0.0.1',
+            'port': 8080,
+            'proxy_type': ['unknown'],
+            'anonymity': ['unknown'],
+            'location': 'unknown, unknown',
+            'connection': []
+        }]
+        Proxy.db_collection = mock.MagicMock()
+        Proxy.db_collection.list = mock.MagicMock(return_value=find_res)
+        proxy_str = Proxy.get_random_usable_one_proxy('demo')
+        self.assertEqual(proxy_str, '127.0.0.1:8080')
+        Proxy.db_collection.list.assert_called_with(
+            query={'connection': 'demo', 'proxy_type': {'$in': ['http', 'https']}},
+            sort=[('last_check_at', 1)],
+            limit=20)
+
+
 if __name__ == '__main__':
-    unittest.main()
+    main()
