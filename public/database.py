@@ -10,10 +10,10 @@ class Database(object):
     A_ORDER = pymongo.ASCENDING
     D_ORDER = pymongo.DESCENDING
 
-    @classmethod
-    def connect(cls):
-        cls.client = pymongo.MongoClient(cls.uri)
-        cls.database = cls.client[cls.db_name]
+    @staticmethod
+    def connect():
+        Database.client = pymongo.MongoClient(Database.uri)
+        Database.database = Database.client[Database.db_name]
 
     def __init__(self, collection_name):
         self.collection = None
@@ -57,12 +57,3 @@ class Database(object):
             self.collection.insert(doc)
         else:
             self.collection.update(query, {'$set': doc})
-
-
-def bind_models(database_cls, model_cls, collection_name):
-    database_cls(collection_name).bind_to_model(model_cls)
-
-
-def update_database_uri(database_cls, uri, database):
-    database_cls.uri = uri
-    database_cls.database = database
