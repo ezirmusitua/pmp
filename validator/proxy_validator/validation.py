@@ -8,17 +8,12 @@ from .chain import Handler, RChain
 from .proxy import ProxyToUpdatePool
 
 Connection_Detect_Targets = {
-    'GOOGLE': 'https://www.google.com',
-    'FACEBOOK': 'https://www.facebook.com',
-    'YOUTUBE': 'https://www.youtube.com',
-    'HTTPBIN': 'https://httpbin.org',
-    'BAIDU': 'https://baidu.com',
-    'LIAOYUAN': 'https://liaoyuan.io',
-    'TAOBAO': 'https://www.taobao.com',
-    'CNPROXY': 'http://cn-proxy.com',
-    'PREMPROXY': 'https://premproxy.com',
-    'PROXYDB': 'http://proxy-db.net',
-    'IPPRIVACY': 'http://iprivacytools.com',
+    'httpbin': 'https://httpbin.org',
+    'google': 'https://www.google.com',
+    'baidu': 'https://baidu.com',
+    'cn-proxy': 'http://cn-proxy.com',
+    'premproxy': 'https://premproxy.com',
+    'proxydb': 'http://proxy-db.net',
 }
 Proxy_Types = ['http', 'https', 'socks4', 'socks5']
 Proxy_Type_Detect_Url = 'https://httpbin.org'
@@ -44,7 +39,9 @@ def validate_anonymity(proxy):
     client.set_proxies(proxy.proxy_str(), proxy.proxy_type[0])
     anonymity = ['unknown']
     try:
-        anonymity = client.get(Request_Anonymity_Headers_Detect_Url).json()
+        # FIXME: Update here after server done
+        # anonymity = client.get(Request_Anonymity_Headers_Detect_Url).json()
+        anonymity = ['unknown']
     except Exception:
         return anonymity
     else:

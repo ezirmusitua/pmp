@@ -9,5 +9,6 @@ def run_validation():
     db = Database()
     db.connect()
     for p in db.list({}):
+        print('validating proxy: %s' % p)
         t = Task(ProxyModel(p))
         validation_chain.start_handling(t)
