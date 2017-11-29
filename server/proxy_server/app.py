@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from beaker.middleware import SessionMiddleware
 from bottle import Bottle, run, TEMPLATE_PATH
-from proxy_server.models.database import bind_models
 
 TEMPLATE_PATH.insert(0, 'proxy_server')
 from proxy_server.route import routes
@@ -44,8 +43,7 @@ class BottleApp(object):
         run(self._app, *args, **kwargs)
 
 
-# bind database to models
-bind_models()
+# bind_models()
 # create bottle app
 app = BottleApp(catchall=True)
 # bind routes to app

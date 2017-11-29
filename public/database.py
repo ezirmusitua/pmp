@@ -3,26 +3,30 @@ import pymongo
 
 
 class Database(object):
-    uri = MONGO_URI
+    uri = None
     client = None
-    db_name = MONGO_DATABASE
+    db_name = None
     database = None
     A_ORDER = pymongo.ASCENDING
     D_ORDER = pymongo.DESCENDING
 
-    @staticmethod
-    def connect():
-        Database.client = pymongo.MongoClient(Database.uri)
-        Database.database = Database.client[Database.db_name]
+    @classmethod
+    def connect(cls):
+        print('Connecting ............................................... ', cls.client, cls.database)
+        cls.client = pymongo.MongoClient(cls.uri)
+        print('Connecting ............................................... ', cls.client, cls.database)
+        cls.database = cls.client[cls.db_name]
+        print('Connecting ............................................... ', cls.client, cls.database)
 
     def __init__(self, collection_name):
         self.collection = None
         self.collection_name = collection_name
 
     def bind_to_model(self, model):
-        if not Database.database:
-            Database.connect()
-        self.collection = Database.database[self.collection_name]
+        print(self.database)
+        if not self.database:
+            self.connect()
+        self.collection = self.database[self.collection_name]
         model.db_collection = self
 
     def count(self, query=None):

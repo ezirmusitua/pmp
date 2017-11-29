@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from public.models import ProxyModel
-from public.database import Database, bind_models, update_database_uri
+from public.database import Database, update_database_uri
 from public.decorators import singleton
 
 MONGO_URI = 'localhost:27017'
@@ -56,7 +56,7 @@ class ProxyToUpdatePool(object):
         # FIXME: update size with configuration
         if len(self.to_update) >= 1:
             for p in self.to_update:
-                self.db.update({'_id': p.id}, p.to_json())
+                self.db_collection.update({'_id': p.id}, p.to_json())
             self.to_update = list()
 
     def add_to_pool(self, proxy):
@@ -66,5 +66,6 @@ class ProxyToUpdatePool(object):
             self.to_update.append(proxy)
 
 
-bind_models(ValidatorDatabase, Proxy, 'proxy_list')
-bind_models(ValidatorDatabase, ProxyToUpdatePool, 'proxy_list')
+def bind_models():
+    ValidatorDatabase('proxy_list').bind_to_model(Proxy)
+    ValidatorDatabase('proxy_list').bind_to_model(ProxyToUpdatePool)

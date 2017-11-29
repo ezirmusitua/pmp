@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from public.models import ProxyModel
-from public.database import Database, bind_models, update_database_uri
+from public.database import Database, update_database_uri
 
 MONGO_URI = 'localhost:27017'
 MONGO_DATABASE = 'proxy_crawler_demo'
@@ -57,5 +57,6 @@ class User(object):
         return False if user is None else True
 
 
-bind_models(ServerDatabase, User, 'user')
-bind_models(ServerDatabase, Proxy, 'proxy_list')
+def bind_models():
+    ServerDatabase('user').bind_to_model(User)
+    ServerDatabase('proxy_list').bind_to_model(Proxy)

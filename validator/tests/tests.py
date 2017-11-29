@@ -7,25 +7,26 @@ sys.path.append('..')
 from unittest import TestCase, mock, main
 from proxy_validator.chain import RChain, Task, Handler
 from proxy_validator.client import Client, Default_Timeout, Default_UA
-from proxy_validator.proxy import ProxyModel, ProxyToUpdatePool
-from proxy_validator.database import Database
-from proxy_validator.utils import singleton
+from proxy_validator.models import Proxy, ProxyToUpdatePool
 
 
-class TestUtils(TestCase):
-    def test_singleton(self):
-        class DemoClass1(object):
-            def __init__(self):
-                pass
+# from proxy_validator.utils import singleton
 
-        self.assertNotEqual(DemoClass1(), DemoClass1())
 
-        @singleton
-        class DemoClass2(object):
-            def __init__(self):
-                pass
-
-        self.assertEqual(DemoClass2(), DemoClass2())
+# class TestUtils(TestCase):
+#     def test_singleton(self):
+#         class DemoClass1(object):
+#             def __init__(self):
+#                 pass
+# 
+#         self.assertNotEqual(DemoClass1(), DemoClass1())
+# 
+#         @singleton
+#         class DemoClass2(object):
+#             def __init__(self):
+#                 pass
+# 
+#         self.assertEqual(DemoClass2(), DemoClass2())
 
 
 class TestClient(TestCase):
@@ -58,53 +59,53 @@ class TestClient(TestCase):
                                                    timeout=Default_Timeout)
 
 
-class TestDatabase(TestCase):
-    def setUp(self):
-        self.database = Database()
-        self.database.collection = mock.MagicMock()
-        self.mock_find_return = mock.MagicMock()
-        self.mock_find_return.batch_size = mock.MagicMock(return_value=[0, 1, 2])
-        self.database.collection.find = mock.MagicMock(return_value=self.mock_find_return)
-        self.database.collection.insert = mock.MagicMock(return_value=None)
-        self.database.collection.update = mock.MagicMock(return_value=None)
-        self.database.collection.remove = mock.MagicMock(return_value=None)
-
-    def test_list(self):
-        list(self.database.list({'ip': '127.0.0.1'}))
-        self.database.collection.find.assert_called_with({'ip': '127.0.0.1'})
-        self.mock_find_return.batch_size.assert_called_with(20)
-        list(self.database.list())
-        self.database.collection.find.assert_called_with({})
-
-    def test_update(self):
-        with self.assertRaises(Exception):
-            self.database.update()
-        self.database.update({}, {'ip': '127.0.0.1'})
-        self.database.collection.update.assert_called_with({}, {'$set': {'ip': '127.0.0.1'}})
-
-    def test_remove(self):
-        with self.assertRaises(Exception):
-            self.database.remove()
-        self.database.remove({})
-        self.database.collection.remove.assert_called_with({})
-
-    def test_find_one_and_update(self):
-        with self.assertRaises(Exception):
-            self.database.find_one_and_update()
-
-        self.database.collection.find_one = mock.MagicMock(return_value=True)
-        self.database.find_one_and_update({'_id': '1'}, {'ip': '127.0.0.1'})
-        self.database.collection.find_one.assert_called_with({'_id': '1'})
-        self.database.collection.update.assert_called_with({'_id': '1'}, {'$set': {'ip': '127.0.0.1'}})
-
-        self.database.collection.find_one = mock.MagicMock(return_value=None)
-        self.database.find_one_and_update({'_id': '1'}, {'ip': '127.0.0.1'})
-        self.database.collection.insert.assert_called_with({'ip': '127.0.0.1'})
+# class TestDatabase(TestCase):
+#     def setUp(self):
+#         self.database = Database()
+#         self.database.collection = mock.MagicMock()
+#         self.mock_find_return = mock.MagicMock()
+#         self.mock_find_return.batch_size = mock.MagicMock(return_value=[0, 1, 2])
+#         self.database.collection.find = mock.MagicMock(return_value=self.mock_find_return)
+#         self.database.collection.insert = mock.MagicMock(return_value=None)
+#         self.database.collection.update = mock.MagicMock(return_value=None)
+#         self.database.collection.remove = mock.MagicMock(return_value=None)
+# 
+#     def test_list(self):
+#         list(self.database.list({'ip': '127.0.0.1'}))
+#         self.database.collection.find.assert_called_with({'ip': '127.0.0.1'})
+#         self.mock_find_return.batch_size.assert_called_with(20)
+#         list(self.database.list())
+#         self.database.collection.find.assert_called_with({})
+# 
+#     def test_update(self):
+#         with self.assertRaises(Exception):
+#             self.database.update()
+#         self.database.update({}, {'ip': '127.0.0.1'})
+#         self.database.collection.update.assert_called_with({}, {'$set': {'ip': '127.0.0.1'}})
+# 
+#     def test_remove(self):
+#         with self.assertRaises(Exception):
+#             self.database.remove()
+#         self.database.remove({})
+#         self.database.collection.remove.assert_called_with({})
+# 
+#     def test_find_one_and_update(self):
+#         with self.assertRaises(Exception):
+#             self.database.find_one_and_update()
+# 
+#         self.database.collection.find_one = mock.MagicMock(return_value=True)
+#         self.database.find_one_and_update({'_id': '1'}, {'ip': '127.0.0.1'})
+#         self.database.collection.find_one.assert_called_with({'_id': '1'})
+#         self.database.collection.update.assert_called_with({'_id': '1'}, {'$set': {'ip': '127.0.0.1'}})
+# 
+#         self.database.collection.find_one = mock.MagicMock(return_value=None)
+#         self.database.find_one_and_update({'_id': '1'}, {'ip': '127.0.0.1'})
+#         self.database.collection.insert.assert_called_with({'ip': '127.0.0.1'})
 
 
 class TestProxyModel(TestCase):
     def setUp(self):
-        self.proxy = ProxyModel({
+        self.proxy = Proxy({
             '_id': '0',
             'ip_address': '127.0.0.1',
             'port': 8080,
@@ -131,11 +132,11 @@ class TestProxyModel(TestCase):
         })
 
     def test_update_proxy_pool(self):
-        self.proxy_pool.db = mock.MagicMock()
-        self.proxy_pool.db.remove = mock.MagicMock()
-        self.proxy_pool.db.update = mock.MagicMock()
+        self.proxy_pool.db_collection = mock.MagicMock()
+        self.proxy_pool.db_collection.remove = mock.MagicMock()
+        self.proxy_pool.db_collection.update = mock.MagicMock()
         self.proxy_pool.to_update = self.proxy_pool.to_remove = [
-            ProxyModel({'_id': str(i), 'ip_address': '127.0.0.1', 'port': i}) for i in
+            Proxy({'_id': str(i), 'ip_address': '127.0.0.1', 'port': i}) for i in
             range(0, 20)]
         self.assertEqual(len(self.proxy_pool.to_remove), 20)
         self.assertEqual(len(self.proxy_pool.to_update), 20)
@@ -146,9 +147,9 @@ class TestProxyModel(TestCase):
     def test_add_to_proxy_pool(self):
         self.proxy_pool.to_remove = list()
         self.proxy_pool.to_update = list()
-        invalid_p = ProxyModel({'_id': '1', 'ip_address': '127.0.1.1', 'port': 80})
+        invalid_p = Proxy({'_id': '1', 'ip_address': '127.0.1.1', 'port': 80})
         invalid_p.invalid = True
-        valid_p = ProxyModel({'_id': '2', 'ip_address': '127.0.2.1', 'port': 80})
+        valid_p = Proxy({'_id': '2', 'ip_address': '127.0.2.1', 'port': 80})
         self.proxy_pool.add_to_pool(invalid_p)
         self.assertEqual(len(self.proxy_pool.to_remove), 1)
         self.proxy_pool.add_to_pool(valid_p)

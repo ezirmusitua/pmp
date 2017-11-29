@@ -4,19 +4,7 @@ import sys
 sys.path.append('..')
 from unittest import TestCase, mock, main
 
-from proxy_server.models.user import User
-from proxy_server.models.proxy import Proxy
-from proxy_server.models.database import Database
-
-
-class TestDatabase(TestCase):
-    def test_bind_to_model(self):
-        mock_database = mock.MagicMock()
-        mock_database['demo'] = mock.MagicMock()
-        Database.database = mock_database
-        mock_model = mock.MagicMock()
-        Database('demo').bind_to_model(mock_model)
-        self.assertIsInstance(mock_model.db_collection, Database)
+from proxy_server.models import User, Proxy
 
 
 class TestModel(TestCase):
