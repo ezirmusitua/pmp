@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 from public.models import ProxyModel
-from public.database import Database, update_database_uri
-
-MONGO_URI = 'localhost:27017'
-MONGO_DATABASE = 'proxy_crawler_demo'
+from public.database import Database
 
 
 class ServerDatabase(Database):
@@ -11,10 +8,14 @@ class ServerDatabase(Database):
         super(ServerDatabase, self).__init__(*args, **kwargs)
 
 
-update_database_uri(ServerDatabase, MONGO_URI, MONGO_DATABASE)
+ServerDatabase.uri = 'localhost:27017'
+ServerDatabase.db_name = 'proxy_crawler_demo'
+ServerDatabase.db_name = 'proxy_crawler_demo'
 
 
 class Proxy(ProxyModel):
+    db_collection = None
+
     def __init__(self, proxy_doc):
         super(Proxy, self).__init__(proxy_doc)
 
