@@ -32,6 +32,24 @@ class ProxyModel(object):
             'proxy_type': self.proxy_type
         }
 
+    def __getitem__(self, key):
+        if key == 'anonymity':
+            return self.anonymity
+        if key == 'ip_address':
+            return self.ip_address
+        if key == 'port':
+            return self.port
+        if key == 'last_check_at':
+            return self.last_check_at
+        if key == 'location':
+            return self.location
+        if key == 'connection':
+            return self.connection
+        if key == 'proxy_type':
+            return self.proxy_type
+        if key == 'invalid':
+            return self.invalid
+
     def __setitem__(self, key, value):
         if key == 'anonymity':
             self.anonymity = value
@@ -47,6 +65,8 @@ class ProxyModel(object):
             self.connection = value
         if key == 'proxy_type':
             self.proxy_type = value
+        if key == 'invalid':
+            self.invalid = value
 
     def __unicode__(self):
         return self.proxy_str()
@@ -66,15 +86,18 @@ class ProxyToUpdatePool(object):
         self.to_update = list()
 
     def handle_pool(self):
-        if len(self.to_remove) >= 10:
+        # FIXME: update size with configuration
+        if len(self.to_remove) >= 1:
             self.db.remove({'_id': {'$in': list(map(lambda _p: _p.id, self.to_remove))}})
             self.to_remove = list()
-        if len(self.to_update) >= 10:
+        # FIXME: update size with configuration
+        if len(self.to_update) >= 1:
             for p in self.to_update:
-                self.db.update({'_id': p.id}, p)
+                self.db.update({'_id': p.id}, p.to_json())
             self.to_update = list()
 
     def add_to_pool(self, proxy):
+        print(proxy, '::', proxy.invalid)
         if proxy.invalid:
             self.to_remove.append(proxy)
         else:

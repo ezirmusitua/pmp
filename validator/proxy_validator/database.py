@@ -29,7 +29,7 @@ class Database(object):
 
     def list(self, query=None, batch_size=20):
         # FIXME: Remove limit after debug
-        for p in self.collection.find({} if query is None else query).limit(1):
+        for p in self.collection.find({} if query is None else query).limit(2):
             yield p
 
     def update(self, query=None, doc=None):

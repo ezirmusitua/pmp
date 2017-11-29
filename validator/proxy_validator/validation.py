@@ -20,6 +20,22 @@ Proxy_Type_Detect_Url = 'https://httpbin.org'
 Request_Anonymity_Headers_Detect_Url = 'https://jferroal/proxy/anonymity-checker'
 
 
+def validate_usability(proxy):
+    client = Client()
+    client.set_proxies(proxy.proxy_str(), proxy.proxy_type[0])
+    is_usable = 0
+    for site in ['baidu', 'google']:
+        try:
+            client.get(Connection_Detect_Targets[site])
+        except Exception:
+            is_usable += 0
+        else:
+            is_usable += 1
+    if is_usable == 0:
+        return True
+    return False
+
+
 def validate_connection(proxy):
     available_sites = list()
     client = Client()
@@ -69,12 +85,13 @@ def validate_proxy_type(proxy):
 
 def drop_or_save(proxy):
     proxy_pool = ProxyToUpdatePool()
-    proxy_pool.handle_pool()
     proxy_pool.add_to_pool(proxy)
+    proxy_pool.handle_pool()
 
 
 validation_chain = RChain() \
     .append_handler(Handler('proxy_type', validate_proxy_type)) \
+    .append_handler(Handler('invalid', validate_usability)) \
     .append_handler(Handler('connection', validate_connection)) \
     .append_handler(Handler('anonymity', validate_anonymity)) \
     .append_handler(Handler('location', validate_location)) \
