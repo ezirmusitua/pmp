@@ -95,7 +95,8 @@ AUTOTHROTTLE_MAX_DELAY = 5 * 60
 DOWNLOAD_TIMEOUT = 60
 
 LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'WARNING'
+LOG_FILE = 'logs/spiders.log'
 
 MONGO_URI = 'localhost:27017'
 MONGO_DATABASE = 'proxy_crawler_demo'

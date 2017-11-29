@@ -1,48 +1,21 @@
 # -*- coding: utf-8 -*-
-import logging
-import pymongo
-from scrapy.utils.log import configure_logging
 from twisted.internet import reactor
 from twisted.internet.defer import inlineCallbacks, Deferred
+
+from scrapy.utils.log import configure_logging
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.project import get_project_settings
+
 from proxy_crawler import KXDaiLiSpider, KuaiDaiLiSpider, Ip181Spider, GouBanJiaSpider, \
     XiCiSpider, CNProxySpider, PremProxySpider, ProxyDBSpider
 
-MONGO_URI = 'mongodb://localhost:27017'
-MONGO_DATABASE = 'proxy_crawler_demo'
-MONGO_COLLECTION = 'schedule_task'
-client = pymongo.MongoClient(MONGO_URI)
-database = client[MONGO_DATABASE]
-collection = database[MONGO_COLLECTION]
-
-logging.basicConfig(filename='logs/spiders.log')
-
-TASKS = {
-    # 8 hours
-    'proxy.spider.cnproxy': 8 * 60 * 60,
-    # 1 hour
-    'proxy.spider.goubanjia': 1 * 60 * 60,
-    # 10 minutes
-    'proxy.spider.ip181': 10 * 60,
-    # 8 hours
-    'proxy.spider.kuaidaili': 8 * 60 * 60,
-    # 30 minutes
-    'proxy.spider.kxdaili': 30 * 60,
-    # 4 hours
-    'proxy.spider.premproxy': 4 * 60 * 60,
-    # 2 hours
-    'proxy.spider.proxydb': 2 * 60 * 60,
-    # 8 hours
-    'proxy.spider.xici': 8 * 60 * 60,
-}
+settings = get_project_settings()
+configure_logging(settings, install_root_handler=True)
+runner = CrawlerRunner(settings)
 
 
 @inlineCallbacks
 def start_kuaidaili_crawler():
-    settings = get_project_settings()
-    runner = CrawlerRunner(get_project_settings())
-    configure_logging(settings, install_root_handler=False)
     print('start scheduling kuaidaili')
     times = 1
     while True:
@@ -58,9 +31,6 @@ def start_kuaidaili_crawler():
 
 @inlineCallbacks
 def start_xicidaili_crawler():
-    settings = get_project_settings()
-    runner = CrawlerRunner(get_project_settings())
-    configure_logging(settings, install_root_handler=False)
     print('start scheduling xicidaili')
     times = 1
     while True:
@@ -76,9 +46,6 @@ def start_xicidaili_crawler():
 
 @inlineCallbacks
 def start_cnproxy_crawler():
-    settings = get_project_settings()
-    runner = CrawlerRunner(get_project_settings())
-    configure_logging(settings, install_root_handler=False)
     print('start scheduling cnproxy')
     times = 1
     while True:
@@ -94,9 +61,6 @@ def start_cnproxy_crawler():
 
 @inlineCallbacks
 def start_premproxy_crawler():
-    settings = get_project_settings()
-    runner = CrawlerRunner(get_project_settings())
-    configure_logging(settings, install_root_handler=False)
     print('start scheduling premproxy')
     times = 1
     while True:
@@ -112,9 +76,6 @@ def start_premproxy_crawler():
 
 @inlineCallbacks
 def start_proxydb_crawler():
-    settings = get_project_settings()
-    runner = CrawlerRunner(get_project_settings())
-    configure_logging(settings, install_root_handler=False)
     print('start scheduling proxydb')
     times = 1
     while True:
@@ -130,9 +91,6 @@ def start_proxydb_crawler():
 
 @inlineCallbacks
 def start_goubanjia_crawler():
-    settings = get_project_settings()
-    runner = CrawlerRunner(get_project_settings())
-    configure_logging(settings, install_root_handler=False)
     print('start scheduling goubanjia')
     times = 1
     while True:
@@ -148,9 +106,6 @@ def start_goubanjia_crawler():
 
 @inlineCallbacks
 def start_kxdaili_crawler():
-    settings = get_project_settings()
-    runner = CrawlerRunner(get_project_settings())
-    configure_logging(settings, install_root_handler=False)
     print('start scheduling kxdaili')
     times = 1
     while True:
@@ -166,9 +121,6 @@ def start_kxdaili_crawler():
 
 @inlineCallbacks
 def start_ip_181_crawler():
-    settings = get_project_settings()
-    runner = CrawlerRunner(get_project_settings())
-    configure_logging(settings, install_root_handler=False)
     print('start scheduling ip181')
     times = 1
     while True:
@@ -182,13 +134,13 @@ def start_ip_181_crawler():
         times += 1
 
 
-start_ip_181_crawler()
-start_kxdaili_crawler()
-start_goubanjia_crawler()
-start_proxydb_crawler()
-start_premproxy_crawler()
-start_cnproxy_crawler()
-start_xicidaili_crawler()
-start_kuaidaili_crawler()
-
-reactor.run()
+if __name__ == '__main__':
+    start_ip_181_crawler()
+    start_kxdaili_crawler()
+    start_goubanjia_crawler()
+    start_proxydb_crawler()
+    start_premproxy_crawler()
+    start_cnproxy_crawler()
+    start_xicidaili_crawler()
+    start_kuaidaili_crawler()
+    reactor.run()
