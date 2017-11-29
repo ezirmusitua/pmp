@@ -1,11 +1,10 @@
 # -*- coding: utf8 -*-
 import time
 
-from .utils import singleton
-from .database import Database
-
 
 class ProxyModel(object):
+    db_collection = None
+
     def __init__(self, doc_from_db=None):
         doc = doc_from_db if doc_from_db is not None else {}
         self.id = doc['_id']
@@ -15,7 +14,7 @@ class ProxyModel(object):
         self.connection = doc.get('connection', list())
         self.anonymity = doc.get('anonymity', ['unknown'])
         self.location = doc.get('location', 'unknown, unknown')
-        self.last_check_at = time.time() * 1000  # convert to ms
+        self.last_check_at = doc.get('last_check_at', time.time())
         self.invalid = False
 
     def proxy_str(self):
@@ -47,8 +46,7 @@ class ProxyModel(object):
             return self.connection
         if key == 'proxy_type':
             return self.proxy_type
-        if key == 'invalid':
-            return self.invalid
+        raise KeyError
 
     def __setitem__(self, key, value):
         if key == 'anonymity':
@@ -65,8 +63,7 @@ class ProxyModel(object):
             self.connection = value
         if key == 'proxy_type':
             self.proxy_type = value
-        if key == 'invalid':
-            self.invalid = value
+        raise KeyError
 
     def __unicode__(self):
         return self.proxy_str()
@@ -76,29 +73,3 @@ class ProxyModel(object):
 
     def __repr__(self):
         return self.proxy_str()
-
-
-@singleton
-class ProxyToUpdatePool(object):
-    def __init__(self):
-        self.db = Database()
-        self.to_remove = list()
-        self.to_update = list()
-
-    def handle_pool(self):
-        # FIXME: update size with configuration
-        if len(self.to_remove) >= 1:
-            self.db.remove({'_id': {'$in': list(map(lambda _p: _p.id, self.to_remove))}})
-            self.to_remove = list()
-        # FIXME: update size with configuration
-        if len(self.to_update) >= 1:
-            for p in self.to_update:
-                self.db.update({'_id': p.id}, p.to_json())
-            self.to_update = list()
-
-    def add_to_pool(self, proxy):
-        print(proxy, '::', proxy.invalid)
-        if proxy.invalid:
-            self.to_remove.append(proxy)
-        else:
-            self.to_update.append(proxy)

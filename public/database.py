@@ -1,8 +1,5 @@
-# -*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
 import pymongo
-
-MONGO_URI = 'mongodb://localhost:27017'
-MONGO_DATABASE = 'proxy_crawler_demo'
 
 
 class Database(object):
@@ -10,6 +7,13 @@ class Database(object):
     client = None
     db_name = MONGO_DATABASE
     database = None
+    A_ORDER = pymongo.ASCENDING
+    D_ORDER = pymongo.DESCENDING
+
+    @staticmethod
+    def connect():
+        Database.client = pymongo.MongoClient(Database.uri)
+        Database.database = Database.client[Database.db_name]
 
     def __init__(self, collection_name):
         self.collection = None
@@ -21,8 +25,18 @@ class Database(object):
         self.collection = Database.database[self.collection_name]
         model.db_collection = self
 
-    def list(self, query=None, batch_size=20):
-        for p in self.collection.find({} if query is None else query).batch_size(batch_size):
+    def count(self, query=None):
+        return self.collection.count({} if query is None else query)
+
+    def list(self, query=None, sort=None, skip=None, limit=None, batch_size=20):
+        cursor = self.collection.find({} if query is None else query)
+        if sort and type(sort) is 'list':
+            cursor = cursor.sort(sort)
+        if skip and type(skip) is 'int':
+            cursor = cursor.skip(skip)
+        if limit and type(limit) is 'int':
+            cursor = cursor.limit(limit)
+        for p in cursor.batch_size(batch_size):
             yield p
 
     def update(self, query=None, doc=None):
@@ -44,14 +58,11 @@ class Database(object):
         else:
             self.collection.update(query, {'$set': doc})
 
-    @staticmethod
-    def connect():
-        Database.client = pymongo.MongoClient(Database.uri)
-        Database.database = Database.client[Database.db_name]
+
+def bind_models(database_cls, model_cls, collection_name):
+    database_cls(collection_name).bind_to_model(model_cls)
 
 
-def bind_models():
-    from proxy_server.models.proxy import Proxy
-    Database('proxy').bind_to_model(Proxy)
-    from proxy_server.models.user import User
-    Database('user').bind_to_model(User)
+def update_database_uri(database_cls, uri, database):
+    database_cls.uri = uri
+    database_cls.database = database

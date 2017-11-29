@@ -3,9 +3,9 @@ import os
 
 from ProxyGeoDetector import Detector
 
-from .client import Client
+from .models import ProxyToUpdatePool
 from .chain import Handler, RChain
-from .proxy import ProxyToUpdatePool
+from .client import Client
 
 Connection_Detect_Targets = {
     'httpbin': 'https://httpbin.org',

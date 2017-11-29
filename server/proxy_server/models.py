@@ -1,18 +1,22 @@
-# -*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
+from public.models import ProxyModel
+from public.database import Database, bind_models, update_database_uri
+
+MONGO_URI = 'localhost:27017'
+MONGO_DATABASE = 'proxy_crawler_demo'
 
 
-class Proxy(object):
-    db_collection = None
+class ServerDatabase(Database):
+    def __init__(self, *args, **kwargs):
+        super(ServerDatabase, self).__init__(*args, **kwargs)
 
+
+update_database_uri(ServerDatabase, MONGO_URI, MONGO_DATABASE)
+
+
+class Proxy(ProxyModel):
     def __init__(self, proxy_doc):
-        self.id = proxy_doc.get('_id', '')
-        self.ip_address = proxy_doc.get('ip_address', 'unknown')
-        self.port = proxy_doc.get('port', 12345)
-        self.proxy_type = proxy_doc.get('proxy_type', ['unknown'])
-        self.anonymity = proxy_doc.get('anonymity', 'unknown')
-        self.location = proxy_doc.get('location', 'unknown, unknown')
-        self.connection = proxy_doc.get('connection', [])
-        self.last_check_at = proxy_doc.get('last_check_at', 0)
+        super(Proxy, self).__init__(proxy_doc)
 
     def to_csv(self, all_fields=False):
         short = self.ip_address + ':' + str(self.port)
@@ -37,3 +41,21 @@ class Proxy(object):
                     page_index * page_size).limit(page_size)
             )
         }
+
+
+class User(object):
+    db_collection = None
+
+    def __init__(self, user_doc):
+        self.id = user_doc['_id']
+        self.username = user_doc.get('username', '')
+        self.password = user_doc.get('password', '')
+
+    @staticmethod
+    def validate(username, password):
+        user = User.db_collection.find_one({'username': username, 'password': password})
+        return False if user is None else True
+
+
+bind_models(ServerDatabase, User, 'user')
+bind_models(ServerDatabase, Proxy, 'proxy_list')
