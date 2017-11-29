@@ -3,12 +3,38 @@
 
 from unittest import TestCase, mock, main
 
-from .models.user import User
-from .models.proxy import Proxy
-from .models.database import Database
+from .models import ProxyModel
+from .database import Database
+from .decorators import singleton
+
+
+class TestUtils(TestCase):
+    def test_singleton(self):
+        class DemoClass1(object):
+            def __init__(self):
+                pass
+
+        self.assertNotEqual(DemoClass1(), DemoClass1())
+
+        @singleton
+        class DemoClass2(object):
+            def __init__(self):
+                pass
+
+        self.assertEqual(DemoClass2(), DemoClass2())
 
 
 class TestDatabase(TestCase):
+    def setUp(self):
+        self.database = Database('demo')
+        self.database.collection = mock.MagicMock()
+        self.mock_find_return = mock.MagicMock()
+        self.mock_find_return.batch_size = mock.MagicMock(return_value=[0, 1, 2])
+        self.database.collection.find = mock.MagicMock(return_value=self.mock_find_return)
+        self.database.collection.insert = mock.MagicMock(return_value=None)
+        self.database.collection.update = mock.MagicMock(return_value=None)
+        self.database.collection.remove = mock.MagicMock(return_value=None)
+
     def test_bind_to_model(self):
         mock_database = mock.MagicMock()
         mock_database['demo'] = mock.MagicMock()
@@ -17,13 +43,43 @@ class TestDatabase(TestCase):
         Database('demo').bind_to_model(mock_model)
         self.assertIsInstance(mock_model.db_collection, Database)
 
+    def test_list(self):
+        list(self.database.list({'ip': '127.0.0.1'}))
+        self.database.collection.find.assert_called_with({'ip': '127.0.0.1'})
+        self.mock_find_return.batch_size.assert_called_with(20)
+        list(self.database.list())
+        self.database.collection.find.assert_called_with({})
 
-class TestModel(TestCase):
+    def test_update(self):
+        with self.assertRaises(Exception):
+            self.database.update()
+        self.database.update({}, {'ip': '127.0.0.1'})
+        self.database.collection.update.assert_called_with({}, {'$set': {'ip': '127.0.0.1'}})
+
+    def test_remove(self):
+        with self.assertRaises(Exception):
+            self.database.remove()
+        self.database.remove({})
+        self.database.collection.remove.assert_called_with({})
+
+    def test_find_one_and_update(self):
+        with self.assertRaises(Exception):
+            self.database.find_one_and_update()
+
+        self.database.collection.find_one = mock.MagicMock(return_value=True)
+        self.database.find_one_and_update({'_id': '1'}, {'ip': '127.0.0.1'})
+        self.database.collection.find_one.assert_called_with({'_id': '1'})
+        self.database.collection.update.assert_called_with({'_id': '1'}, {'$set': {'ip': '127.0.0.1'}})
+
+        self.database.collection.find_one = mock.MagicMock(return_value=None)
+        self.database.find_one_and_update({'_id': '1'}, {'ip': '127.0.0.1'})
+        self.database.collection.insert.assert_called_with({'ip': '127.0.0.1'})
+
+
+class TestProxyModel(TestCase):
     def setUp(self):
-        User.db_collection = mock.MagicMock()
-        Proxy.db_collection = mock.MagicMock()
-        self.user = User({'_id': 'user-1', 'username': 'jferroal', 'password': '123123'})
-        self.proxy = Proxy({
+        ProxyModel.db_collection = mock.MagicMock()
+        self.proxy = ProxyModel({
             '_id': '0',
             'ip_address': '127.0.0.1',
             'port': 8080,
@@ -33,47 +89,19 @@ class TestModel(TestCase):
             'connection': []
         })
 
-    def test_proxy_to_csv(self):
-        self.assertEqual(self.proxy.to_csv(), '127.0.0.1:8080')
-        self.assertEqual(self.proxy.to_csv(all_fields=True), '127.0.0.1:8080,(unknown),(unknown),(unknown, unknown),()')
+    def test_proxy_str(self):
+        self.assertEqual(self.proxy.proxy_str(), '127.0.0.1:8080')
 
-    def test_proxy_list_all(self):
-        find_res = [{
-            '_id': '0',
+    def test_proxy_to_json(self):
+        self.assertEqual(self.proxy.to_json(), {
+            'anonymity': ['unknown'],
             'ip_address': '127.0.0.1',
             'port': 8080,
-            'proxy_type': ['unknown'],
-            'anonymity': ['unknown'],
+            'last_check_at': -1,
             'location': 'unknown, unknown',
-            'connection': []
-        }]
-        Proxy.db_collection.find = mock.MagicMock(return_value=find_res)
-        all_proxies = list(Proxy.list_all()['items'])
-        self.assertIsNotNone(all_proxies)
-        self.assertIsInstance(all_proxies[0], Proxy)
-
-    def test_proxy_page(self):
-        mock_limit = mock.MagicMock()
-        mock_skip = mock.MagicMock(return_value=mock_limit)
-        mock_sort = mock.MagicMock(return_value=mock_skip)
-        Proxy.db_collection.find = mock.MagicMock(return_value=mock_sort)
-        Proxy.db_collection.count = mock.MagicMock(return_value=10)
-        Proxy.page(1, 10, {}, {}, [])
-        Proxy.db_collection.find.assert_called_with(filter={}, projection={})
-        Proxy.db_collection.count.assert_called_with(filter={})
-        # FIXME: Fix following test
-        # mock_sort.assert_called_with([('_id', -1)])
-        # mock_skip.assert_called_with(10)
-        # mock_limit.assert_called_with(10)
-
-    def test_user_validate(self):
-        User.db_collection.find_one = mock.MagicMock(return_value={'username': 'jferroal', 'password': '123123'})
-        validation = User.validate(self.user.username, self.user.password)
-        User.db_collection.find_one.assert_called_with({'username': 'jferroal', 'password': '123123'})
-        self.assertTrue(validation)
-        User.db_collection.find_one = mock.MagicMock(return_value=None)
-        validation = User.validate(self.user.username, self.user.password)
-        self.assertFalse(validation)
+            'connection': [],
+            'proxy_type': ['unknown']
+        })
 
 
 if __name__ == '__main__':

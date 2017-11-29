@@ -12,18 +12,14 @@ class Database(object):
 
     @classmethod
     def connect(cls):
-        print('Connecting ............................................... ', cls.client, cls.database)
         cls.client = pymongo.MongoClient(cls.uri)
-        print('Connecting ............................................... ', cls.client, cls.database)
         cls.database = cls.client[cls.db_name]
-        print('Connecting ............................................... ', cls.client, cls.database)
 
     def __init__(self, collection_name):
         self.collection = None
         self.collection_name = collection_name
 
     def bind_to_model(self, model):
-        print(self.database)
         if not self.database:
             self.connect()
         self.collection = self.database[self.collection_name]

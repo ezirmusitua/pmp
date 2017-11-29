@@ -1,9 +1,5 @@
 # -*- coding: utf8 -*-
-import time
-
-
 class ProxyModel(object):
-    db_collection = None
 
     def __init__(self, doc_from_db=None):
         doc = doc_from_db if doc_from_db is not None else {}
@@ -14,7 +10,7 @@ class ProxyModel(object):
         self.connection = doc.get('connection', list())
         self.anonymity = doc.get('anonymity', ['unknown'])
         self.location = doc.get('location', 'unknown, unknown')
-        self.last_check_at = doc.get('last_check_at', time.time())
+        self.last_check_at = doc.get('last_check_at', -1)
         self.invalid = False
 
     def proxy_str(self):
