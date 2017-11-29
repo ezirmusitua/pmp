@@ -180,11 +180,7 @@ class TestChain(TestCase):
         self.assertEqual(res_task.target['name'], 'demo-1')
 
 
-"""
-How to mock import?
-"""
-
-
+# TODO: How to mock import?
 class TestValidation(TestCase):
     def setUp(self):
         pass
