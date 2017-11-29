@@ -54,6 +54,14 @@ class TestProxyModel(TestCase):
         self.proxy.last_check_at = -1
         self.proxy_pool = ProxyToUpdatePool()
 
+    def test_proxy_has_attribute_invalid(self):
+        self.assertEqual(self.proxy.invalid, False)
+
+    def test_proxy_get_and_set_item(self):
+        self.assertEqual(self.proxy['invalid'], False)
+        self.proxy['invalid'] = True
+        self.assertEqual(self.proxy.invalid, True)
+
     def test_update_proxy_pool(self):
         self.proxy_pool.db_collection = mock.MagicMock()
         self.proxy_pool.db_collection.remove = mock.MagicMock()

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from public.models import ProxyModel
-from public.database import Database, update_database_uri
+from public.database import Database
 from public.decorators import singleton
 
 MONGO_URI = 'localhost:27017'
@@ -13,7 +13,8 @@ class ValidatorDatabase(Database):
         super(ValidatorDatabase, self).__init__(*args, **kwargs)
 
 
-update_database_uri(ValidatorDatabase, MONGO_URI, MONGO_DATABASE)
+ValidatorDatabase.uri = MONGO_URI
+ValidatorDatabase.db_name = MONGO_DATABASE
 
 
 class Proxy(ProxyModel):
@@ -37,7 +38,8 @@ class Proxy(ProxyModel):
         except KeyError:
             if key == 'invalid':
                 self.invalid = value
-            raise KeyError
+            else:
+                raise KeyError
 
 
 @singleton
