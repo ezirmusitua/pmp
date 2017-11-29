@@ -103,6 +103,26 @@ class TestProxyModel(TestCase):
             'proxy_type': ['unknown']
         })
 
+    def test_getitem(self):
+        self.assertEqual(self.proxy['port'], 8080)
+        with self.assertRaises(KeyError):
+            self.proxy['error_key']
+
+    def test_setitem(self):
+        proxy = ProxyModel({
+            '_id': '0',
+            'ip_address': '127.0.0.1',
+            'port': 8080,
+            'proxy_type': ['unknown'],
+            'anonymity': ['unknown'],
+            'location': 'unknown, unknown',
+            'connection': []
+        })
+        proxy['port'] = 80
+        self.assertEqual(proxy.port, 80)
+        with self.assertRaises(KeyError):
+            proxy['error_key'] = -1
+
 
 if __name__ == '__main__':
     main()
