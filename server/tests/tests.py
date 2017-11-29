@@ -36,7 +36,7 @@ class TestModel(TestCase):
             'location': 'unknown, unknown',
             'connection': []
         }]
-        Proxy.db_collection.find = mock.MagicMock(return_value=find_res)
+        Proxy.db_collection.list = mock.MagicMock(return_value=find_res)
         all_proxies = list(Proxy.list_all()['items'])
         self.assertIsNotNone(all_proxies)
         self.assertIsInstance(all_proxies[0], Proxy)

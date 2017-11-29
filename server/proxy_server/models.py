@@ -27,7 +27,7 @@ class Proxy(ProxyModel):
 
     @staticmethod
     def list_all():
-        res = Proxy.db_collection.find()
+        res = Proxy.db_collection.list()
         return {'items': map(lambda p: Proxy(p), res)}
 
     @staticmethod
