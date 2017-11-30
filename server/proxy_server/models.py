@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import sys
+
+sys.path.append('..')
+sys.path.append('../..')
+
 from public.models import ProxyModel
 from public.database import Database
 
