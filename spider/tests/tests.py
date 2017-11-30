@@ -7,6 +7,7 @@ from unittest import TestCase, mock, main
 from proxy_crawler import CNProxySpider, GouBanJiaSpider, Ip181Spider, KuaiDaiLiSpider, KXDaiLiSpider, PremProxySpider, \
     ProxyDBSpider, XiCiSpider
 from proxy_crawler.models import Proxy
+from proxy_crawler.items import StrCleaner
 from mock import mock_spider_response
 
 
@@ -86,6 +87,12 @@ class TestProxyModel(TestCase):
             query={'connection': 'demo', 'proxy_type': {'$in': ['http', 'https']}},
             sort=[('last_check_at', 1)],
             limit=20)
+
+
+class TestItemProcessor(TestCase):
+    def test_str_cleaner(self):
+        cleaner = StrCleaner()
+        self.assertEqual(['http'], cleaner(['\n   http   \n']))
 
 
 if __name__ == '__main__':
