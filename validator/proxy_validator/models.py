@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+import sys
+
+sys.path.append('..')
+sys.path.append('../..')
 
 from public.models import ProxyModel
 from public.database import Database
@@ -18,9 +22,15 @@ ValidatorDatabase.db_name = MONGO_DATABASE
 
 
 class Proxy(ProxyModel):
+    db_collection = None
+
     def __init__(self, doc):
         super(Proxy, self).__init__(doc)
         self.invalid = False
+
+    @classmethod
+    def list(cls, *args, **kwargs):
+        return cls.db_collection.list(*args, **kwargs)
 
     def __getitem__(self, key):
         try:

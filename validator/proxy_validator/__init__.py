@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from .chain import Task
-from .models import Proxy
+from .models import Proxy, bind_models
 from .validation import validation_chain
-
-from public.database import Database
 
 
 def run_validation():
+    bind_models()
     print('validation start. ')
     for p in Proxy.list({}):
         proxy = Proxy(p)

@@ -10,10 +10,9 @@ class Database(object):
     A_ORDER = pymongo.ASCENDING
     D_ORDER = pymongo.DESCENDING
 
-    @staticmethod
-    def connect():
-        Database.client = pymongo.MongoClient(Database.uri)
-        Database.database = Database.client[Database.db_name]
+    def connect(self):
+        Database.client = pymongo.MongoClient(self.uri)
+        Database.database = Database.client[self.db_name]
 
     def __init__(self, collection_name):
         self.collection = None
