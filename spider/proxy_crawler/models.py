@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import sys
+
+sys.path.append('..')
+sys.path.append('../..')
+
 from random import choice
 from scrapy.utils.project import get_project_settings
 
@@ -26,7 +31,7 @@ class Proxy(ProxyModel):
     def save(item):
         Proxy.db_collection.update({
             'ip_address': item['ip_address'], 'port': item['port']
-        }, {'$set': dict(item)}, upsert=True)
+        }, dict(item), upsert=True)
 
     @staticmethod
     def get_random_usable_one_proxy(spider_name):
@@ -35,7 +40,9 @@ class Proxy(ProxyModel):
             sort=[('last_check_at', SpiderDatabase.A_ORDER)],
             limit=20)))
         if not usable_proxies:
-            return ''
+            return None
         return str(choice(usable_proxies))
 
-# SpiderDatabase('proxy_lis').bind_to_model(Proxy)
+
+def bind_models():
+    SpiderDatabase('proxy_list').bind_to_model(Proxy)

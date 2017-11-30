@@ -7,10 +7,11 @@ from scrapy.crawler import CrawlerRunner
 from scrapy.utils.project import get_project_settings
 
 from proxy_crawler import KXDaiLiSpider, KuaiDaiLiSpider, Ip181Spider, GouBanJiaSpider, \
-    XiCiSpider, CNProxySpider, PremProxySpider, ProxyDBSpider
+    XiCiSpider, CNProxySpider, PremProxySpider, ProxyDBSpider, bind_models
 
 settings = get_project_settings()
 configure_logging(settings, install_root_handler=True)
+bind_models()
 runner = CrawlerRunner(settings)
 
 

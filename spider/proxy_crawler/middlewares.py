@@ -41,5 +41,5 @@ class ProxyMiddleware(object):
         from .models import Proxy
         # TODO: This method can convert to random proxy library
         proxy_str = Proxy.get_random_usable_one_proxy(spider.name)
-        if proxy_str is not None:
+        if proxy_str:
             request.meta['proxy'] = 'http://' + proxy_str

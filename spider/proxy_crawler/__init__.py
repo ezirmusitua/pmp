@@ -6,3 +6,4 @@ from .spiders.kxdaili import KXDaiLiSpider
 from .spiders.premproxy import PremProxySpider
 from .spiders.proxydb import ProxyDBSpider
 from .spiders.xici import XiCiSpider
+from .models import bind_models
