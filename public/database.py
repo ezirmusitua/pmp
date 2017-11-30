@@ -41,7 +41,7 @@ class Database(object):
     def update(self, query=None, doc=None, upsert=False):
         if doc is None or query is None:
             raise Exception('Document is invalid. ')
-        self.collection.update(query, {'$set': doc}, upsert=upsert)
+        self.collection.update(query, doc, upsert=upsert)
 
     def remove(self, query=None):
         if query is None:
@@ -55,4 +55,4 @@ class Database(object):
         if origin is None:
             self.collection.insert(doc)
         else:
-            self.collection.update(query, {'$set': doc})
+            self.collection.update(query, doc)

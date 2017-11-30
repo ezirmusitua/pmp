@@ -54,7 +54,7 @@ class TestDatabase(TestCase):
         with self.assertRaises(Exception):
             self.database.update()
         self.database.update({}, {'ip': '127.0.0.1'})
-        self.database.collection.update.assert_called_with({}, {'$set': {'ip': '127.0.0.1'}}, upsert=False)
+        self.database.collection.update.assert_called_with({}, {'ip': '127.0.0.1'}, upsert=False)
 
     def test_remove(self):
         with self.assertRaises(Exception):
@@ -69,7 +69,7 @@ class TestDatabase(TestCase):
         self.database.collection.find_one = mock.MagicMock(return_value=True)
         self.database.find_one_and_update({'_id': '1'}, {'ip': '127.0.0.1'})
         self.database.collection.find_one.assert_called_with({'_id': '1'})
-        self.database.collection.update.assert_called_with({'_id': '1'}, {'$set': {'ip': '127.0.0.1'}})
+        self.database.collection.update.assert_called_with({'_id': '1'}, {'ip': '127.0.0.1'})
 
         self.database.collection.find_one = mock.MagicMock(return_value=None)
         self.database.find_one_and_update({'_id': '1'}, {'ip': '127.0.0.1'})
