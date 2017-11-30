@@ -7,10 +7,6 @@ PROXY_DB_VAR_2_PATTERN_1 = re.compile(r"var .+? = '([\d.]+)';")
 PROXY_DB_VAR_2_PATTERN_2 = re.compile(r"var .+? = atob\('(.+?)'")
 PROXY_DB_VAR_P_PATTERN = re.compile(r"var .+? = ([\-\d]+) \+ ([\-\d]+);")
 
-"""
-var yy = atob('\x4e\x54\x63\x75\x4e\x6a\x59\x3d'.replace(/\\x([0-9A-Fa-f]{2})/g,function(){return String.fromCharCode(parseInt(arguments[1], 16))}));
-"""
-
 
 def get_list_item_safely(list_in, idx, default=''):
     if list_in is not None and len(list_in) > idx:

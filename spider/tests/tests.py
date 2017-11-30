@@ -4,10 +4,13 @@ import sys
 sys.path.append('..')
 
 from unittest import TestCase, mock, main
+
 from proxy_crawler import CNProxySpider, GouBanJiaSpider, Ip181Spider, KuaiDaiLiSpider, KXDaiLiSpider, PremProxySpider, \
     ProxyDBSpider, XiCiSpider
 from proxy_crawler.models import Proxy
 from proxy_crawler.items import StrCleaner
+from proxy_crawler.helper import get_list_item_safely, generate_proxydb_js_ip_port
+
 from mock import mock_spider_response
 
 
@@ -93,6 +96,33 @@ class TestItemProcessor(TestCase):
     def test_str_cleaner(self):
         cleaner = StrCleaner()
         self.assertEqual(['http'], cleaner(['\n   http   \n']))
+
+
+class TestHelperFunctions(TestCase):
+    def test_get_list_item_safely(self):
+        self.assertEqual(get_list_item_safely(None, -1, 0), 0)
+        self.assertEqual(get_list_item_safely([], 0, 0), 0)
+        self.assertEqual(get_list_item_safely([1], 0, 0), 1)
+
+    def test_generate_proxydb_js_ip_port(self):
+        code_seg_v1 = r"""
+        var s = '1.631.312'.split('').reverse().join('');
+        var yy = '05.62';
+        var pp = -17424 + 20552;
+        document.write('<a href="/' + s + yy + '/' + pp + '#http" title="lsocit-213.136.105.62.aviso.ci">' + s + yy + String.fromCharCode(58) + pp + '</a>');
+        proxies.push(s + yy + String.fromCharCode(58) + pp);
+        """
+        self.assertEqual(('213.136.105.62', '3128'), generate_proxydb_js_ip_port(code_seg_v1))
+        code_seg_v2 = r"""
+        var o = '1.791.831'.split('').reverse().join('');
+        var yy = atob('\x4e\x54\x63\x75\x4e\x6a\x59\x3d'.replace(/\\x([0-9A-Fa-f]{2})/g, function () {
+            return String.fromCharCode(parseInt(arguments[ 1 ], 16))
+        }));
+        var pp = -51279 + 54407;
+        document.write('<a href="/' + o + yy + '/' + pp + '#http" title="">' + o + yy + String.fromCharCode(58) + pp + '</a>');
+        proxies.push(o + yy + String.fromCharCode(58) + pp);
+        """
+        self.assertEqual(('138.197.157.66', '3128'), generate_proxydb_js_ip_port(code_seg_v2))
 
 
 if __name__ == '__main__':
