@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-import sys
-
-sys.path.append('..')
 from unittest import TestCase, mock, main
 
 from proxy_server.models import User, Proxy
