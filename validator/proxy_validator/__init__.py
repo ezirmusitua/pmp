@@ -13,7 +13,7 @@ logging.basicConfig(
 
 def run_validation():
     from .chain import Task
-    from .models import Proxy, ProxyToUpdatePool, bind_models
+    from .models import Proxy, bind_models
     from .validation import validation_chain
     bind_models()
     logging.info('validation start. ')
@@ -23,5 +23,4 @@ def run_validation():
         t = Task(proxy)
         validation_chain.start_handling(t)
         logging.info('proxy: %s validated' % proxy)
-    ProxyToUpdatePool().flush()
     logging.info('validation done. ')

@@ -7,7 +7,7 @@ sys.path.append('..')
 from unittest import TestCase, mock, main
 from proxy_validator.chain import RChain, Task, Handler
 from proxy_validator.client import Client, Default_Timeout, Default_UA
-from proxy_validator.models import Proxy, ProxyToUpdatePool
+from proxy_validator.models import Proxy
 
 
 class TestClient(TestCase):
@@ -52,7 +52,6 @@ class TestProxyModel(TestCase):
             'location': 'unknown, unknown'
         })
         self.proxy.last_check_at = -1
-        self.proxy_pool = ProxyToUpdatePool()
 
     def test_proxy_has_attribute_invalid(self):
         self.assertEqual(self.proxy.invalid, False)
@@ -61,30 +60,6 @@ class TestProxyModel(TestCase):
         self.assertEqual(self.proxy['invalid'], False)
         self.proxy['invalid'] = True
         self.assertEqual(self.proxy.invalid, True)
-
-    def test_update_proxy_pool(self):
-        self.proxy_pool.db_collection = mock.MagicMock()
-        self.proxy_pool.db_collection.remove = mock.MagicMock()
-        self.proxy_pool.db_collection.update = mock.MagicMock()
-        self.proxy_pool.to_update = self.proxy_pool.to_remove = [
-            Proxy({'_id': str(i), 'ip_address': '127.0.0.1', 'port': i}) for i in
-            range(0, 20)]
-        self.assertEqual(len(self.proxy_pool.to_remove), 20)
-        self.assertEqual(len(self.proxy_pool.to_update), 20)
-        self.proxy_pool.handle_pool()
-        self.assertEqual(len(self.proxy_pool.to_remove), 0)
-        self.assertEqual(len(self.proxy_pool.to_update), 0)
-
-    def test_add_to_proxy_pool(self):
-        self.proxy_pool.to_remove = list()
-        self.proxy_pool.to_update = list()
-        invalid_p = Proxy({'_id': '1', 'ip_address': '127.0.1.1', 'port': 80})
-        invalid_p.invalid = True
-        valid_p = Proxy({'_id': '2', 'ip_address': '127.0.2.1', 'port': 80})
-        self.proxy_pool.add_to_pool(invalid_p)
-        self.assertEqual(len(self.proxy_pool.to_remove), 1)
-        self.proxy_pool.add_to_pool(valid_p)
-        self.assertEqual(len(self.proxy_pool.to_update), 1)
 
 
 class TestChain(TestCase):

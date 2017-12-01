@@ -10,6 +10,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../spider/proxy_crawler" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../server/proxy_server" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../spider/proxy_crawler/spiders" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../spider/tests" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/../server/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/../spider/.scrapy" />
       <excludeFolder url="file://$MODULE_DIR$/../spider/logs" />

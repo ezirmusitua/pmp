@@ -4,7 +4,6 @@ import logging
 from ProxyGeoDetector import Detector
 
 from proxy_validator import config
-from proxy_validator.models import ProxyToUpdatePool
 from proxy_validator.chain import Handler, RChain
 from proxy_validator.client import Client
 
@@ -80,10 +79,8 @@ def validate_proxy_type(proxy):
     return proxy_type
 
 
-def drop_or_save(proxy):
-    proxy_pool = ProxyToUpdatePool()
-    proxy_pool.add_to_pool(proxy)
-    proxy_pool.handle_pool()
+def save_or_remove(proxy):
+    proxy.save_or_remove()
 
 
 validation_chain = RChain() \
@@ -92,4 +89,4 @@ validation_chain = RChain() \
     .append_handler(Handler('connection', validate_connection)) \
     .append_handler(Handler('anonymity', validate_anonymity)) \
     .append_handler(Handler('location', validate_location)) \
-    .append_handler(Handler('db', drop_or_save))
+    .append_handler(Handler('db', save_or_remove))
