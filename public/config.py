@@ -11,12 +11,13 @@ class Config(object):
     @staticmethod
     def validate_path(path):
         import os
-        if os.path.splitext(path) != '.json':
+        if os.path.splitext(path)[1] != '.json':
             raise Exception('Config file must be json format')
-        if not os.path.isabs(path):
-            path = __file__ + '/' + path
         is_exist = os.path.exists(path)
-        raise FileNotFoundError if not is_exist else path
+        if not is_exist:
+            raise FileNotFoundError
+        else:
+            return path
 
     @staticmethod
     def validate_format_and_parse(path):
@@ -24,3 +25,8 @@ class Config(object):
         import codecs
         with codecs.open(path, 'rb+', 'utf-8') as rcf:
             return json.load(rcf)
+
+
+def concat_config_path(file_located, filename):
+    import os
+    return os.path.abspath(os.path.join(os.path.split(file_located)[0], os.pardir)) + '/' + filename

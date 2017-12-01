@@ -20,7 +20,6 @@ class TestModel(TestCase):
         })
 
     def test_proxy_to_csv(self):
-        self.assertEqual(self.proxy.to_csv(), '127.0.0.1:8080')
         self.assertEqual(self.proxy.to_csv(all_fields=True), '127.0.0.1:8080,(unknown),(unknown),(unknown, unknown),()')
 
     def test_proxy_list_all(self):
@@ -47,10 +46,6 @@ class TestModel(TestCase):
         Proxy.page(1, 10, {}, {}, [])
         Proxy.db_collection.find.assert_called_with(filter={}, projection={})
         Proxy.db_collection.count.assert_called_with(filter={})
-        # FIXME: Fix following test
-        # mock_sort.assert_called_with([('_id', -1)])
-        # mock_skip.assert_called_with(10)
-        # mock_limit.assert_called_with(10)
 
     def test_user_validate(self):
         User.db_collection.find_one = mock.MagicMock(return_value={'username': 'jferroal', 'password': '123123'})

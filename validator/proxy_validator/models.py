@@ -7,9 +7,8 @@ sys.path.append('../..')
 from public.models import ProxyModel
 from public.database import Database
 from public.decorators import singleton
-from public.config import Config
 
-config = Config('config.json')
+from . import config
 
 
 class ValidatorDatabase(Database):

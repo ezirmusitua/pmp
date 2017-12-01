@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 import logging
-from public.config import Config
+from public.config import Config, concat_config_path
 
-config = Config('config.json')
+config = Config(concat_config_path(__file__, 'config.json'))
 
 logging.basicConfig(
     filename=config['LOG_FILE'],
     level=config['LOG_LEVEL'],
     format=config['LOG_FORMAT'],
 )
+
 
 def run_validation():
     from .chain import Task

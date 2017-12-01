@@ -122,5 +122,19 @@ class TestProxyModel(TestCase):
             proxy['error_key'] = -1
 
 
+class TestConfig(TestCase):
+    def test_concat_config_file_path(self):
+        import os
+        from .config import concat_config_path
+        self.assertEqual(os.path.split(concat_config_path(__file__, ''))[1], '')
+
+    def test_config_validate_path(self):
+        from .config import Config
+        with self.assertRaises(Exception):
+            Config.validate_path('a.conf')
+        with self.assertRaises(FileNotFoundError):
+            Config.validate_path('a.json')
+
+
 if __name__ == '__main__':
     main()
