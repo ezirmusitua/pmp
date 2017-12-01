@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import sys
+
+sys.path.append('..')
 from twisted.internet import reactor
 from twisted.internet.defer import inlineCallbacks, Deferred
 
@@ -24,7 +27,7 @@ def start_kuaidaili_crawler():
         yield spider_deferred
         print('crawled kuaidaili', times, ' times')
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULER')[KuaiDaiLiSpider.name], wait_deferred.callback, 'Done')
+        reactor.callLater(settings.get('SCHEDULE_' + KuaiDaiLiSpider.name), wait_deferred.callback, 'Done')
         print('= = = = = wait for 6 hours = = = = =')
         yield wait_deferred
         times += 1
@@ -39,7 +42,7 @@ def start_xicidaili_crawler():
         yield spider_deferred
         print('crawled xicidaili: ', times, ' times')
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULER')[XiCiSpider.name], wait_deferred.callback, 'Done')
+        reactor.callLater(settings.get('SCHEDULE_' + XiCiSpider.name), wait_deferred.callback, 'Done')
         print('= = = = = wait for 6 hours = = = = =')
         yield wait_deferred
         times += 1
@@ -54,7 +57,7 @@ def start_cnproxy_crawler():
         yield spider_deferred
         print('crawled cnproxy: ', times, ' times')
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULER')[CNProxySpider.name], wait_deferred.callback, 'Done')
+        reactor.callLater(settings.get('SCHEDULE_' + CNProxySpider.name), wait_deferred.callback, 'Done')
         print('= = = = = wait for 6 hours = = = = =')
         yield wait_deferred
         times += 1
@@ -69,7 +72,7 @@ def start_premproxy_crawler():
         yield spider_deferred
         print('crawled premproxy: ', times, ' times')
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULER')[PremProxySpider.name], wait_deferred.callback, 'Done')
+        reactor.callLater(settings.get('SCHEDULE_' + PremProxySpider.name), wait_deferred.callback, 'Done')
         print('= = = = = wait for 4 hours = = = = =')
         yield wait_deferred
         times += 1
@@ -84,7 +87,7 @@ def start_proxydb_crawler():
         yield spider_deferred
         print('crawled proxydb', times, ' times')
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULER')[ProxyDBSpider.name], wait_deferred.callback, 'Done')
+        reactor.callLater(settings.get('SCHEDULE_' + ProxyDBSpider.name), wait_deferred.callback, 'Done')
         print('= = = = = wait for 2 hours = = = = =')
         yield wait_deferred
         times += 1
@@ -99,7 +102,7 @@ def start_goubanjia_crawler():
         yield spider_deferred
         print('crawled goubanjia: ', times, ' times')
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULER')[GouBanJiaSpider.name], wait_deferred.callback, 'Done')
+        reactor.callLater(settings.get('SCHEDULE_' + GouBanJiaSpider.name), wait_deferred.callback, 'Done')
         print('= = = = = wait for 1 hour = = = = =')
         yield wait_deferred
         times += 1
@@ -114,7 +117,7 @@ def start_kxdaili_crawler():
         yield spider_deferred
         print('crawled kxdaili: ', times, ' times')
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULER')[KXDaiLiSpider.name], wait_deferred.callback, 'Done')
+        reactor.callLater(settings.get('SCHEDULE_' + KXDaiLiSpider.name), wait_deferred.callback, 'Done')
         print('= = = = = wait for 30 minutes = = = = =')
         yield wait_deferred
         times += 1
@@ -129,7 +132,7 @@ def start_ip_181_crawler():
         yield spider_deferred
         print('crawled ip181: ', times, ' times')
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULER')[Ip181Spider.name], wait_deferred.callback, 'Done')
+        reactor.callLater(settings.get('SCHEDULE_' + Ip181Spider.name), wait_deferred.callback, 'Done')
         print('= = = = = wait for 10 minutes = = = = =')
         yield wait_deferred
         times += 1

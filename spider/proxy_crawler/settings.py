@@ -99,12 +99,10 @@ LOG_FILE = 'logs/spiders.log'
 MONGO_URI = 'localhost:27017'
 MONGO_DATABASE = 'proxy_crawler_demo'
 PROXY_MODEL_NAME = 'proxy_list'
-SCHEDULER = {
-    'kuaidaili': 6 * 60 * 60,
-    'xici': 6 * 60 * 60,
-    'premproxy': 4 * 60 * 60,
-    'proxydb': 2 * 60 * 60,
-    'goubanjia': 1 * 60 * 60,
-    'kxdaili': 30 * 60,
-    'ip181': 15 * 60,
-}
+SCHEDULE_kuaidaili = 6 * 60 * 60
+SCHEDULE_xici = 6 * 60 * 60
+SCHEDULE_premproxy = 4 * 60 * 60
+SCHDEULE_proxydb = 2 * 60 * 60
+SCHDEULE_goubanjia = 1 * 60 * 60
+SCHDEULE_kxdaili = 30 * 60
+SCHDEULE_ip181 = 15 * 60
