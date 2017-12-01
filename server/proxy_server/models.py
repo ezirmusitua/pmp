@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-import sys
-
-sys.path.append('..')
-sys.path.append('../..')
-
 from public.models import ProxyModel
 from public.database import Database
+
+from . import config
 
 
 class ServerDatabase(Database):
@@ -13,9 +10,8 @@ class ServerDatabase(Database):
         super(ServerDatabase, self).__init__(*args, **kwargs)
 
 
-ServerDatabase.uri = 'localhost:27017'
-ServerDatabase.db_name = 'proxy_crawler_demo'
-ServerDatabase.db_name = 'proxy_crawler_demo'
+ServerDatabase.uri = config['DB_URI']
+ServerDatabase.db_name = config['DB_NAME']
 
 
 class Proxy(ProxyModel):
@@ -64,5 +60,5 @@ class User(object):
 
 
 def bind_models():
-    ServerDatabase('user').bind_to_model(User)
-    ServerDatabase('proxy_list').bind_to_model(Proxy)
+    ServerDatabase(config['USER_COLLECTION_NAME']).bind_to_model(User)
+    ServerDatabase(config['PROXY_COLLECTION_NAME']).bind_to_model(Proxy)

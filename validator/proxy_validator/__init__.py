@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
 from public.config import Config
-from .chain import Task
-from .models import Proxy, ProxyToUpdatePool, bind_models
-from .validation import validation_chain
 
 config = Config('config.json')
 
@@ -13,8 +10,10 @@ logging.basicConfig(
     format=config['LOG_FORMAT'],
 )
 
-
 def run_validation():
+    from .chain import Task
+    from .models import Proxy, ProxyToUpdatePool, bind_models
+    from .validation import validation_chain
     bind_models()
     logging.INFO('validation start. ')
     for p in Proxy.list({}):

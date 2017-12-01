@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
-import sys
-
-sys.path.append('..')
-sys.path.append('../..')
 import logging
 from ProxyGeoDetector import Detector
-from public.config import Config
+
+from . import config
 from .models import ProxyToUpdatePool
 from .chain import Handler, RChain
 from .client import Client
 
-config = Config('config.json')
 Connection_Detect_Targets = config['CONNECTION_DETECT_TARGET']
 Proxy_Types = config['PROXY_TYPES']
 Proxy_Type_Detect_Url = config['TYPE_DETECT_URL']

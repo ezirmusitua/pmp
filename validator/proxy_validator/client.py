@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
-import sys
-
-sys.path.append('..')
-sys.path.append('../..')
 import requests
-from public.config import Config
-
-config = Config('config.json')
+from . import config
 
 Default_UA = config['CLIENT_UA']
 Default_Timeout = config['CLIENT_TIMEOUT']

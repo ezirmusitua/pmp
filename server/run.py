@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from proxy_server import app, bind_models
+from .proxy_server import app, bind_models, config
 
 bind_models()
-app.run_app(host='127.0.0.1', port=8080, reloader=True)
+app.run_app(host=config['HOST'], port=config['PORT'], reloader=True)

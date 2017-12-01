@@ -1,3 +1,11 @@
 # -*- coding: utf-8 -*-
-from proxy_server.app import app
-from proxy_server.models import bind_models
+import sys
+
+sys.path.append('..')
+sys.path.append('../..')
+from public.config import Config
+
+config = Config('config.json')
+
+from .app import app
+from .models import bind_models

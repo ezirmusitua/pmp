@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
+import sys
+
+sys.path.append('..')
+sys.path.append('../..')
 from beaker.middleware import SessionMiddleware
 from bottle import Bottle, run, TEMPLATE_PATH
 
 TEMPLATE_PATH.insert(0, 'proxy_server')
-from proxy_server.route import routes
+from . import config
+from .route import routes
 
-SESSION_OPTIONS = {
-    # 以文件的方式保存 session
-    'session.type': 'file',
-    # session 过期时间为 1d
-    'session.cookie_expires': 24 * 60 * 60,
-    # session 保存目录
-    'session.data_dir': '.tmp/session',
-    # 自动保存 session
-    'session.auto': True
-}
+
+SESSION_OPTIONS = config['SESSION_OPTIONS']
 
 
 class BottleApp(object):
