@@ -82,5 +82,5 @@ class ProxyToUpdatePool(object):
 
 
 def bind_models():
-    ValidatorDatabase('proxy_list').bind_to_model(Proxy)
-    ValidatorDatabase('proxy_list').bind_to_model(ProxyToUpdatePool)
+    ValidatorDatabase(config['PROXY_MODEL_NAME']).bind_to_model(Proxy)
+    ValidatorDatabase(config['PROXY_MODEL_NAME']).bind_to_model(ProxyToUpdatePool)

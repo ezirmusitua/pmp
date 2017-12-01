@@ -6,6 +6,7 @@
   "DB_URI": "localhost:27017",
   "DB_NAME": "pmp",
   "PROXY_MODEL_NAME": "proxy_pool",
+  "USER_MODEL_NAME": "user",
   "BATCH_SIZE": 10,
   "HOST": "0.0.0.0",
   "PORT": 3080,

@@ -60,5 +60,5 @@ class User(object):
 
 
 def bind_models():
-    ServerDatabase(config['USER_COLLECTION_NAME']).bind_to_model(User)
-    ServerDatabase(config['PROXY_COLLECTION_NAME']).bind_to_model(Proxy)
+    ServerDatabase(config['USER_MODEL_NAME']).bind_to_model(User)
+    ServerDatabase(config['PROXY_MODEL_NAME']).bind_to_model(Proxy)

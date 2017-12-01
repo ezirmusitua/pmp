@@ -45,4 +45,4 @@ class Proxy(ProxyModel):
 
 
 def bind_models():
-    SpiderDatabase('proxy_list').bind_to_model(Proxy)
+    SpiderDatabase(settings.get('PROXY_MODEL_NAME')).bind_to_model(Proxy)

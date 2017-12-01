@@ -98,6 +98,7 @@ LOG_LEVEL = 'WARNING'
 LOG_FILE = 'logs/spiders.log'
 MONGO_URI = 'localhost:27017'
 MONGO_DATABASE = 'proxy_crawler_demo'
+PROXY_MODEL_NAME = 'proxy_list'
 SCHEDULER = {
     'kuaidaili': 6 * 60 * 60,
     'xici': 6 * 60 * 60,
