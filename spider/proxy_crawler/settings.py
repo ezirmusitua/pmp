@@ -93,10 +93,17 @@ AUTOTHROTTLE_MAX_DELAY = 5 * 60
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 DOWNLOAD_TIMEOUT = 60
-
 LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
 LOG_LEVEL = 'WARNING'
 LOG_FILE = 'logs/spiders.log'
-
 MONGO_URI = 'localhost:27017'
 MONGO_DATABASE = 'proxy_crawler_demo'
+SCHEDULER = {
+    'kuaidaili': 6 * 60 * 60,
+    'xici': 6 * 60 * 60,
+    'premproxy': 4 * 60 * 60,
+    'proxydb': 2 * 60 * 60,
+    'goubanjia': 1 * 60 * 60,
+    'kxdaili': 30 * 60,
+    'ip181': 15 * 60,
+}
