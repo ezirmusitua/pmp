@@ -2,7 +2,7 @@
 from public.models import ProxyModel
 from public.database import Database
 
-from . import config
+from proxy_server import config
 
 
 class ServerDatabase(Database):

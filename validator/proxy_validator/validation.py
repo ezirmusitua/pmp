@@ -3,10 +3,10 @@ import os
 import logging
 from ProxyGeoDetector import Detector
 
-from . import config
-from .models import ProxyToUpdatePool
-from .chain import Handler, RChain
-from .client import Client
+from proxy_validator import config
+from proxy_validator.models import ProxyToUpdatePool
+from proxy_validator.chain import Handler, RChain
+from proxy_validator.client import Client
 
 Connection_Detect_Targets = config['CONNECTION_DETECT_TARGET']
 Proxy_Types = config['PROXY_TYPES']

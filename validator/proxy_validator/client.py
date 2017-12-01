@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
-from . import config
+from proxy_validator import config
 
 Default_UA = config['CLIENT_UA']
 Default_Timeout = config['CLIENT_TIMEOUT']

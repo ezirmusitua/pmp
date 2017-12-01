@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
+import time
 import sys
 
 sys.path.append('..')
 
-import time
 from public.config import Config
-from .proxy_validator import run_validation
+from proxy_validator import run_validation
 
 config = Config('config.json')
+
 if __name__ == '__main__':
     while True:
         run_validation()

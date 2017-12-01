@@ -38,7 +38,7 @@ class ProxyMiddleware(object):
         return cls()
 
     def process_request(self, request, spider):
-        from .models import Proxy
+        from proxy_crawler.models import Proxy
         # TODO: This method can convert to random proxy library
         proxy_str = Proxy.get_random_usable_one_proxy(spider.name)
         if proxy_str:

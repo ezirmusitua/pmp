@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 
-from ..items import ProxyItemLoader, Proxy
+from proxy_crawler.items import ProxyItemLoader, Proxy
 
 
 class Ip181Spider(scrapy.Spider):

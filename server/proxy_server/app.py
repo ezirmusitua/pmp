@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
-import sys
-
-sys.path.append('..')
-sys.path.append('../..')
-from beaker.middleware import SessionMiddleware
 from bottle import Bottle, run, TEMPLATE_PATH
 
 TEMPLATE_PATH.insert(0, 'proxy_server')
-from . import config
-from .route import routes
 
+from beaker.middleware import SessionMiddleware
+
+from proxy_server import config
+from proxy_server.route import routes
 
 SESSION_OPTIONS = config['SESSION_OPTIONS']
 

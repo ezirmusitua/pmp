@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-import sys
-
-sys.path.append('..')
-sys.path.append('../..')
-
 from random import choice
 from scrapy.utils.project import get_project_settings
 

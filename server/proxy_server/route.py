@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from bottle import request, template, static_file, redirect
 
-from .models import Proxy, User
-from .utils import generate_pagination, login_required
+from proxy_server.models import Proxy, User
+from proxy_server.utils import generate_pagination, login_required
 
 
 # reference: https://github.com/salimane/bottle-mvc/blob/master/project/controllers/static.py

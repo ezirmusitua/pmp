@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import math
-
 from bottle import request, redirect
 
 

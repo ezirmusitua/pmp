@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
-import sys
-
-sys.path.append('..')
-sys.path.append('../..')
-
 from public.models import ProxyModel
 from public.database import Database
 from public.decorators import singleton
 
-from . import config
+from proxy_validator import config
 
 
 class ValidatorDatabase(Database):
@@ -81,5 +76,6 @@ class ProxyToUpdatePool(object):
 
 
 def bind_models():
+    print('is call this')
     ValidatorDatabase(config['PROXY_MODEL_NAME']).bind_to_model(Proxy)
     ValidatorDatabase(config['PROXY_MODEL_NAME']).bind_to_model(ProxyToUpdatePool)
