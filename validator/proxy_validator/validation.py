@@ -1,23 +1,21 @@
 # -*- coding: utf-8 -*-
 import os
+import sys
 
+sys.path.append('..')
+sys.path.append('../..')
+import logging
 from ProxyGeoDetector import Detector
-
+from public.config import Config
 from .models import ProxyToUpdatePool
 from .chain import Handler, RChain
 from .client import Client
 
-Connection_Detect_Targets = {
-    'httpbin': 'https://httpbin.org',
-    'google': 'https://www.google.com',
-    'baidu': 'https://baidu.com',
-    'cn-proxy': 'http://cn-proxy.com',
-    'premproxy': 'https://premproxy.com',
-    'proxydb': 'http://proxy-db.net',
-}
-Proxy_Types = ['http', 'https', 'socks4', 'socks5']
-Proxy_Type_Detect_Url = 'https://httpbin.org'
-Request_Anonymity_Headers_Detect_Url = 'https://jferroal/proxy/anonymity-checker'
+config = Config('config.json')
+Connection_Detect_Targets = config['CONNECTION_DETECT_TARGET']
+Proxy_Types = config['PROXY_TYPES']
+Proxy_Type_Detect_Url = config['TYPE_DETECT_URL']
+Anonymity_Detect_Url = config['ANONYMITY_DETECT_URL']
 
 
 def validate_usability(proxy):
@@ -27,7 +25,8 @@ def validate_usability(proxy):
     for site in ['baidu', 'google']:
         try:
             client.get(Connection_Detect_Targets[site])
-        except Exception:
+        except Exception as e:
+            logging.WARNING(e)
             is_usable += 0
         else:
             is_usable += 1
@@ -43,7 +42,8 @@ def validate_connection(proxy):
     for site in Connection_Detect_Targets:
         try:
             client.get(Connection_Detect_Targets[site])
-        except Exception:
+        except Exception as e:
+            logging.WARNING(e)
             continue
         else:
             available_sites.append(site)
@@ -55,10 +55,10 @@ def validate_anonymity(proxy):
     client.set_proxies(proxy.proxy_str(), proxy.proxy_type[0])
     anonymity = ['unknown']
     try:
-        # FIXME: Update here after server done
-        # anonymity = client.get(Request_Anonymity_Headers_Detect_Url).json()
-        anonymity = ['unknown']
-    except Exception:
+        if Anonymity_Detect_Url:
+            anonymity = client.get(Anonymity_Detect_Url).json()
+    except Exception as e:
+        logging.WARNING(e)
         return anonymity
     else:
         return anonymity
@@ -76,7 +76,8 @@ def validate_proxy_type(proxy):
         client.set_proxies(proxy.proxy_str(), t)
         try:
             client.get(Proxy_Type_Detect_Url)
-        except Exception:
+        except Exception as e:
+            logging.WARNING(e)
             continue
         else:
             proxy_type.append(t)

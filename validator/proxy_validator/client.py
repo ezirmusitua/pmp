@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
-import requests
+import sys
 
-Default_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
-             'Chrome/60.0.3112.113 Safari/537.36'
-Default_Timeout = 1
+sys.path.append('..')
+sys.path.append('../..')
+import requests
+from public.config import Config
+
+config = Config('config.json')
+
+Default_UA = config['CLIENT_UA']
+Default_Timeout = config['CLIENT_TIMEOUT']
 
 
 class Client(object):
