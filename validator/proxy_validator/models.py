@@ -7,9 +7,9 @@ sys.path.append('../..')
 from public.models import ProxyModel
 from public.database import Database
 from public.decorators import singleton
+from public.config import Config
 
-MONGO_URI = 'localhost:27017'
-MONGO_DATABASE = 'proxy_crawler_demo'
+config = Config('config.json')
 
 
 class ValidatorDatabase(Database):
@@ -17,8 +17,8 @@ class ValidatorDatabase(Database):
         super(ValidatorDatabase, self).__init__(*args, **kwargs)
 
 
-ValidatorDatabase.uri = MONGO_URI
-ValidatorDatabase.db_name = MONGO_DATABASE
+ValidatorDatabase.uri = config['DB_URI']
+ValidatorDatabase.db_name = config['DB_NAME']
 
 
 class Proxy(ProxyModel):
@@ -61,12 +61,10 @@ class ProxyToUpdatePool(object):
         self.to_update = list()
 
     def handle_pool(self):
-        # FIXME: update size with configuration
-        if len(self.to_remove) >= 1:
+        if len(self.to_remove) >= config['BATCH_SIZE']:
             self.db_collection.remove({'_id': {'$in': list(map(lambda _p: _p.id, self.to_remove))}})
             self.to_remove = list()
-        # FIXME: update size with configuration
-        if len(self.to_update) >= 1:
+        if len(self.to_update) >= config['BATCH_SIZE']:
             for p in self.to_update:
                 self.db_collection.update({'_id': p.id}, p.to_json())
             self.to_update = list()
@@ -76,6 +74,11 @@ class ProxyToUpdatePool(object):
             self.to_remove.append(proxy)
         else:
             self.to_update.append(proxy)
+
+    def flush(self):
+        self.db_collection.remove({'_id': {'$in': list(map(lambda _p: _p.id, self.to_remove))}})
+        for p in self.to_update:
+            self.db_collection.update({'_id': p.id}, p.to_json())
 
 
 def bind_models():
