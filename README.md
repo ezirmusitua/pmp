@@ -37,6 +37,32 @@ python validator/run.py
 # start web app
 python server/app.py
 ```
+use in fish shell, add the following code in your ~/.config/fish/config.fish  
+```shell
+# proxy setter
+function setproxy --argument-names 'connection' 'anonymity'
+  # connection query for
+  if test -n "$connection"
+    set -l connection ""
+  end
+  # anonymity query for
+  if test -n "$anonymity"
+    set -l anonymity ""
+  end
+  # query PMP for a query
+  # change localhost:3080 to your server address
+  set -l proxy_str (curl "localhost:3080/lucky-proxy?platform=shell&connection=$connection&anonymity=$anonymity")
+  # set shell http_proxy/https_proxy env var
+  set -g -x http_proxy "http://$proxy_str"
+  set -g -x https_proxy "https://$proxy_str"
+end
+function unsetproxy
+  set -g -e http_proxy
+  set -g -e https_proxy
+end
+# the following line make sure every time the shell start up with not proxy set
+unsetproxy
+```
 
 ### Development
 <p style="color: red; font-weight: 600">THIS PROJECT IS NOT USABLE AT NOW 2017/11/08</p>
