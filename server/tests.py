@@ -1,13 +1,24 @@
 # -*- coding: utf-8 -*-
 from unittest import TestCase, mock, main
 
-from proxy_server.models import Proxy
+from proxy_server.models import Proxy, Token
 from proxy_server.route import check_user
 
 
 class TestModel(TestCase):
     def setUp(self):
         Proxy.db_collection = mock.MagicMock()
+        Token.db_collection = mock.MagicMock()
+        self.test_token_dict = {
+            '_id': 'd1',
+            'salt': '123',
+            'token': '263fec58861449aacc1c328a4af' +
+                     'f64aff4c62df4a2d50b3f207fa8' +
+                     '9b6e242c9aa778e7a8baeffef85' +
+                     'b6ca6d2e7dc16ff0a760d59c13c' +
+                     '238f6bcdc32f8ce9cc62',
+            'create_at': 0
+        }
 
     def test_proxy_search_with_no_search_params(self):
         # input search params is None, use empty query
@@ -43,6 +54,23 @@ class TestModel(TestCase):
         print(Proxy.db_collection.list())
         res = Proxy.search(None, None, None)
         self.assertEqual(res, ['127.0.0.1:8080'])
+
+    def test_token_hash(self):
+        import hashlib
+        self.assertTrue(hashlib.sha512('123123'.encode()), Token.hash('123', '123'))
+
+    def test_token_find(self):
+        token = Token(self.test_token_dict)
+        Token.db_collection.list = mock.MagicMock(return_value=[self.test_token_dict])
+        result = Token.find('123')
+        self.assertIsInstance(result, Token)
+        self.assertEqual(result.token, token.token)
+        self.assertIsNone(Token.find('12345'))
+
+    def test_token_validate(self):
+        Token.db_collection.list = mock.MagicMock(return_value=[self.test_token_dict])
+        self.assertTrue(Token.find('123'))
+        self.assertFalse(Token.find('12345'))
 
 
 class TestHelper(TestCase):
