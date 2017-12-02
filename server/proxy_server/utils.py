@@ -13,7 +13,3 @@ def generate_pagination(page_index, page_size, total_count):
     }
 
 
-def login_required():
-    sessions = request.environ.get('beaker.session')
-    if not sessions.get('user'):
-        return redirect('/login')
