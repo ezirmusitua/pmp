@@ -10,10 +10,8 @@
   "BATCH_SIZE": 10,
   "HOST": "0.0.0.0",
   "PORT": 3080,
-  "SESSION_CONFIG": {
-    "session.type": "file",
-    "session.cookie_expires": 86400,
-    "session.data_dir": ".tmp/session",
-    "session.auto": true
+  "ADMIN": {
+    "USERNAME": "admin",
+    "PASSWORD": "123123"
   }
 }

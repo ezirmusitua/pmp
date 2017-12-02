@@ -4,12 +4,20 @@ from bottle import request
 from proxy_server.models import Proxy
 
 
-def check_token():
+def check_user(username, password):
+    from proxy_server import config
+    admin = config['ADMIN']
+    if username != admin['USERNAME'] or password != admin['PASSWORD']:
+        return False
+    return True
+
+
+def check_token(token):
     return True
 
 
 def get_random_proxy():
-    check_token()
+    check_token('')
     _type = request.query.get('type', '').split(',')
     connection = request.query.get('connection', '').split(',')
     anonymity = request.query.get('anonymity', '').split(',')

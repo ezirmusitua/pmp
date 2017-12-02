@@ -3,12 +3,7 @@ from bottle import Bottle, run, TEMPLATE_PATH
 
 TEMPLATE_PATH.insert(0, 'proxy_server')
 
-from beaker.middleware import SessionMiddleware
-
-from proxy_server import config
 from proxy_server.route import routes
-
-SESSION_OPTIONS = config['SESSION_OPTIONS']
 
 
 class BottleApp(object):
@@ -29,8 +24,8 @@ class BottleApp(object):
         self._app = middlewares(self._app, options)
         return self
 
-    def routes(self, routes):
-        for route in routes:
+    def routes(self, _routes):
+        for route in _routes:
             self._app.route(route['path'], route['method'], route['handler'])
 
     def run_app(self, *args, **kwargs):
@@ -42,5 +37,3 @@ class BottleApp(object):
 app = BottleApp(catchall=True)
 # bind routes to app
 app.routes(routes)
-# bind middlewares to app
-app.middlewares(SessionMiddleware, SESSION_OPTIONS)

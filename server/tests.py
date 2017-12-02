@@ -2,6 +2,7 @@
 from unittest import TestCase, mock, main
 
 from proxy_server.models import Proxy
+from proxy_server.route import check_user
 
 
 class TestModel(TestCase):
@@ -42,6 +43,13 @@ class TestModel(TestCase):
         print(Proxy.db_collection.list())
         res = Proxy.search(None, None, None)
         self.assertEqual(res, ['127.0.0.1:8080'])
+
+
+class TestHelper(TestCase):
+    def test_check_user(self):
+        self.assertTrue(check_user('admin', '123123'))
+        self.assertFalse(check_user('admin', '123456'))
+        self.assertFalse(check_user('admin1', '123123'))
 
 
 if __name__ == '__main__':
