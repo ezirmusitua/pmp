@@ -14,7 +14,10 @@ def get_random_proxy():
     connection = request.query.get('connection', '').split(',')
     anonymity = request.query.get('anonymity', '').split(',')
     size = request.query.get('size', None)
+    is_shell = request.query.get('platform', '') == 'shell'
     proxy_strs = Proxy.search(_type, connection, anonymity, size)
+    if is_shell:
+        return proxy_strs[0] if len(proxy_strs) >= 1 else ''
     from json import dumps
     return dumps({
         'count': len(proxy_strs),
