@@ -24,7 +24,7 @@ class Proxy(ProxyModel):
     def search(_type=None, connection=None, anonymity=None, size=20):
         query = dict()
         if _type and len(_type):
-            query['type'] = {'$in': _type}
+            query['proxy_type'] = {'$in': _type}
         if connection and len(connection):
             query['connection'] = {'$in': connection}
         if anonymity and len(anonymity):
