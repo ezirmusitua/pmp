@@ -21,7 +21,7 @@ def validate_usability(proxy):
         try:
             client.get(Connection_Detect_Targets[site])
         except Exception as e:
-            logging.warning(e)
+            logging.info(e)
             is_usable += 0
         else:
             is_usable += 1
@@ -39,7 +39,7 @@ def validate_connection(proxy):
         try:
             client.get(Connection_Detect_Targets[site])
         except Exception as e:
-            logging.warning(e)
+            logging.info(e)
             continue
         else:
             available_sites.append(site)
@@ -55,7 +55,7 @@ def validate_anonymity(proxy):
         if Anonymity_Detect_Url:
             anonymity = client.get(Anonymity_Detect_Url).json()
     except Exception as e:
-        logging.warning(e)
+        logging.info(e)
         return anonymity
     else:
         return anonymity
@@ -71,23 +71,27 @@ def validate_location(proxy):
 def validate_proxy_type(proxy):
     if proxy.invalid: return []
     client = Client()
-    proxy_type = ['http']
+    proxy_type = []
     for t in Proxy_Types:
         client.set_proxies(proxy.proxy_str(), t)
         try:
             client.get(Proxy_Type_Detect_Url)
         except Exception as e:
-            logging.warning(e)
+            logging.info(e)
             continue
         else:
             proxy_type.append(t)
-    return proxy_type
+    return proxy_type if len(proxy_type) else ['http']
+
+
+def update_check_at(proxy):
+    if proxy.invalid: return -1
+    import time
+    return time.time()
 
 
 def save_or_remove(proxy):
-    import time
     proxy.save_or_remove()
-    return time.time()
 
 
 validation_chain = RChain() \
@@ -96,4 +100,5 @@ validation_chain = RChain() \
     .append_handler(Handler('connection', validate_connection)) \
     .append_handler(Handler('anonymity', validate_anonymity)) \
     .append_handler(Handler('location', validate_location)) \
-    .append_handler(Handler('last_check_at', save_or_remove))
+    .append_handler(Handler('last_check_at', update_check_at)) \
+    .append_handler(Handler('end', save_or_remove))
