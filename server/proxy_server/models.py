@@ -63,14 +63,16 @@ class Token(object):
 
     @staticmethod
     def generate(key):
+        print(Token.db_collection.database)
         salt = uuid.uuid4().hex
         create_at = time.time()
         token = Token.hash(key, salt)
-        Token.db_collection.insert({
+        Token.db_collection.find_one_and_update({'token': token}, {
             'salt': salt,
             'token': token,
             'create_at': create_at
         })
+        return token
 
     @staticmethod
     def delete(key):
