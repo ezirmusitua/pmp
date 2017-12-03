@@ -30,7 +30,6 @@ class Proxy(ProxyModel):
         if self.invalid:
             self.db_collection.remove({'_id': self.id})
         else:
-            print(self.to_json())
             self.db_collection.update({'_id': self.id}, self.to_json())
 
     def __getitem__(self, key):
