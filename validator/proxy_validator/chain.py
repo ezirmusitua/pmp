@@ -4,7 +4,10 @@ class Task(object):
         self.target = target
 
     def set_result(self, name, result):
-        self.target[name] = result
+        try:
+            self.target[name] = result
+        except KeyError:
+            pass
 
     def run_handler(self, handler):
         self.set_result(handler.name, handler.handle(self))

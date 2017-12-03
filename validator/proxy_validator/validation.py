@@ -7,7 +7,7 @@ from proxy_validator import config
 from proxy_validator.chain import Handler, RChain
 from proxy_validator.client import Client
 
-Connection_Detect_Targets = config['CONNECTION_DETECT_TARGET']
+Connection_Detect_Targets = config['CONNECTION_DETECT_TARGETS']
 Proxy_Types = config['PROXY_TYPES']
 Proxy_Type_Detect_Url = config['TYPE_DETECT_URL']
 Anonymity_Detect_Url = config['ANONYMITY_DETECT_URL']
@@ -21,7 +21,7 @@ def validate_usability(proxy):
         try:
             client.get(Connection_Detect_Targets[site])
         except Exception as e:
-            logging.WARNING(e)
+            logging.warning(e)
             is_usable += 0
         else:
             is_usable += 1
@@ -31,6 +31,7 @@ def validate_usability(proxy):
 
 
 def validate_connection(proxy):
+    if proxy.invalid: return []
     available_sites = list()
     client = Client()
     client.set_proxies(proxy.proxy_str(), proxy.proxy_type[0])
@@ -38,7 +39,7 @@ def validate_connection(proxy):
         try:
             client.get(Connection_Detect_Targets[site])
         except Exception as e:
-            logging.WARNING(e)
+            logging.warning(e)
             continue
         else:
             available_sites.append(site)
@@ -46,6 +47,7 @@ def validate_connection(proxy):
 
 
 def validate_anonymity(proxy):
+    if proxy.invalid: return []
     client = Client()
     client.set_proxies(proxy.proxy_str(), proxy.proxy_type[0])
     anonymity = ['unknown']
@@ -53,18 +55,20 @@ def validate_anonymity(proxy):
         if Anonymity_Detect_Url:
             anonymity = client.get(Anonymity_Detect_Url).json()
     except Exception as e:
-        logging.WARNING(e)
+        logging.warning(e)
         return anonymity
     else:
         return anonymity
 
 
 def validate_location(proxy):
+    if proxy.invalid: return []
     db_path = os.path.split(os.path.realpath(__file__))[0] + '/GeoLite2-City.mmdb'
     return Detector.open_reader(db_path)(proxy.ip_address).location_label()
 
 
 def validate_proxy_type(proxy):
+    if proxy.invalid: return []
     client = Client()
     proxy_type = ['http']
     for t in Proxy_Types:
@@ -72,7 +76,7 @@ def validate_proxy_type(proxy):
         try:
             client.get(Proxy_Type_Detect_Url)
         except Exception as e:
-            logging.WARNING(e)
+            logging.warning(e)
             continue
         else:
             proxy_type.append(t)

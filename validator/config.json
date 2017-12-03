@@ -1,11 +1,11 @@
 {
   "DEBUG": false,
-  "LOG_LEVEL": "WARNING",
+  "LOG_LEVEL": "INFO",
   "LOG_FORMAT": "%(asctime)s [%(name)s] %(levelname)s: %(message)s",
   "LOG_FILE": "validator.log",
   "DB_URI": "mongodb://admin:123123@localhost:27017/pmp",
   "DB_NAME": "pmp",
-  "PROXY_MODEL_NAME": "proxy_pool",
+  "PROXY_MODEL_NAME": "proxy",
   "BATCH_SIZE": 10,
   "CONNECTION_DETECT_TARGETS": {
     "httpbin": "https://httpbin.org",
