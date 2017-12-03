@@ -64,7 +64,8 @@ def validate_anonymity(proxy):
 def validate_location(proxy):
     if proxy.invalid: return []
     db_path = os.path.split(os.path.realpath(__file__))[0] + '/GeoLite2-City.mmdb'
-    return Detector.open_reader(db_path)(proxy.ip_address).location_label()
+    # FIXME: update geo detector default locale
+    return Detector.open_reader(db_path)(proxy.ip_address, None).location_label()
 
 
 def validate_proxy_type(proxy):
@@ -84,7 +85,9 @@ def validate_proxy_type(proxy):
 
 
 def save_or_remove(proxy):
+    import time
     proxy.save_or_remove()
+    return time.time()
 
 
 validation_chain = RChain() \
@@ -93,4 +96,4 @@ validation_chain = RChain() \
     .append_handler(Handler('connection', validate_connection)) \
     .append_handler(Handler('anonymity', validate_anonymity)) \
     .append_handler(Handler('location', validate_location)) \
-    .append_handler(Handler('db', save_or_remove))
+    .append_handler(Handler('last_check_at', save_or_remove))

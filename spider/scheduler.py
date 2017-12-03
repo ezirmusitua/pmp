@@ -26,9 +26,10 @@ def start_kuaidaili_crawler():
         spider_deferred = runner.crawl(KuaiDaiLiSpider)
         yield spider_deferred
         print('crawled kuaidaili', times, ' times')
+        wait_seconds = settings.get('SCHEDULE_' + KuaiDaiLiSpider.name.upper())
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULE_' + KuaiDaiLiSpider.name.upper()), wait_deferred.callback, 'Done')
-        print('= = = = = wait for 6 hours = = = = =')
+        reactor.callLater(wait_seconds, wait_deferred.callback, 'Done')
+        print('= = = = = wait for {} seconds = = = = ='.format(wait_seconds))
         yield wait_deferred
         times += 1
 
@@ -41,9 +42,10 @@ def start_xicidaili_crawler():
         spider_deferred = runner.crawl(XiCiSpider)
         yield spider_deferred
         print('crawled xicidaili: ', times, ' times')
+        wait_seconds = settings.get('SCHEDULE_' + XiCiSpider.name.upper())
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULE_' + XiCiSpider.name.upper()), wait_deferred.callback, 'Done')
-        print('= = = = = wait for 6 hours = = = = =')
+        reactor.callLater(wait_seconds, wait_deferred.callback, 'Done')
+        print('= = = = = wait for {} seconds = = = = ='.format(wait_seconds))
         yield wait_deferred
         times += 1
 
@@ -56,9 +58,10 @@ def start_cnproxy_crawler():
         spider_deferred = runner.crawl(CNProxySpider)
         yield spider_deferred
         print('crawled cnproxy: ', times, ' times')
+        wait_seconds = settings.get('SCHEDULE_' + CNProxySpider.name.upper())
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULE_' + CNProxySpider.name.upper()), wait_deferred.callback, 'Done')
-        print('= = = = = wait for 6 hours = = = = =')
+        reactor.callLater(wait_seconds, wait_deferred.callback, 'Done')
+        print('= = = = = wait for {} seconds = = = = ='.format(wait_seconds))
         yield wait_deferred
         times += 1
 
@@ -71,9 +74,10 @@ def start_premproxy_crawler():
         spider_deferred = runner.crawl(PremProxySpider)
         yield spider_deferred
         print('crawled premproxy: ', times, ' times')
+        wait_seconds = settings.get('SCHEDULE_' + PremProxySpider.name.upper())
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULE_' + PremProxySpider.name.upper()), wait_deferred.callback, 'Done')
-        print('= = = = = wait for 4 hours = = = = =')
+        reactor.callLater(wait_seconds, wait_deferred.callback, 'Done')
+        print('= = = = = wait for {} seconds = = = = ='.format(wait_seconds))
         yield wait_deferred
         times += 1
 
@@ -86,9 +90,10 @@ def start_proxydb_crawler():
         spider_deferred = runner.crawl(ProxyDBSpider)
         yield spider_deferred
         print('crawled proxydb', times, ' times')
+        wait_seconds = settings.get('SCHEDULE_' + ProxyDBSpider.name.upper())
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULE_' + ProxyDBSpider.name.upper()), wait_deferred.callback, 'Done')
-        print('= = = = = wait for 2 hours = = = = =')
+        reactor.callLater(wait_seconds, wait_deferred.callback, 'Done')
+        print('= = = = = wait for {} seconds = = = = ='.format(wait_seconds))
         yield wait_deferred
         times += 1
 
@@ -101,9 +106,10 @@ def start_goubanjia_crawler():
         spider_deferred = runner.crawl(GouBanJiaSpider)
         yield spider_deferred
         print('crawled goubanjia: ', times, ' times')
+        wait_seconds = settings.get('SCHEDULE_' + GouBanJiaSpider.name.upper())
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULE_' + GouBanJiaSpider.name.upper()), wait_deferred.callback, 'Done')
-        print('= = = = = wait for 1 hour = = = = =')
+        reactor.callLater(wait_seconds, wait_deferred.callback, 'Done')
+        print('= = = = = wait for {} seconds = = = = ='.format(wait_seconds))
         yield wait_deferred
         times += 1
 
@@ -116,9 +122,10 @@ def start_kxdaili_crawler():
         spider_deferred = runner.crawl(KXDaiLiSpider)
         yield spider_deferred
         print('crawled kxdaili: ', times, ' times')
+        wait_seconds = settings.get('SCHEDULE_' + KXDaiLiSpider.name.upper())
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULE_' + KXDaiLiSpider.name.upper()), wait_deferred.callback, 'Done')
-        print('= = = = = wait for 30 minutes = = = = =')
+        reactor.callLater(wait_seconds, wait_deferred.callback, 'Done')
+        print('= = = = = wait for {} seconds = = = = ='.format(wait_seconds))
         yield wait_deferred
         times += 1
 
@@ -131,9 +138,10 @@ def start_ip_181_crawler():
         spider_deferred = runner.crawl(Ip181Spider)
         yield spider_deferred
         print('crawled ip181: ', times, ' times')
+        wait_seconds = settings.get('SCHEDULE_' + Ip181Spider.name.upper())
         wait_deferred = Deferred()
-        reactor.callLater(settings.get('SCHEDULE_' + Ip181Spider.name.upper()), wait_deferred.callback, 'Done')
-        print('= = = = = wait for 10 minutes = = = = =')
+        reactor.callLater(wait_seconds, wait_deferred.callback, 'Done')
+        print('= = = = = wait for {} seconds = = = = ='.format(wait_seconds))
         yield wait_deferred
         times += 1
 

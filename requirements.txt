@@ -2,7 +2,6 @@ appnope==0.1.0
 asn1crypto==0.23.0
 attrs==17.2.0
 Automat==0.6.0
-Beaker==1.9.0
 bottle==0.12.13
 certifi==2017.7.27.1
 cffi==1.11.0
