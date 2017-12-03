@@ -25,13 +25,13 @@ class Proxy(ProxyModel):
     @staticmethod
     def search(_type=None, connection=None, anonymity=None, size=20):
         query = dict()
-        if _type and len(_type):
+        if _type and len(_type) and _type[0]:
             query['proxy_type'] = {'$in': _type}
-        if connection and len(connection):
+        if connection and len(connection) and connection[0]:
             query['connection'] = {'$in': connection}
-        if anonymity and len(anonymity):
+        if anonymity and len(anonymity) and anonymity[0]:
             query['anonymity'] = {'$in': anonymity}
-        return list(map(lambda p: p.proxy_str(), Proxy.db_collection.list(query, limit=size)))
+        return list(map(lambda p: Proxy(p).proxy_str(), Proxy.db_collection.list(query, limit=size)))
 
 
 class Token(object):

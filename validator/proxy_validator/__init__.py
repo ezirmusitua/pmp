@@ -12,12 +12,12 @@ logging.basicConfig(
 
 
 def run_validation():
-    from .chain import Task
-    from .models import Proxy, bind_models
-    from .validation import validation_chain
+    from proxy_validator.chain import Task
+    from proxy_validator.models import Proxy, ValidatorDatabase, bind_models
+    from proxy_validator.validation import validation_chain
     bind_models()
     logging.info('validation start. ')
-    for p in Proxy.list({}):
+    for p in Proxy.list({}, sort=[('_id', ValidatorDatabase.A_ORDER)]):
         proxy = Proxy(p)
         logging.info('validating proxy: %s' % proxy)
         t = Task(proxy)

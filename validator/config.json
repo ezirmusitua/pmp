@@ -24,6 +24,6 @@
   "TYPE_DETECT_URL": "https://httpbin.org",
   "ANONYMITY_DETECT_URL": null,
   "CLIENT_UA": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36",
-  "CLIENT_TIMEOUT": 1,
+  "CLIENT_TIMEOUT": 0.5,
   "SCHEDULER": 3600
 }

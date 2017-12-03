@@ -13,5 +13,5 @@ if __name__ == '__main__':
     while True:
         print('running ... ')
         run_validation()
-        print('sleep for 100 seconds')
-        time.sleep(config['SCHEDULER'])
+        # print('sleep for 100 seconds')
+        # time.sleep(config['SCHEDULER'])
