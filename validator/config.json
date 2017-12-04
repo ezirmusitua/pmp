@@ -1,6 +1,6 @@
 {
   "DEBUG": false,
-  "LOG_LEVEL": "INFO",
+  "LOG_LEVEL": "WARNING",
   "LOG_FORMAT": "%(asctime)s [%(name)s] %(levelname)s: %(message)s",
   "LOG_FILE": "validator.log",
   "DB_URI": "mongodb://admin:123123@localhost:27017/pmp",

@@ -17,7 +17,7 @@ def run_validation():
     from proxy_validator.validation import validation_chain
     bind_models()
     logging.info('validation start. ')
-    for p in Proxy.list({}, sort=[('_id', ValidatorDatabase.A_ORDER)]):
+    for p in Proxy.list({}, sort=[('last_check_at', ValidatorDatabase.A_ORDER)], batch_size=10):
         proxy = Proxy(p)
         logging.info('validating proxy: %s' % proxy)
         t = Task(proxy)
