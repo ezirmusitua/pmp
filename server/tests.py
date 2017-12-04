@@ -40,18 +40,15 @@ class TestModel(TestCase):
 
     def test_proxy_search_return(self):
         # return value should be proxy string list
-        Proxy.db_collection.list = mock.MagicMock(return_value=[
-            Proxy({
-                '_id': '0',
-                'ip_address': '127.0.0.1',
-                'port': 8080,
-                'proxy_type': ['unknown'],
-                'anonymity': ['unknown'],
-                'location': 'unknown, unknown',
-                'connection': []
-            })
-        ])
-        print(Proxy.db_collection.list())
+        Proxy.db_collection.list = mock.MagicMock(return_value=[{
+            '_id': '0',
+            'ip_address': '127.0.0.1',
+            'port': 8080,
+            'proxy_type': ['unknown'],
+            'anonymity': ['unknown'],
+            'location': 'unknown, unknown',
+            'connection': []
+        }])
         res = Proxy.search(None, None, None)
         self.assertEqual(res, ['127.0.0.1:8080'])
 

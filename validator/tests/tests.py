@@ -23,7 +23,7 @@ class TestClient(TestCase):
             self.client.get()
         self.client.get(url='http://httpbin.org')
         self.client.session.get.assert_called_with('http://httpbin.org', headers={'User-Agent': Default_UA}, proxies={},
-                                                   timeout=1)
+                                                   timeout=Default_Timeout)
 
     def test_set_proxy(self):
         self.client.set_proxies('123.103.93.38:80')
