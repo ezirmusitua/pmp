@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from bottle import Bottle, run, TEMPLATE_PATH
-
-TEMPLATE_PATH.insert(0, 'proxy_server')
+from bottle import Bottle, run
 
 from proxy_server.route import routes
 
