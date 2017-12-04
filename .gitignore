@@ -139,3 +139,5 @@ ENV/
 
 */.tmp
 *.pyc 
+
+*_deploy/

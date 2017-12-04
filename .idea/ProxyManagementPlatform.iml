@@ -12,6 +12,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../server" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../public" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/../server/.tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/../server_deploy" />
       <excludeFolder url="file://$MODULE_DIR$/../spider/.scrapy" />
       <excludeFolder url="file://$MODULE_DIR$/../spider/logs" />
     </content>
