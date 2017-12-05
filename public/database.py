@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 import pymongo
 
 
@@ -11,8 +12,22 @@ class Database(object):
     D_ORDER = pymongo.DESCENDING
 
     def connect(self):
-        Database.client = pymongo.MongoClient(self.uri, connect=False)
-        Database.database = Database.client[self.db_name]
+        retry_times = 0
+        while True:
+            Database.client = pymongo.MongoClient(self.uri)
+            Database.database = Database.client[self.db_name]
+            debug_collection = Database.database['demo']
+            try:
+                debug_collection.find({}).next()
+            except StopIteration:
+                break
+            except Exception as e:
+                print(e)
+                if retry_times >= 10:
+                    raise e
+                else:
+                    time.sleep(60)
+                    retry_times += 1
 
     def __init__(self, collection_name):
         self.collection = None
@@ -56,3 +71,14 @@ class Database(object):
             self.collection.insert(doc)
         else:
             self.collection.update(query, doc)
+
+
+if __name__ == '__main__':
+    Database.uri = 'mongodb://abc:abc@dev.liaoyuan.io:27017/liaoyuan'
+    Database.db_name = 'liaoyuan'
+    print(1)
+    db = Database('Profile')
+    db.connect()
+    db.collection = db.database['Profile']
+    for i in db.list():
+        print(i)
