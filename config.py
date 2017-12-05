@@ -34,8 +34,31 @@ def read_spider_config(path='./configs/spider-config.template.json'):
     return read_json_config(path)
 
 
-def save_spider_config(config, path='./configs/spider-config.prod.json'):
-    save_json_config(config, path)
+def convert_val(val):
+    if isinstance(val, str):
+        return '\'' + val + '\''
+    else:
+        return str(val)
+
+
+def save_spider_config(config, path='./configs/spider-config.prod.py'):
+    result = ''
+    for key, val in config.items():
+        result += key + ' = '
+        if isinstance(val, list):
+            result += '[\n'
+            for subVal in val:
+                result += '    ' + convert_val(subVal) + ',\n'
+            result += ']\n'
+        elif isinstance(val, dict):
+            result += '{\n'
+            for subKey, subVal in val.items():
+                result += '    \'' + subKey + '\': ' + convert_val(subVal) + ',\n'
+            result += '}\n'
+        else:
+            result += convert_val(val) + '\n'
+    with codecs.open(path, 'wb+', 'utf-8') as wf:
+        wf.write(result)
 
 
 def read_docker_compose_yml(path='./configs/docker-compose.template.yml'):
@@ -45,7 +68,7 @@ def read_docker_compose_yml(path='./configs/docker-compose.template.yml'):
 
 def save_docker_compose_yml(config, path='./configs/docker-compose.prod.yml'):
     with codecs.open(path, 'wb+', 'utf-8') as wf:
-        yaml.dump(config, wf)
+        yaml.dump(config, wf, default_flow_style=False)
 
 
 def ask_config_questions():
@@ -108,15 +131,14 @@ def generate_spider_config(tmpl, custom):
     tmpl['SCHEDULE_XICI'] = custom['xici_spider_interval']
     tmpl['SCHEDULE_PREMPROXY'] = custom['premproxy_spider_interval']
     tmpl['SCHEDULE_PROXYDB'] = custom['proxydb_spider_interval']
+    tmpl['SCHEDULE_GOUBANJIA'] = custom['goubanjia_spider_interval']
+    tmpl['SCHEDULE_KXDAILI'] = custom['kxdaili_spider_interval']
     tmpl['SCHEDULE_IP181'] = custom['ip181_spider_interval']
     return tmpl
 
 
 if __name__ == '__main__':
-    import pprint
-
     custom_config = ask_config_questions()
-    pprint.pprint('start generating production configuration ... ')
     save_docker_compose_yml(generate_docker_compose(read_docker_compose_yml(), custom_config))
     save_server_config(generate_server_config(read_server_config(), custom_config))
     save_validator_config(generate_validator_config(read_validator_config(), custom_config))
