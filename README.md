@@ -64,40 +64,41 @@ end
 unsetproxy
 ```
 
-### Development
-<p style="color: red; font-weight: 600">THIS PROJECT IS NOT USABLE AT NOW 2017/11/08</p>
-[Configurate mongodb with auth](https://docs.mongodb.com/manual/tutorial/enable-authentication/)    
-```shell
-# create admin user
-use admin
-db.createUser(
-  {
-    user: "dbAdmin",
-    pwd: "123123",
-    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
-  }
-)
-# create user for database
-use pmp
-db.createUser(
-  {
-    user: "pmpDbAdmin",
-    pwd: "123123",
-    roles: [ { role: "readWrite", db: "pmp" } ]
-  }
-)
-# edit mongo config
-sudo vim /etc/mongd.conf
-# in config file, add following line  
-security:
-  authorization: enabled
-# restart mongo service
-sudo service mongod restart
+### Development  
+<p style="color: red; font-weight: 600">THIS PROJECT IS NOT USABLE AT NOW 2017/11/08</p>  
+
+[](https://docs.mongodb.com/manual/tutorial/enable-authentication/)        
+```shell  
+# create admin user  
+use admin  
+db.createUser(  
+  {  
+    user: "dbAdmin",  
+    pwd: "123123",  
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]  
+  }  
+)  
+# create user for database  
+use pmp  
+db.createUser(  
+  {  
+    user: "pmpDbAdmin",  
+    pwd: "123123",  
+    roles: [ { role: "readWrite", db: "pmp" } ]  
+  }  
+)  
+# edit mongo config  
+sudo vim /etc/mongd.conf  
+# in config file, add following line    
+security:  
+  authorization: enabled  
+# restart mongo service  
+sudo service mongod restart  
 ```  
 
-### Author
+### Author  
 jferroal@gmail.com
 
 ### License
-MIT for now
+MIT for now  
 
