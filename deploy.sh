@@ -59,12 +59,28 @@ cp --remove-destination configs/spider-config.prod.py deploy/spider/spider/proxy
 echo "Create tar.gz file ... "
 tar -zcvf deploy.tar.gz deploy
 
-echo "Add credientials ... "
+echo "Add credentials ... "
+ssh-agent -s
 # change here to your key
 ssh-add path/to/your/ssh_key
-# scp tar file to remote server
+# remove exists
+ssh your_username@your_server_address -p "cd ~/projects/pmp && rm -rf deploy && rm deploy.tar.gz"
+# scp tar file to deploy server
 scp -P your_server_ssh_port deploy.tar.gz your_username@your_server_address:/some/remote/directory
-# start deploying in remote server
-ssh your_username@your_server_address -p your_server_ssh_port "cd /some/remote/directory && tar -xzf deploy.tar.gz"
-ssh your_username@your_server_address -p your_server_ssh_port "cd /some/remote/directory/deploy && docker-compose up --build"
+# extract
+ssh your_username@your_server_address -p "cd ~/projects/pmp && tar -xzf deploy.tar.gz"
+# stop running containers
+ssh your_username@your_server_address -p "cd ~/projects/pmp/deploy && docker stop deploy_server_1 deploy_validator_1 deploy_spider_1 deploy_mongo_1"
+# remove containers
+ssh your_username@your_server_address -p "cd ~/projects/pmp/deploy && docker rm deploy_server_1 deploy_validator_1 deploy_spider_1 deploy_mongo_1"
+# remove images
+ssh your_username@your_server_address -p "cd ~/projects/pmp/deploy && docker rmi deploy_server deploy_validator deploy_spider"
+# keep or remove volume if necessary
+# rebuild and up docker containers
+ssh your_username@your_server_address -p "cd ~/projects/pmp/deploy && docker-compose up --build > pmp.log 2>&1 &"
+# do some clean work
+ssh your_username@your_server_address -p "cd ~/projects/pmp && rm deploy.tar.gz"
 
+echo "Doing clean work ... "
+sudo rm -rf deploy
+sudo rm deploy.tar.gz
