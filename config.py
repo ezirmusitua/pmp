@@ -68,7 +68,12 @@ def read_docker_compose_yml(path='./configs/docker-compose.template.yml'):
 
 def save_docker_compose_yml(config, path='./configs/docker-compose.prod.yml'):
     with codecs.open(path, 'wb+', 'utf-8') as wf:
-        yaml.dump(config, wf, default_flow_style=False)
+        ordered_config = {
+            'version': config['version'],
+            'services': config['services'],
+            'volumes': config['volumes']
+        }
+        wf.write(yaml.dump(ordered_config, default_flow_style=False)[:-6])
 
 
 def ask_config_questions():
@@ -95,9 +100,10 @@ def ask_config_questions():
 
 
 def generate_docker_compose(tmpl, custom):
-    tmpl['services']['mongo']['ports'] = ['\"' + custom['mongo_port'] + ':27017\"']
+    tmpl['services']['mongo']['ports'] = [custom['mongo_port'] + ':27017']
     tmpl['services']['mongo']['environment'] = [
         'AUTH=yes',
+        'MONGODB_APPLICATION_DATABASE=pmp',
         'MONGODB_ADMIN_USER=' + custom['mongo_admin_username'],
         'MONGODB_ADMIN_PASS=' + custom['mongo_admin_password'],
         'MONGODB_APPLICATION_USER=' + custom['mongo_db_admin_username'],

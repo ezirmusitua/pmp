@@ -1,33 +1,57 @@
 #!/usr/bin/env bash
-sudo rm -rf pmp
-mkdir pmp
-cp docker-compose.yml pmp/
-# server
-# create server_deploy
-mkdir pmp/server_deploy
-# copy server source to server_deploy
-cp -r server/ pmp/server_deploy/server
-# copy public to server_deploy
-cp -r public/ pmp/server_deploy/public
-mv pmp/server_deploy/server/requirements.txt pmp/server_deploy/
-mv pmp/server_deploy/server/Dockerfile pmp/server_deploy/
+# check is production config exists in configs
+compose_prod=configs/docker-compose.prod.yml
+server_prod=configs/server-config.prod.json
+validator_prod=configs/validator-config.prod.json
+spider_prod=configs/spider-config.prod.py
 
-# validator
-# create server_deploy
-mkdir pmp/validator_deploy
-# copy server source to server_deploy
-cp -r validator/ pmp/validator_deploy/validator
-# copy public to server_deploy
-cp -r public/ pmp/validator_deploy/public
-mv pmp/validator_deploy/validator/requirements.txt pmp/validator_deploy/
-mv pmp/validator_deploy/validator/Dockerfile pmp/validator_deploy/
+if [ ! -f ${compose_prod} ] || [ ! -f ${server_prod} ] || [ ! -f ${validator_prod} ] || [ ! -f ${spider_prod} ] 
+then
+    echo "installing PyYaml"
+    pip install PyYaml
+    echo "= = = = = = = = = ="
+    echo "Start configuration"
+    python3 config.py
+    echo "configuration generated, start deploying ... "
+fi
 
-# spider
-# create spider_deploy
-mkdir pmp/spider_deploy
-# copy server source to server_deploy
-cp -r spider/ pmp/spider_deploy/spider
-# copy public to server_deploy
-cp -r public/ pmp/spider_deploy/public
-mv pmp/spider_deploy/spider/requirements.txt pmp/spider_deploy/
-mv pmp/spider_deploy/spider/Dockerfile pmp/spider_deploy/
+echo "First, remove old file ... "
+if [ -d deploy ]
+then
+    sudo rm -rf deploy
+fi
+if [ -f deploy.tar.gz ]
+then
+    sudo rm deploy.tar.gz
+fi
+echo "Secondly, prepare files ... "
+mkdir deploy
+cp configs/docker-compose.prod.yml deploy/docker-compose.yml
+
+
+### server
+## create server_deploy
+mkdir deploy/server
+cp -r server/ deploy/server/server
+cp -r public/ deploy/server/public
+mv deploy/server/server/requirements.txt deploy/server/
+mv deploy/server/server/Dockerfile deploy/server/
+cp --remove-destination configs/server-config.prod.json deploy/server/server/config.json
+
+## validator
+# create server_deploy
+mkdir deploy/validator
+cp -r validator/ deploy/validator/validator
+cp -r public/ deploy/validator/public
+mv deploy/validator/validator/requirements.txt deploy/validator/
+mv deploy/validator/validator/Dockerfile deploy/validator/
+cp --remove-destination configs/validator-config.prod.json deploy/validator/validator/config.json
+
+### spider
+## create spider_deploy
+mkdir deploy/spider
+cp -r spider/ deploy/spider/spider
+cp -r public/ deploy/spider/public
+mv deploy/spider/spider/requirements.txt deploy/spider/
+mv deploy/spider/spider/Dockerfile deploy/spider/
+cp --remove-destination configs/spider-config.prod.py deploy/spider/spider/proxy_crawler/settings.py
