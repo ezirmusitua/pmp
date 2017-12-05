@@ -21,3 +21,13 @@ cp -r validator/ pmp/validator_deploy/validator
 cp -r public/ pmp/validator_deploy/public
 mv pmp/validator_deploy/validator/requirements.txt pmp/validator_deploy/
 mv pmp/validator_deploy/validator/Dockerfile pmp/validator_deploy/
+
+# spider
+# create spider_deploy
+mkdir pmp/spider_deploy
+# copy server source to server_deploy
+cp -r spider/ pmp/spider_deploy/spider
+# copy public to server_deploy
+cp -r public/ pmp/spider_deploy/public
+mv pmp/spider_deploy/spider/requirements.txt pmp/spider_deploy/
+mv pmp/spider_deploy/spider/Dockerfile pmp/spider_deploy/

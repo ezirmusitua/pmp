@@ -15,6 +15,12 @@ services:
       - mongo
     volumes:
       - ".:/app/validator"
+  spider:
+    build: ./spider_deploy
+    depends_on:
+      - mongo
+    volumes:
+      - ".:/app/spider"
   mongo:
     image: mongo:3.5
     ports:
