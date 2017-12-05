@@ -1,0 +1,29 @@
+{
+  "DEBUG": false,
+  "LOG_LEVEL": "WARNING",
+  "LOG_FORMAT": "%(asctime)s [%(name)s] %(levelname)s: %(message)s",
+  "LOG_FILE": "validator.log",
+  "DB_URI": "mongodb://pmpAdmin:pmpAdmin@mongo:27017/pmp",
+  "DB_NAME": "pmp",
+  "PROXY_MODEL_NAME": "proxy",
+  "BATCH_SIZE": 10,
+  "CONNECTION_DETECT_TARGETS": {
+    "httpbin": "https://httpbin.org",
+    "google": "https://www.google.com",
+    "baidu": "https://baidu.com",
+    "cnproxy": "http://cn-proxy.com",
+    "premproxy": "https://premproxy.com",
+    "proxydb": "http://proxy-db.net"
+  },
+  "PROXY_TYPES": [
+    "http",
+    "https",
+    "socks4",
+    "socks5"
+  ],
+  "TYPE_DETECT_URL": "https://httpbin.org",
+  "ANONYMITY_DETECT_URL": null,
+  "CLIENT_UA": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36",
+  "CLIENT_TIMEOUT": 0.5,
+  "SCHEDULER": 300
+}

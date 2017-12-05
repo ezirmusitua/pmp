@@ -1,0 +1,40 @@
+version: "3.4"
+
+services:
+  server:
+    build: ./server_deploy
+    depends_on:
+      - mongo
+    ports:
+      - "3080:3080"
+    volumes:
+      - "pmp:/server"
+  validator:
+    build: ./validator_deploy
+    depends_on:
+      - mongo
+    volumes:
+      - "pmp:/validator"
+  spider:
+    build: ./spider_deploy
+    depends_on:
+      - mongo
+    volumes:
+      - "pmp:/spider"
+  mongo:
+    image: aashreys/mongo-auth:latest
+    ports:
+      - "37017:27017"
+    environment:
+      - AUTH=yes
+      - MONGODB_ADMIN_USER=admin
+      - MONGODB_ADMIN_PASS=admin
+      - MONGODB_APPLICATION_DATABASE=pmp
+      - MONGODB_APPLICATION_USER=pmpAdmin
+      - MONGODB_APPLICATION_PASS=pmpAdmin
+    volumes:
+      - "pmp:/mongo"
+
+volumes:
+  pmp:
+  
