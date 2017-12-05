@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   server:
-    build: ./server_deploy
+    build: ./server
     depends_on:
       - mongo
     ports:
@@ -10,13 +10,13 @@ services:
     volumes:
       - "pmp:/server"
   validator:
-    build: ./validator_deploy
+    build: ./validator
     depends_on:
       - mongo
     volumes:
       - "pmp:/validator"
   spider:
-    build: ./spider_deploy
+    build: ./spider
     depends_on:
       - mongo
     volumes:

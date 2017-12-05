@@ -95,7 +95,7 @@ def ask_config_questions():
 
 
 def generate_docker_compose(tmpl, custom):
-    tmpl['services']['mongo']['ports'] = custom['mongo_port'] + ':' + custom['mongo_port']
+    tmpl['services']['mongo']['ports'] = ['\"' + custom['mongo_port'] + ':27017\"']
     tmpl['services']['mongo']['environment'] = [
         'AUTH=yes',
         'MONGODB_ADMIN_USER=' + custom['mongo_admin_username'],
@@ -108,7 +108,7 @@ def generate_docker_compose(tmpl, custom):
 
 def generate_server_config(tmpl, custom):
     tmpl['DB_URI'] = 'mongodb://' + custom['mongo_db_admin_username'] + ':' + custom[
-        'mongo_db_admin_username'] + '@mongo:' + custom['mongo_port'] + '/pmp'
+        'mongo_db_admin_username'] + '@mongo:27017/pmp'
     tmpl['HOST'] = custom['server_host']
     tmpl['PORT'] = custom['server_port']
     tmpl['ADMIN']['USERNAME'] = custom['server_admin_username']
@@ -118,14 +118,14 @@ def generate_server_config(tmpl, custom):
 
 def generate_validator_config(tmpl, custom):
     tmpl['DB_URI'] = 'mongodb://' + custom['mongo_db_admin_username'] + ':' + custom[
-        'mongo_db_admin_username'] + '@mongo:' + custom['mongo_port'] + '/pmp'
+        'mongo_db_admin_username'] + '@mongo:27017/pmp'
     tmpl['SCHEDULER'] = custom['validator_check_interval']
     return tmpl
 
 
 def generate_spider_config(tmpl, custom):
     tmpl['MONGO_URI'] = tmpl['DB_URI'] = 'mongodb://' + custom['mongo_db_admin_username'] + ':' + custom[
-        'mongo_db_admin_username'] + '@mongo:' + custom['mongo_port'] + '/pmp'
+        'mongo_db_admin_username'] + '@mongo:27017/pmp'
     tmpl['SCHEDULE_KUAIDAILI'] = custom['kuaidaili_spider_interval']
     tmpl['SCHEDULE_CNPROXY'] = custom['cnproxy_spider_interval']
     tmpl['SCHEDULE_XICI'] = custom['xici_spider_interval']
