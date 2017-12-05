@@ -11,7 +11,7 @@ class Database(object):
     D_ORDER = pymongo.DESCENDING
 
     def connect(self):
-        Database.client = pymongo.MongoClient(self.uri)
+        Database.client = pymongo.MongoClient(self.uri, connect=False)
         Database.database = Database.client[self.db_name]
 
     def __init__(self, collection_name):

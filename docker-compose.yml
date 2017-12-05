@@ -22,9 +22,16 @@ services:
     volumes:
       - ".:/app/spider"
   mongo:
-    image: mongo:3.5
+    image: aashreys/mongo-auth:latest
     ports:
       - "37017:27017"
+    environment:
+      - AUTH=yes
+      - MONGODB_ADMIN_USER=admin
+      - MONGODB_ADMIN_PASS=admin
+      - MONGODB_APPLICATION_DATABASE=pmp
+      - MONGODB_APPLICATION_USER=pmpAdmin
+      - MONGODB_APPLICATION_PASS=pmpAdmin
     volumes:
       - "mongo:/data/db"
 
