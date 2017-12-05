@@ -55,3 +55,16 @@ cp -r public/ deploy/spider/public
 mv deploy/spider/spider/requirements.txt deploy/spider/
 mv deploy/spider/spider/Dockerfile deploy/spider/
 cp --remove-destination configs/spider-config.prod.py deploy/spider/spider/proxy_crawler/settings.py
+
+echo "Create tar.gz file ... "
+tar -zcvf deploy.tar.gz deploy
+
+echo "Add credientials ... "
+# change here to your key
+ssh-add path/to/your/ssh_key
+# scp tar file to remote server
+scp -P your_server_ssh_port deploy.tar.gz your_username@your_server_address:/some/remote/directory
+# start deploying in remote server
+ssh your_username@your_server_address -p your_server_ssh_port "cd /some/remote/directory && tar -xzf deploy.tar.gz"
+ssh your_username@your_server_address -p your_server_ssh_port "cd /some/remote/directory/deploy && docker-compose up --build"
+

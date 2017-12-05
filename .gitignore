@@ -140,5 +140,5 @@ ENV/
 */.tmp
 *.pyc 
 pmp/
-*_deploy/
+deploy/
 *.prod.*

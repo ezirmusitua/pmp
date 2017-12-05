@@ -96,6 +96,9 @@ security:
 sudo service mongod restart  
 ```  
 
+[How To Install Docker In Debian 9](https://linuxconfig.org/how-to-install-docker-engine-on-debian-9-stretch-linux)  
+[How To Install Docker Compose](https://docs.docker.com/compose/install/#install-compose)  
+
 ### Author  
 jferroal@gmail.com
 
