@@ -1,19 +1,27 @@
-crawler:
-  build: .
-  command: python
-  volumes:
-    - .:/self_proxy_list
-  links:
-    - db
-validator:
-  build: .
-  command: cd validator & python run
-  volumes:
-    - .:/self_proxy_list
-  links:
-    - db
-db:
-  image: mongo:3.5
-  ports:
-    - "27017:37017"
+version: "3.4"
+
+services:
+  server:
+    build: ./server_deploy
+    depends_on:
+      - mongo
+    ports:
+      - "3080:3080"
+    volumes:
+      - ".:/app/server"
+  validator:
+    build: ./validator_deploy
+    depends_on:
+      - mongo
+    volumes:
+      - ".:/app/validator"
+  mongo:
+    image: mongo:3.5
+    ports:
+      - "37017:27017"
+    volumes:
+      - "mongo:/data/db"
+
+volumes:
+  mongo: 
   
