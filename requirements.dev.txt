@@ -48,7 +48,7 @@ PyYAML==3.12
 queuelib==1.4.2
 requests==2.18.4
 requests-toolbelt==0.8.0
-Scrapy==1.4.0
+Scrapy==1.8.1
 scrapy-crawlera==1.2.4
 service-identity==17.0.0
 simplegeneric==0.8.1
